@@ -1,7 +1,10 @@
-function PlayerBar() {
+import ReactPlayer from 'react-player'
+
+export function PlayerBar() {
   return (
-    <div className="player-bar">PlayerBar</div>
+    <div className="player-bar">
+        <ReactPlayer src='https://www.youtube.com/watch?v=LXb3EKWsInQ' />
+
+    </div>
   )
 }
-
-export default PlayerBar
