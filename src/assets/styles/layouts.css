@@ -1,0 +1,53 @@
+.spotify-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: 72px 1fr 90px;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "player player";
+    height: 100vh;
+    background-color: #121212;
+    color: #fff;
+    gap: 16px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.spotify-layout-header {
+    grid-area: header;
+    background-color: #181818;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.spotify-layout-sidebar {
+    grid-area: sidebar;
+    background-color: #181818;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.spotify-layout-main {
+    grid-area: main;
+    background-color: #181818;
+    border-radius: 8px;
+    padding: 24px;
+    overflow: hidden;
+}
+
+.spotify-layout-player {
+    grid-area: player;
+    background-color: #181818;
+    border-radius: 8px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

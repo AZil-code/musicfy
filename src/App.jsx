@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import './assets/styles/layouts.css'
 
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-     
-    </>
+    <div className="spotify-layout">
+      <header className="spotify-layout-header" aria-label="Top navigation"></header>
+      <aside className="spotify-layout-sidebar" aria-label="Library sidebar"></aside>
+      <main className="spotify-layout-main" aria-label="Main content"></main>
+      <footer className="spotify-layout-player" aria-label="Player controls"></footer>
+    </div>
   )
 }
 
