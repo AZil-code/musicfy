@@ -2,11 +2,13 @@ import { combineReducers, compose, legacy_createStore as createStore } from 'red
 import { songsReducer } from './reducers/song.reducer.js'
 import { userReducer } from './reducers/user.reducer.js'
 import { stationsReducer } from './reducers/station.reducer.js'
+import { playerReducer } from './reducers/player.reducer.js'
 
 export const rootReducer = combineReducers({
    songModule: songsReducer,
    userModule: userReducer,
-   stationModule: stationsReducer 
+   stationModule: stationsReducer,
+   playerModule: playerReducer,
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

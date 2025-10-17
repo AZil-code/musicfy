@@ -1,9 +1,11 @@
-@import './vars.css';
-@import './cmps/navBarTop.css';
-@import './cmps/playerBar.css';
-@import './cmps/sideNav.css';
-@import './pages/stationDetails.css';
-@import './pages/stationIndex.css';
+@import './Vars.css';
+@import './cmps/NavBarTop.css';
+@import './cmps/PlayerBar.css';
+@import './cmps/SideNav.css';
+@import './cmps/AddToStationsButton.css';
+@import './cmps/ProgressControl.css';
+@import './pages/StationDetails.css';
+@import './pages/StationIndex.css';
 
 
 :root {

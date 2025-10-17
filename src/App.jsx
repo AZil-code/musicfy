@@ -1,6 +1,6 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-import './assets/styles/layouts.css'
+import './assets/styles/Layouts.css'
 import { NavBarTop } from './cmps/NavBarTop.jsx'
 import { SideNav } from './cmps/SideNav.jsx'
 import { PlayerBar } from './cmps/PlayerBar.jsx'

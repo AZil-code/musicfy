@@ -1,0 +1,36 @@
+export const SET_CURRENT_SONG = 'SET_CURRENT_SONG'
+export const SET_IS_PLAYING = 'SET_IS_PLAYING'
+export const SET_IS_LOADING = 'SET_IS_LOADING'
+
+
+const initialState = {
+    isPlaying: false,
+    currentSongId: '',
+}
+
+export function playerReducer(state = initialState, cmd = {}) {
+    switch (cmd.type) {
+        case SET_CURRENT_SONG: {
+            return { 
+                ...state, 
+                currentSong: cmd.currentSong 
+            }
+        }
+        case SET_IS_PLAYING: {
+            return {
+                ...state,
+                isPlaying: cmd.isPlaying,
+            }
+        }
+        case SET_IS_LOADING: {
+            return {
+                ...state,
+                isPlayerLoading: cmd.isPlayerLoading,
+            }
+        }
+        default: {
+            return state
+        }
+        
+    }
+}

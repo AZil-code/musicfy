@@ -1,0 +1,18 @@
+.add-to-stations-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 999px;
+    font-weight: 600;
+    background-color: #1db954;
+    color: #000;
+    cursor: pointer;
+    transition: filter 0.2s ease-in-out;
+}
+
+.add-to-stations-btn:hover {
+    filter: brightness(1.05);
+}
+
+.add-to-stations-btn:active {
+    filter: brightness(0.95);
+}
