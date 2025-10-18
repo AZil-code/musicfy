@@ -6,6 +6,7 @@ import { SideNav } from './cmps/SideNav.jsx';
 import { PlayerBar } from './cmps/PlayerBar.jsx';
 import { StationIndex } from './pages/StationIndex.jsx';
 import { StationDetails } from './pages/StationDetails.jsx';
+import { UserMsg } from './cmps/UserMsg.jsx';
 
 function App() {
    return (
@@ -31,6 +32,7 @@ function App() {
                <PlayerBar />
             </footer>
          </div>
+         <UserMsg />
       </HashRouter>
    );
 }

@@ -21,7 +21,7 @@ export function stationsReducer(state = initialState, cmd = {}) {
       case REMOVE_STATION: {
          return {
             ...state,
-            stations: state.stations.filter((station) => station.id !== cmd.station.id),
+            stations: state.stations.filter((station) => station._id !== cmd.stationId),
          };
       }
       case ADD_STATION: {

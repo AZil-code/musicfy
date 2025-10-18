@@ -1,35 +1,51 @@
 import { stationService } from '../../services/station.service';
+import { ADD_STATION, REMOVE_STATION, SET_STATIONS, UPDATE_STATION } from '../reducers/station.reducer';
+import { store } from '../store';
+
+export async function fetchStations(filterBy) {
+   try {
+      const stations = await stationService.query(filterBy);
+      store.dispatch({ stations, type: SET_STATIONS });
+   } catch (error) {
+      console.error('station actions -> cannot load stations! ', error);
+      throw error;
+   }
+}
 
 export async function createStation() {
    try {
-      return await stationService.save({
+      const station = await stationService.save({
          ...stationService.getDefaultStation(),
          createdBy: '', // Use user reducer or take user ID as an argument? add logic
          createdAt: Date.now(),
+         // add to user liked playlists - or do it in cmp
       });
+      store.dispatch({ station, type: ADD_STATION });
    } catch (error) {
       console.error('station actions -> cannot create station! ', error);
       throw error;
    }
 }
 
-export async function addSong(station, song) {
-   station.songs.push(song);
+export async function addSong(oldStation, song) {
+   oldStation.songs.push(song);
    try {
-      const newStation = await stationService.save(station);
-      return newStation.songs;
+      const station = await stationService.save(oldStation);
+      store.dispatch({ station, type: UPDATE_STATION });
+      return station.songs;
    } catch (error) {
       console.error('station actions -> cannot add song to station! ', error);
       throw error;
    }
 }
 
-export async function removeSong(station, songToRmv) {
-   const songIdx = station.songs.findIndex((song) => song._id === songToRmv._id);
-   station.songs.splice(songIdx, 1);
+export async function removeSong(oldStation, songToRmv) {
+   const songIdx = oldStation.songs.findIndex((song) => song._id === songToRmv._id);
+   oldStation.songs.splice(songIdx, 1);
    try {
-      const newStation = await stationService.save(station);
-      return newStation.songs;
+      const station = await stationService.save(oldStation);
+      store.dispatch({ station, type: UPDATE_STATION });
+      return station.songs;
    } catch (error) {
       console.error('station actions -> cannot remove song from station! ', error);
       throw error;
@@ -38,10 +54,10 @@ export async function removeSong(station, songToRmv) {
 
 // For different uses - for example make station public/private
 export async function saveStation(station) {
-   //    const type = station._id ? 'UPDATE_station' : 'ADD_station';
+   const type = station._id ? 'UPDATE_station' : 'ADD_station';
    try {
       const newstation = await stationService.save(station);
-      //   store.dispatch({ type: type, station: newstation });
+      store.dispatch({ type: type, station: newstation });
       return newstation;
    } catch (error) {
       console.error('station actions -> Cannot save station: ', error);
@@ -50,9 +66,10 @@ export async function saveStation(station) {
 }
 
 // Also need to remove from user liked songs - may be a different story
-export async function deleteStation(station) {
+export async function deleteStation(stationId) {
    try {
-      await stationService.remove(station._id);
+      await stationService.remove(stationId);
+      store.dispatch({ stationId, type: REMOVE_STATION });
    } catch (error) {
       console.error('station actions -> cannot delete station! ', error);
       throw error;

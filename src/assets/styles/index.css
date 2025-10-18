@@ -4,6 +4,7 @@
 @import './cmps/sideNav.css';
 @import './cmps/addToStationsButton.css';
 @import './cmps/progressControl.css';
+@import './cmps/user-msg.css';
 @import './pages/stationDetails.css';
 @import './pages/stationIndex.css';
 
