@@ -1,5 +1,5 @@
 import { stationService } from '../../services/station.service';
-import { ADD_STATION, REMOVE_STATION, SET_STATIONS, UPDATE_STATION } from '../reducers/station.reducer';
+import { ADD_STATION, REMOVE_STATION, SELECT_STATION, SET_STATIONS, UPDATE_STATION } from '../reducers/station.reducer';
 import { store } from '../store';
 
 export async function fetchStations(filterBy) {
@@ -13,11 +13,13 @@ export async function fetchStations(filterBy) {
 }
 
 export async function createStation() {
+   const state = store.getState();
    try {
       const station = await stationService.save({
          ...stationService.getDefaultStation(),
          createdBy: '', // Use user reducer or take user ID as an argument? add logic
          createdAt: Date.now(),
+         name: `My Playlist ${state.stationModule.stations.length + 1}`,
          // add to user liked playlists - or do it in cmp
       });
       store.dispatch({ station, type: ADD_STATION });
@@ -72,6 +74,15 @@ export async function deleteStation(stationId) {
       store.dispatch({ stationId, type: REMOVE_STATION });
    } catch (error) {
       console.error('station actions -> cannot delete station! ', error);
+      throw error;
+   }
+}
+
+export function selectStation(stationId) {
+   try {
+      store.dispatch({ stationId, type: SELECT_STATION });
+   } catch (error) {
+      console.error('station actions -> cannot select station! ', error);
       throw error;
    }
 }

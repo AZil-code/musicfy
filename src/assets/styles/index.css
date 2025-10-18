@@ -1,10 +1,16 @@
 @import './vars.css';
+@import './heleprs.css';
+
 @import './cmps/navBarTop.css';
 @import './cmps/playerBar.css';
 @import './cmps/sideNav.css';
 @import './cmps/addToStationsButton.css';
 @import './cmps/progressControl.css';
 @import './cmps/user-msg.css';
+@import './cmps/station-filter.css';
+@import './cmps/station-preview.css';
+@import './cmps/station-list.css';
+
 @import './pages/stationDetails.css';
 @import './pages/stationIndex.css';
 
@@ -62,6 +68,11 @@ button:hover {
 button:focus,
 button:focus-visible {
    outline: 4px auto -webkit-focus-ring-color;
+}
+
+.circle-btn {
+   border-radius: 9999px;
+   background-color: var(--button-light-gray);
 }
 
 @media (prefers-color-scheme: light) {

@@ -2,9 +2,11 @@ export const SET_STATIONS = 'SET_STATIONS';
 export const UPDATE_STATION = 'UPDATE_STATION';
 export const REMOVE_STATION = 'REMOVE_STATION';
 export const ADD_STATION = 'ADD_STATION';
+export const SELECT_STATION = 'SELECT_STATION';
 
 const initialState = {
    stations: [],
+   selectedStationId: null,
 };
 
 export function stationsReducer(state = initialState, cmd = {}) {
@@ -26,6 +28,9 @@ export function stationsReducer(state = initialState, cmd = {}) {
       }
       case ADD_STATION: {
          return { ...state, stations: [...state.stations, cmd.station] };
+      }
+      case SELECT_STATION: {
+         return { ...state, selectedStationId: cmd.stationId };
       }
       default: {
          return state;

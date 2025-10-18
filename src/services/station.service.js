@@ -93,7 +93,7 @@ function getDefaultFilter() {
 
 function getDefaultStation() {
    return {
-      name: 'My Playlist',
+      name: '',
       songs: [],
       tags: [],
       createdBy: {},

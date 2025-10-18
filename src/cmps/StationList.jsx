@@ -1,18 +1,29 @@
-export function StationList({ stations, onRemoveStation }) {
+import { useSelector } from 'react-redux';
+import { StationPreview } from './StationPreview';
+import { selectStation } from '../store/actions/station.actions';
+
+const likedSongsImgSrc = 'https://misc.scdn.co/liked-songs/liked-songs-64.png';
+
+export function StationList({ stations, onRemoveStation, filterTxt }) {
+   const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId);
+
+   function onSelectStation(stationId) {
+      selectStation(stationId);
+   }
+
+   const filteredStations = stations.filter((station) => station.name.includes(filterTxt));
+
    return (
       <div className="station-list-container">
-         <ul>
-            {stations.map((station) => (
-               <div key={station._id}>
-                  <span>{station.name}</span>
-                  <button
-                     onClick={() => {
-                        onRemoveStation(station._id);
-                     }}
-                  >
-                     X
-                  </button>
-               </div>
+         <ul className="clean-list">
+            {filteredStations.map((station) => (
+               <li
+                  key={station._id}
+                  onClick={() => onSelectStation(station._id)}
+                  className={selectedStationId === station._id ? 'selected' : ''}
+               >
+                  <StationPreview station={station} />
+               </li>
             ))}
          </ul>
       </div>
