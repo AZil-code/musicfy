@@ -82,7 +82,7 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt }
       <div className="station-filter-container">
          <div className="category-carousel" ref={carouselRef} onScroll={onCarouselScroll}>
             <button
-               class="circle-btn scroll-btn left"
+               className="circle-btn scroll-btn left"
                onClick={() => onScrollBtnClick(-1)}
                style={{ display: `${(carouselRef && carouselRef.current, screenLeft > 0 ? '' : 'none')}` }}
             >
@@ -102,7 +102,7 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt }
 
             {/* Bug - when selecting category ('arist'), page renders button in view before scrollWidth, making it visible */}
             <button
-               class="circle-btn scroll-btn right"
+               className="circle-btn scroll-btn right"
                onClick={() => onScrollBtnClick(1)}
                style={{
                   display: `${

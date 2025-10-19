@@ -1,0 +1,53 @@
+.song-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.song-preview {
+  display: grid;
+  grid-template-columns: 32px 1fr 120px 60px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.song-preview__index {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.song-preview__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.song-preview__title {
+  font-weight: 500;
+}
+
+.song-preview__artists {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+.song-preview__listens,
+.song-preview__duration {
+  text-align: right;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+.song-preview:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.song-list--loading,
+.song-list--empty {
+  padding: 16px 12px;
+  color: rgba(255, 255, 255, 0.7);
+}

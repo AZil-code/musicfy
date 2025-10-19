@@ -16,12 +16,26 @@ function makeId(length = 5) {
 }
 
 function saveToStorage(key, value) {
+   console.log('saving1')
    localStorage[key] = JSON.stringify(value);
 }
 
 function loadFromStorage(key, defaultValue = null) {
-   var value = localStorage[key] || defaultValue;
-   return JSON.parse(value);
+   const storedValue = localStorage[key];
+   if (storedValue === undefined || storedValue === null) return _clone(defaultValue);
+
+   try {
+      return JSON.parse(storedValue);
+   } catch (err) {
+      console.warn(`Failed to parse storage key "${key}", falling back to default.`, err);
+      return _clone(defaultValue);
+   }
+}
+
+function _clone(value) {
+   if (value === null || value === undefined) return value;
+   if (typeof value === 'object') return JSON.parse(JSON.stringify(value));
+   return value;
 }
 
 export function animateCSS(el, animation, options = {}) {

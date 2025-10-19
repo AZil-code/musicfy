@@ -2,10 +2,11 @@ export const SET_CURRENT_SONG = 'SET_CURRENT_SONG'
 export const SET_IS_PLAYING = 'SET_IS_PLAYING'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
 
-
 const initialState = {
     isPlaying: false,
+    currentSong: null,
     currentSongId: '',
+    isPlayerLoading: false,
 }
 
 export function playerReducer(state = initialState, cmd = {}) {
@@ -13,7 +14,8 @@ export function playerReducer(state = initialState, cmd = {}) {
         case SET_CURRENT_SONG: {
             return { 
                 ...state, 
-                currentSong: cmd.currentSong 
+                currentSong: cmd.currentSong,
+                currentSongId: cmd.currentSongId || cmd.currentSong?._id || cmd.currentSong?.id || '',
             }
         }
         case SET_IS_PLAYING: {
@@ -31,6 +33,5 @@ export function playerReducer(state = initialState, cmd = {}) {
         default: {
             return state
         }
-        
     }
 }
