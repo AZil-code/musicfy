@@ -2,20 +2,50 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { StationPreview } from './StationPreview';
 import { selectStation } from '../store/actions/station.actions';
+import { ContextMenu } from './ContextMenu';
+import { useState } from 'react';
 
 const likedSongsImgSrc = 'https://misc.scdn.co/liked-songs/liked-songs-64.png';
 
-export function StationList({ stations, onRemoveStation, filterTxt }) {
+export function StationList({ stations, onRemoveStation, filterTxt, onEditStation }) {
    const navigate = useNavigate();
    const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId);
+   const [contextMenu, setContextMenu] = useState({
+      visible: false,
+      x: 0,
+      y: 0,
+      items: null,
+   });
 
    function onSelectStation(stationId) {
       selectStation(stationId);
       navigate(`/station/${stationId}`);
    }
 
+   function onOpenContextMenu(ev, stationId) {
+      ev.preventDefault();
+      console.log(ev.pageX);
+      setContextMenu({
+         visible: true,
+         x: ev.pageX,
+         y: ev.pageY,
+         items: new Map([
+            ['Delete', () => onRemoveStation(stationId)],
+            ['Edit', onEditStation],
+         ]),
+      });
+   }
+
+   function onCloseContextMenu() {
+      setContextMenu({
+         visible: false,
+         x: 0,
+         y: 0,
+         items: null,
+      });
+   }
+
    const filteredStations = stations.filter((station) => station.name.includes(filterTxt));
-   const contextMenuOptMap = new Map([['Delete', onRemoveStation]]);
 
    return (
       <div className="station-list-container">
@@ -24,21 +54,18 @@ export function StationList({ stations, onRemoveStation, filterTxt }) {
                <li
                   key={station._id}
                   onClick={() => onSelectStation(station._id)}
-                  // For future implementation
-                  // onContextMenu={(ev) => {
-                  //    ev.preventDefault();
-                  //    console.log('delet!');
-                  // }}
+                  onContextMenu={(ev) => onOpenContextMenu(ev, station._id)}
                   className={selectedStationId === station._id ? 'selected' : ''}
                >
                   <StationPreview station={station} />
                   {/* Temp solution, just to have the functionality */}
-                  <button className="remove-btn" onClick={() => onRemoveStation(station._id)}>
+                  {/* <button className="remove-btn" onClick={() => onRemoveStation(station._id)}>
                      X
-                  </button>
+                  </button> */}
                </li>
             ))}
          </ul>
+         <ContextMenu menuData={contextMenu} onClose={onCloseContextMenu} />
       </div>
    );
 }

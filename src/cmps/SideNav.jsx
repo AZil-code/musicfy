@@ -28,6 +28,10 @@ export function SideNav() {
       showSuccessMsg('Succesfully Removed!');
    }
 
+   async function onEditStation(station) {
+      showSuccessMsg('edit!');
+   }
+
    return (
       <div className="side-nav">
          <header>
@@ -57,7 +61,13 @@ export function SideNav() {
             setFilterTxt={setFilterTxt}
             filterTxt={filterTxt}
          />
-         <StationList stations={stations} onRemoveStation={onRemoveStation} filterTxt={filterTxt} />
+         {/* <ContextMenu items={['test']} top={50} left={100} /> */}
+         <StationList
+            stations={stations}
+            onEditStation={onEditStation}
+            onRemoveStation={onRemoveStation}
+            filterTxt={filterTxt}
+         />
       </div>
    );
 }

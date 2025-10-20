@@ -43,6 +43,7 @@ export function AppHeader() {
             placeholder="What do you want to play?"
             ref={searchBarRef}
          />
+         <div></div>
       </div>
    );
 }
