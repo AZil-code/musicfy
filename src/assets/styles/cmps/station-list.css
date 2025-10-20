@@ -7,6 +7,8 @@
 }
 
 .station-list-container li {
+   display: grid;
+   grid-template-areas: 'thumbnail titles button';
    border-radius: 1%;
 }
 
@@ -17,4 +19,9 @@
 
 .station-list-container li.selected {
    background-color: var(--body-light-gray);
+}
+
+.station-list-container .remove-btn {
+   justify-self: flex-end;
+   align-self: first baseline;
 }
