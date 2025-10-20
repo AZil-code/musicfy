@@ -8,19 +8,42 @@ import { songService } from '../services/song.service.js'
 import { setCurrentSong as setCurrentSongAction, play, pause } from '../store/actions/player.actions.js'
 
 const DEBUG_PLAYER = false
+const UPDATE_INTERVAL = 500
+
+function getCurrentTime(player) {
+    if (!player) return 0
+    if (typeof player.currentTime === 'number') return player.currentTime
+    return 0
+}
+
+function getDuration(player) {
+    if (!player) return 0
+    if (typeof player.duration === 'number') return player.duration
+    return 0
+}
+
+function seekToSeconds(player, seconds) {
+    if (!player || !Number.isFinite(seconds)) return
+    if (typeof player.currentTime === 'number') {
+        player.currentTime = seconds
+    }
+}
 
 export function PlayerBar() {
     const playerRef = useRef(null)
-    const timerRef = useRef(null)
+    const timeoutRef = useRef(null)
 
     const { currentSong, isPlaying } = useSelector((storeState) => storeState.playerModule)
+
     const [volume, setVolume] = useState(0.7)
     const [duration, setDuration] = useState(0)
-    const [playedSeconds, setPlayedSeconds] = useState(0)
+    const [currentTime, setCurrentTime] = useState(0)
     const [isSeeking, setIsSeeking] = useState(false)
 
+    // Load a default song if none is selected
     useEffect(() => {
         let isCancelled = false
+
         if (!currentSong) {
             songService
                 .query()
@@ -31,72 +54,94 @@ export function PlayerBar() {
                 })
                 .catch((error) => console.error('PlayerBar -> failed to load default song', error))
         }
+
         return () => {
             isCancelled = true
         }
     }, [currentSong])
 
     useEffect(() => {
-        setPlayedSeconds(0)
-        if (currentSong?.duration) {
-            setDuration(Number(currentSong.duration))
+        setCurrentTime(0)
+        const p = playerRef.current
+        const detected = getDuration(p)
+        if (Number.isFinite(detected) && detected > 0) {
+            setDuration(detected)
+        } else if (currentSong && currentSong.duration) {
+            const numeric = Number(currentSong.duration)
+            setDuration(Number.isFinite(numeric) ? numeric : 0)
         } else {
             setDuration(0)
         }
-    }, [currentSong])
+    }, [currentSong && currentSong._id])
 
     useEffect(() => {
-        if (timerRef.current) {
-            clearInterval(timerRef.current)
-            timerRef.current = null
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
+            timeoutRef.current = null
         }
-        if (isPlaying) {
-            timerRef.current = setInterval(() => {
-                setPlayedSeconds((prev) => {
-                    const next = prev + 1
-                    if (duration && next > duration) return duration
-                    return next
-                })
-            }, 1000)
+
+        if (!isPlaying || isSeeking) return
+
+        const tick = () => {
+            const p = playerRef.current
+            if (p) {
+                const t = getCurrentTime(p)
+                if (Number.isFinite(t)) setCurrentTime(t)
+                const d = getDuration(p)
+                if (Number.isFinite(d)) setDuration(d)
+            }
+            timeoutRef.current = setTimeout(tick, UPDATE_INTERVAL)
         }
+
+        tick()
+
         return () => {
-            if (timerRef.current) {
-                clearInterval(timerRef.current)
-                timerRef.current = null
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current)
+                timeoutRef.current = null
             }
         }
-    }, [isPlaying, duration])
+    }, [isPlaying, isSeeking])
 
     const formatTime = (value) => {
-        if (!Number.isFinite(value)) return '0:00'
+        if (!Number.isFinite(value) || value < 0) return '0:00'
         const minutes = Math.floor(value / 60)
         const seconds = Math.floor(value % 60)
         return `${minutes}:${seconds.toString().padStart(2, '0')}`
     }
 
-    const handlePlayPause = () => {
-        if (isPlaying) pause()
-        else play()
-    }
-
-    const handleProgress = ({ playedSeconds: newSeconds }) => {
+    const handleTimeUpdate = () => {
         if (isSeeking) return
-        setPlayedSeconds(newSeconds)
+        const p = playerRef.current
+        const t = getCurrentTime(p)
+        if (Number.isFinite(t)) setCurrentTime(t)
     }
 
-    const handleSeekStart = () => {
-        setIsSeeking(true)
+    const handleDurationChange = (value) => {
+        const d = Number(value)
+        if (Number.isFinite(d)) setDuration(d)
     }
 
-    const handleSeek = (value) => {
+    const handleSeekStart = () => setIsSeeking(true)
+
+    const handleSeekChange = (value) => {
         const fraction = Number(value)
-        if (!Number.isFinite(fraction) || !playerRef.current) return
-        playerRef.current.seekTo(fraction, 'fraction')
-        setPlayedSeconds(fraction * duration)
+        if (!Number.isFinite(fraction) || !duration) return
+        setCurrentTime(fraction * duration)
     }
 
-    const handleSeekEnd = (event) => {
-        handleSeek(event.target.value)
+    const commitSeek = (value) => {
+        const fraction = Number(value)
+        const p = playerRef.current
+
+        if (!Number.isFinite(fraction) || !p || !duration) {
+            setIsSeeking(false)
+            return
+        }
+
+        const targetSeconds = fraction * duration
+        seekToSeconds(p, targetSeconds)
+        setCurrentTime(targetSeconds)
         setIsSeeking(false)
     }
 
@@ -106,17 +151,15 @@ export function PlayerBar() {
         setVolume(nextVolume)
     }
 
-    const progressValue = duration ? playedSeconds / duration : 0
+    const progressValue = duration ? Math.min(Math.max(currentTime / duration, 0), 1) : 0
 
-    const songTitle = currentSong?.title || 'song'
-    const artistNames = currentSong?.artists
+    const songTitle = (currentSong && currentSong.title) ? currentSong.title : 'song'
+    const artistNames = (currentSong && currentSong.artists && Array.isArray(currentSong.artists))
         ? currentSong.artists.map((artist) => artist.name).join(', ')
         : 'Unknown artist'
-    const songImg = currentSong?.imgUrl
+    const songImg = (currentSong && currentSong.imgUrl) ? currentSong.imgUrl : undefined
     const songUrl =
-        currentSong?.src ||
-        currentSong?.url ||
-        (currentSong?.ytbId ? `https://www.youtube.com/watch?v=${currentSong.ytbId}` : undefined) ||
+        (currentSong && (currentSong.src || currentSong.url || (currentSong.ytbId ? `https://www.youtube.com/watch?v=${currentSong.ytbId}` : undefined))) ||
         'https://www.youtube.com/watch?v=if8dhRibiKM'
 
     return (
@@ -132,15 +175,18 @@ export function PlayerBar() {
                 width={DEBUG_PLAYER ? 320 : 1}
                 height={DEBUG_PLAYER ? 180 : 1}
                 config={{ youtube: { playerVars: { controls: 1 } } }}
-                onDuration={setDuration}
-                onProgress={handleProgress}
+
+                onTimeUpdate={handleTimeUpdate}
+                onDurationChange={handleDurationChange}
+
                 onPlay={() => play()}
                 onPause={() => pause()}
+                onEnded={() => pause()}
                 onError={(error) => console.error('Player error:', error)}
             />
 
             <section className="player-bar-info-section">
-                <img src={songImg} alt="Current track cover" className="player-bar-song-img" />
+                {songImg ? <img src={songImg} alt="Current track cover" className="player-bar-song-img" /> : null}
                 <div className="player-bar-info-container">
                     <Link to={`/station/${''}`} className="player-bar-song-name">
                         {songTitle}
@@ -151,7 +197,7 @@ export function PlayerBar() {
 
             <section className="player-bar-controls-section">
                 <div className="player-bar-controls-buttons-container">
-                    <button className="player-bar-controls-play" onClick={handlePlayPause}>
+                    <button className="player-bar-controls-play" onClick={() => (isPlaying ? pause() : play())}>
                         <svg role="img" viewBox="0 0 16 16">
                             {isPlaying ? (
                                 <path d="M3 2h3v12H3zm7 0h3v12h-3z"></path>
@@ -163,7 +209,7 @@ export function PlayerBar() {
                 </div>
 
                 <div className="player-bar-controls-progress-container">
-                    <span className="player-bar-controls-current-time">{formatTime(playedSeconds)}</span>
+                    <span className="player-bar-controls-current-time">{formatTime(currentTime)}</span>
                     <input
                         className="player-bar-controls-progress"
                         type="range"
@@ -173,9 +219,9 @@ export function PlayerBar() {
                         value={progressValue}
                         onMouseDown={handleSeekStart}
                         onTouchStart={handleSeekStart}
-                        onChange={(event) => handleSeek(event.target.value)}
-                        onMouseUp={handleSeekEnd}
-                        onTouchEnd={handleSeekEnd}
+                        onChange={(event) => handleSeekChange(event.target.value)}
+                        onMouseUp={(event) => commitSeek(event.target.value)}
+                        onTouchEnd={(event) => commitSeek(event.target.value)}
                     />
                     <span className="player-bar-controls-song-time">{formatTime(duration)}</span>
                 </div>
@@ -185,7 +231,7 @@ export function PlayerBar() {
                 <div className="player-bar-volume">
                     <button
                         className="player-bar-mute-button"
-                        onClick={() => setVolume((prev) => (prev ? 0 : 0.7))}
+                        onClick={() => setVolume((prev) => (prev ? -0.1 : 0.7))}
                     >
                         <svg role="img" viewBox="0 0 16 16">
                             <path d="M3.5 6H1v4h2.5L7 12V4zm7.5 2a2.5 2.5 0 0 0-2-2.45v4.9a2.5 2.5 0 0 0 2-2.45z"></path>
@@ -193,7 +239,7 @@ export function PlayerBar() {
                     </button>
                     <input
                         type="range"
-                        min="0"
+                        min="-0.1"
                         max="1"
                         step="0.01"
                         value={volume}

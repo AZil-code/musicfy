@@ -4,6 +4,7 @@ export const utilService = {
    loadFromStorage,
    debounce,
    animateCSS,
+   getRandomIntInclusive,
 };
 
 function makeId(length = 5) {
@@ -36,6 +37,12 @@ function _clone(value) {
    if (value === null || value === undefined) return value;
    if (typeof value === 'object') return JSON.parse(JSON.stringify(value));
    return value;
+}
+
+export function getRandomIntInclusive(min, max) {
+   min = Math.ceil(min);
+   max = Math.floor(max);
+   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 export function animateCSS(el, animation, options = {}) {

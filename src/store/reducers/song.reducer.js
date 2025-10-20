@@ -14,16 +14,16 @@ export function songsReducer(state = initialState, cmd = {}) {
         case SET_SONGS: {
             return { ...state, songs: cmd.songs }
         }
-        case UPDATE_SONG: {
+      case UPDATE_SONG: {
             return {
                 ...state,
-                songs: state.songs.map((song) => (song.id === cmd.song.id ? cmd.song : song)),
+                songs: state.songs.map((song) => (song._id === cmd.song._id ? cmd.song : song)),
             }
         }
         case REMOVE_SONG: {
             return {
                 ...state,
-                songs: state.songs.filter((song) => song.id !== cmd.song.id),
+                songs: state.songs.filter((song) => song._id !== cmd.song._id),
             }
         }
         case ADD_SONG: {

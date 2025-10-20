@@ -16,8 +16,8 @@ export async function loadSongsByIds(songIds = []) {
         const allSongs = await songService.query()
         const orderMap = new Map(ids.map((id, idx) => [id, idx]))
         const filtered = allSongs
-            .filter((song) => orderMap.has(String(song._id || song.id)))
-            .sort((a, b) => orderMap.get(String(a._id || a.id)) - orderMap.get(String(b._id || b.id)))
+            .filter((song) => orderMap.has(String(song._id)))
+            .sort((a, b) => orderMap.get(String(a._id)) - orderMap.get(String(b._id)))
 
         dispatch({ type: SET_SONGS, songs: filtered })
     } catch (error) {

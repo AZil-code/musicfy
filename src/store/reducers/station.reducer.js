@@ -17,7 +17,7 @@ export function stationsReducer(state = initialState, cmd = {}) {
       case UPDATE_STATION: {
          return {
             ...state,
-            stations: state.stations.map((station) => (station.id === cmd.station.id ? cmd.station : station)),
+            stations: state.stations.map((station) => (station._id === cmd.station._id ? cmd.station : station)),
          };
       }
       case REMOVE_STATION: {

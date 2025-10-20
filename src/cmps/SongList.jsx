@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { SongPreview } from './SongPreview.jsx'
 
-export function SongList({ songIds = [], songs = [], onSelectSong }) {
+export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong }) {
     const normalizedIds = useMemo(
         () => songIds.filter(Boolean).map(String),
         [songIds]
@@ -12,9 +12,7 @@ export function SongList({ songIds = [], songs = [], onSelectSong }) {
         if (!Array.isArray(songs) || !songs.length) return []
         if (!normalizedIds.length) return songs
 
-        const songMap = new Map(
-            songs.map((song, idx) => [String(song._id || song.id || idx), song])
-        )
+        const songMap = new Map(songs.map((song) => [String(song._id), song]))
 
         const arranged = normalizedIds
             .map((id) => songMap.get(id))
@@ -36,10 +34,11 @@ export function SongList({ songIds = [], songs = [], onSelectSong }) {
         <ul className="song-list">
             {orderedSongs.map((song, idx) => (
                 <SongPreview
-                    key={song._id || song.id || idx}
+                    key={song._id || idx}
                     idx={idx}
                     song={song}
                     onSelect={onSelectSong}
+                    onRemove={onRemoveSong}
                 />
             ))}
         </ul>

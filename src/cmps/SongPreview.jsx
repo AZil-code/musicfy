@@ -1,4 +1,4 @@
-export function SongPreview({ idx, song, onSelect }) {
+export function SongPreview({ idx, song, onSelect, onRemove }) {
   const artistNames = Array.isArray(song.artists)
     ? song.artists.map((artist) => artist.name).join(', ')
     : 'Unknown artist'
@@ -14,6 +14,11 @@ export function SongPreview({ idx, song, onSelect }) {
       ? listens.toLocaleString()
       : ''
 
+  const handleRemove = (event) => {
+    event.stopPropagation()
+    onRemove?.(song)
+  }
+
   return (
     <li className="song-preview" onClick={() => onSelect?.(song)}>
         <div className="song-preview__index">{idx + 1}</div>
@@ -26,6 +31,15 @@ export function SongPreview({ idx, song, onSelect }) {
         <div className="song-preview__listens">{listensDisplay}</div>
 
         <div className="song-preview__duration">{formattedDuration}</div>
+
+        <button
+          className="song-preview__more-btn"
+          type="button"
+          aria-label="Song actions"
+          onClick={handleRemove}
+        >
+          …
+        </button>
     </li>
   )
 }

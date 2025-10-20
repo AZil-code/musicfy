@@ -3,30 +3,63 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { SongList } from '../cmps/SongList.jsx'
-import { loadSongs } from '../store/actions/song.actions.js'
-import { setCurrentSong as setCurrentSongAction } from '../store/actions/player.actions.js'
+import { setCurrentSong as setCurrentSongAction, play, pause } from '../store/actions/player.actions.js'
+import { fetchStations, removeSong as removeSongFromStation } from '../store/actions/station.actions.js'
 
 export function StationDetails({ stationId }) {
     const params = useParams()
-    const effectiveId = stationId || params.stationID
+    const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId)
+    const stations = useSelector((storeState) => storeState.stationModule.stations)
+    const { currentSong, isPlaying } = useSelector((storeState) => storeState.playerModule)
 
-    const { songs, isLoading } = useSelector((storeState) => storeState.songModule)
+    const activeStationId = selectedStationId || stationId || params.stationID
 
     useEffect(() => {
-        loadSongs()
-    }, [])
+        if (!stations.length) fetchStations()
+    }, [stations.length])
 
-    const songIds = useMemo(() => songs.map((song) => song._id || song.id).filter(Boolean), [songs])
+    const station = useMemo(() => {
+        if (!activeStationId) return null
+        return (
+            stations.find((currStation) => currStation && currStation._id === activeStationId) || null
+        )
+    }, [stations, activeStationId])
+
+    const songs = station?.songs || []
 
     const handleSelectSong = (song) => {
         if (!song) return
-        setCurrentSongAction(song)
+        const selectedId = song._id
+        const currentId = currentSong?._id
+
+        if (selectedId && currentId && String(selectedId) === String(currentId)) {
+            if (isPlaying) pause()
+            else play()
+        } else {
+            setCurrentSongAction(song)
+            play()
+        }
     }
 
-    if (!songIds.length && isLoading) {
+    const handleRemoveSong = async (song) => {
+        if (!station || !song) return
+        try {
+            await removeSongFromStation(
+                {
+                    ...station,
+                    songs: [...(station.songs || [])],
+                },
+                song
+            )
+        } catch (error) {
+            console.error('StationDetails -> failed to remove song', error)
+        }
+    }
+
+    if (!station) {
         return (
             <div className="page-station-details">
-                <p>Loading station…</p>
+                <p>{stations.length ? 'Station not found.' : 'Loading station…'}</p>
             </div>
         )
     }
@@ -34,15 +67,11 @@ export function StationDetails({ stationId }) {
     return (
         <div className="page-station-details">
             <header className="station-details__header">
-                <h1>{'Untitled station'}</h1>
-                <p>{'test'}</p>
+                <h1>{station.name || 'Untitled station'}</h1>
+                {station.description ? <p>{station.description}</p> : null}
             </header>
 
-            {isLoading ? (
-                <div className="song-list--loading">Loading songs…</div>
-            ) : (
-                <SongList songIds={songIds} songs={songs} onSelectSong={handleSelectSong} />
-            )}
+            <SongList songs={songs} onSelectSong={handleSelectSong} onRemoveSong={handleRemoveSong} />
         </div>
     )
 }
