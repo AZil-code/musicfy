@@ -3,8 +3,8 @@
     border: none;
     border-radius: 999px;
     font-weight: 600;
-    background-color: #1db954;
-    color: #000;
+    background-color: var(--accent-spotify);
+    color: var(--body-black);
     cursor: pointer;
     transition: filter 0.2s ease-in-out;
 }

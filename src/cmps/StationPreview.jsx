@@ -1,6 +1,21 @@
-// Need to increase size of play button svg (when hovering over station)
-
 export function StationPreview({ station }) {
+   const songs = station && Array.isArray(station.songs) ? station.songs : [];
+   const firstSong = songs.length ? songs[0] : null;
+   const hasCover =
+      station &&
+      typeof station.coverImage === 'string' &&
+      station.coverImage.trim().length;
+   const coverImage =
+      (hasCover && station.coverImage) ||
+      (firstSong && firstSong.imgUrl) ||
+      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=200&q=60';
+   const subtitle =
+      firstSong &&
+      Array.isArray(firstSong.artists) &&
+      firstSong.artists.length
+         ? firstSong.artists.map((artist) => artist.name).join(', ')
+         : 'Handpicked playlist';
+
    return (
       <div className="station-preview">
          <div className="thumbnail-container">
@@ -9,7 +24,6 @@ export function StationPreview({ station }) {
                   data-encore-id="icon"
                   role="img"
                   aria-hidden="true"
-                  class="e-91000-icon e-91000-baseline"
                   viewBox="0 0 24 24"
                   height={25}
                   width={25}
@@ -17,13 +31,11 @@ export function StationPreview({ station }) {
                   <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606"></path>
                </svg>
             </button>
-            <svg className="thumbnail" role="img" aria-hidden="true" height={25} width={25} viewBox="0 0 24 24">
-               <path d="M6 3h15v15.167a3.5 3.5 0 1 1-3.5-3.5H19V5H8v13.167a3.5 3.5 0 1 1-3.5-3.5H6zm0 13.667H4.5a1.5 1.5 0 1 0 1.5 1.5zm13 0h-1.5a1.5 1.5 0 1 0 1.5 1.5z"></path>
-            </svg>
+            <img className="thumbnail" src={coverImage} alt={`${station.name} cover`} loading="lazy" />
          </div>
          <div className="details">
             <div className="title">{station.name}</div>
-            <div className="subtitle">placeholder</div>
+            <div className="subtitle">{subtitle}</div>
          </div>
       </div>
    );

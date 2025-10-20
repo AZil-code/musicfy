@@ -10,6 +10,8 @@ import { setCurrentSong as setCurrentSongAction, play, pause } from '../store/ac
 const DEBUG_PLAYER = false
 const UPDATE_INTERVAL = 500
 
+const isNumeric = (value) => typeof value === 'number' && !isNaN(value)
+
 function getCurrentTime(player) {
     if (!player) return 0
     if (typeof player.currentTime === 'number') return player.currentTime
@@ -23,7 +25,7 @@ function getDuration(player) {
 }
 
 function seekToSeconds(player, seconds) {
-    if (!player || !Number.isFinite(seconds)) return
+    if (!player || !isNumeric(seconds)) return
     if (typeof player.currentTime === 'number') {
         player.currentTime = seconds
     }
@@ -64,11 +66,11 @@ export function PlayerBar() {
         setCurrentTime(0)
         const p = playerRef.current
         const detected = getDuration(p)
-        if (Number.isFinite(detected) && detected > 0) {
+        if (isNumeric(detected) && detected > 0) {
             setDuration(detected)
         } else if (currentSong && currentSong.duration) {
             const numeric = Number(currentSong.duration)
-            setDuration(Number.isFinite(numeric) ? numeric : 0)
+            setDuration(isNumeric(numeric) ? numeric : 0)
         } else {
             setDuration(0)
         }
@@ -86,9 +88,9 @@ export function PlayerBar() {
             const p = playerRef.current
             if (p) {
                 const t = getCurrentTime(p)
-                if (Number.isFinite(t)) setCurrentTime(t)
+                if (isNumeric(t)) setCurrentTime(t)
                 const d = getDuration(p)
-                if (Number.isFinite(d)) setDuration(d)
+                if (isNumeric(d)) setDuration(d)
             }
             timeoutRef.current = setTimeout(tick, UPDATE_INTERVAL)
         }
@@ -104,7 +106,7 @@ export function PlayerBar() {
     }, [isPlaying, isSeeking])
 
     const formatTime = (value) => {
-        if (!Number.isFinite(value) || value < 0) return '0:00'
+        if (!isNumeric(value) || value < 0) return '0:00'
         const minutes = Math.floor(value / 60)
         const seconds = Math.floor(value % 60)
         return `${minutes}:${seconds.toString().padStart(2, '0')}`
@@ -114,19 +116,19 @@ export function PlayerBar() {
         if (isSeeking) return
         const p = playerRef.current
         const t = getCurrentTime(p)
-        if (Number.isFinite(t)) setCurrentTime(t)
+        if (isNumeric(t)) setCurrentTime(t)
     }
 
     const handleDurationChange = (value) => {
         const d = Number(value)
-        if (Number.isFinite(d)) setDuration(d)
+        if (isNumeric(d)) setDuration(d)
     }
 
     const handleSeekStart = () => setIsSeeking(true)
 
     const handleSeekChange = (value) => {
         const fraction = Number(value)
-        if (!Number.isFinite(fraction) || !duration) return
+        if (!isNumeric(fraction) || !duration) return
         setCurrentTime(fraction * duration)
     }
 
@@ -134,7 +136,7 @@ export function PlayerBar() {
         const fraction = Number(value)
         const p = playerRef.current
 
-        if (!Number.isFinite(fraction) || !p || !duration) {
+        if (!isNumeric(fraction) || !p || !duration) {
             setIsSeeking(false)
             return
         }
@@ -147,7 +149,7 @@ export function PlayerBar() {
 
     const handleVolumeChange = (event) => {
         const nextVolume = Number(event.target.value)
-        if (!Number.isFinite(nextVolume)) return
+        if (!isNumeric(nextVolume)) return
         setVolume(nextVolume)
     }
 

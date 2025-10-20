@@ -1,10 +1,10 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { SongList } from '../cmps/SongList.jsx'
-import { setCurrentSong as setCurrentSongAction, play, pause } from '../store/actions/player.actions.js'
-import { fetchStations, removeSong as removeSongFromStation } from '../store/actions/station.actions.js'
+import { setCurrentSong, play, pause } from '../store/actions/player.actions.js'
+import { fetchStations, removeSong, updateStationArtwork } from '../store/actions/station.actions.js'
 
 export function StationDetails({ stationId }) {
     const params = useParams()
@@ -18,25 +18,43 @@ export function StationDetails({ stationId }) {
         if (!stations.length) fetchStations()
     }, [stations.length])
 
-    const station = useMemo(() => {
-        if (!activeStationId) return null
-        return (
-            stations.find((currStation) => currStation && currStation._id === activeStationId) || null
-        )
-    }, [stations, activeStationId])
+    const station =
+        activeStationId && Array.isArray(stations)
+            ? stations.find((currStation) => currStation && currStation._id === activeStationId) || null
+            : null
 
-    const songs = station?.songs || []
+    const songs = station && Array.isArray(station.songs) ? station.songs : []
+    const firstSong = songs.length ? songs[0] : null
+    const coverFromStation =
+        station && typeof station.coverImage === 'string'
+            ? station.coverImage.trim()
+            : ''
+    const coverImage =
+        coverFromStation ||
+        (firstSong && firstSong.imgUrl) ||
+        'https://images.unsplash.com/photo-1526243741027-444d633d7365?auto=format&fit=crop&w=600&q=60'
+
+    useEffect(() => {
+        if (!station || !Array.isArray(station.songs) || !station.songs.length) return
+        const leadSong = station.songs[0]
+        const firstSongImg = leadSong && leadSong.imgUrl
+        if (!firstSongImg) return
+        updateStationArtwork(station._id, firstSongImg)
+    }, [
+        station && station._id,
+        firstSong && firstSong.imgUrl,
+    ])
 
     const handleSelectSong = (song) => {
         if (!song) return
         const selectedId = song._id
-        const currentId = currentSong?._id
+        const currentId = currentSong ? currentSong._id : null
 
         if (selectedId && currentId && String(selectedId) === String(currentId)) {
             if (isPlaying) pause()
             else play()
         } else {
-            setCurrentSongAction(song)
+            setCurrentSong(song)
             play()
         }
     }
@@ -44,7 +62,7 @@ export function StationDetails({ stationId }) {
     const handleRemoveSong = async (song) => {
         if (!station || !song) return
         try {
-            await removeSongFromStation(
+            await removeSong(
                 {
                     ...station,
                     songs: [...(station.songs || [])],
@@ -66,12 +84,22 @@ export function StationDetails({ stationId }) {
 
     return (
         <div className="page-station-details">
-            <header className="station-details__header">
-                <h1>{station.name || 'Untitled station'}</h1>
-                {station.description ? <p>{station.description}</p> : null}
-            </header>
+            <div className="station-details-content">
+                <header className="station-details-header">
+                    <div className="station-details-cover">
+                        <img src={coverImage} alt={`${station.name || 'Station'} cover`} />
+                    </div>
+                    <h1 className="station-details-title">{station.name || 'Untitled station'}</h1>
+                </header>
 
-            <SongList songs={songs} onSelectSong={handleSelectSong} onRemoveSong={handleRemoveSong} />
+                <SongList
+                    songs={songs}
+                    onSelectSong={handleSelectSong}
+                    onRemoveSong={handleRemoveSong}
+                    currentSongId={(currentSong && currentSong._id) || ''}
+                    isPlaying={isPlaying}
+                />
+            </div>
         </div>
     )
 }

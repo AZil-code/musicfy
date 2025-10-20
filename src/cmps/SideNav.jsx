@@ -55,19 +55,15 @@ export function SideNav() {
                </button>
             </div>
          </header>
-         <StationFilter
-            category={category}
-            setCategory={setCategory}
-            setFilterTxt={setFilterTxt}
-            filterTxt={filterTxt}
-         />
-         {/* <ContextMenu items={['test']} top={50} left={100} /> */}
-         <StationList
-            stations={stations}
-            onEditStation={onEditStation}
-            onRemoveStation={onRemoveStation}
-            filterTxt={filterTxt}
-         />
+         <div className="side-nav-content">
+            <StationFilter
+               category={category}
+               setCategory={setCategory}
+               setFilterTxt={setFilterTxt}
+               filterTxt={filterTxt}
+            />
+            <StationList stations={stations} onRemoveStation={onRemoveStation} filterTxt={filterTxt} />
+         </div>
       </div>
    );
 }
