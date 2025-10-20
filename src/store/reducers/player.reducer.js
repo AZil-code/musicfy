@@ -15,7 +15,7 @@ export function playerReducer(state = initialState, cmd = {}) {
             return { 
                 ...state, 
                 currentSong: cmd.currentSong,
-                currentSongId: cmd.currentSongId || cmd.currentSong?._id || cmd.currentSong?.id || '',
+                currentSongId: cmd.currentSongId || cmd.currentSong?._id || '',
             }
         }
         case SET_IS_PLAYING: {

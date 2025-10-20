@@ -35,7 +35,7 @@ export const setCurrentSong = (song) => {
         dispatch({
             type: SET_CURRENT_SONG,
             currentSong: song,
-            currentSongId: song?._id || song?.id || '',
+            currentSongId: song?._id || '',
         })
     } catch (e) {
         console.log('Error in player action: ', e)
