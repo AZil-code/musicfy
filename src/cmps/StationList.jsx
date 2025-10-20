@@ -22,7 +22,7 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
       navigate(`/station/${stationId}`);
    }
 
-   function onOpenContextMenu(ev, stationId) {
+   function onOpenContextMenu(ev, station) {
       ev.preventDefault();
       console.log(ev.pageX);
       setContextMenu({
@@ -30,8 +30,8 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
          x: ev.pageX,
          y: ev.pageY,
          items: new Map([
-            ['Delete', () => onRemoveStation(stationId)],
-            ['Edit', onEditStation],
+            ['Delete', () => onRemoveStation(station._id)],
+            ['Edit', () => onEditStation(station)],
          ]),
       });
    }
@@ -54,14 +54,10 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
                <li
                   key={station._id}
                   onClick={() => onSelectStation(station._id)}
-                  onContextMenu={(ev) => onOpenContextMenu(ev, station._id)}
+                  onContextMenu={(ev) => onOpenContextMenu(ev, station)}
                   className={selectedStationId === station._id ? 'selected' : ''}
                >
                   <StationPreview station={station} />
-                  {/* Temp solution, just to have the functionality */}
-                  {/* <button className="remove-btn" onClick={() => onRemoveStation(station._id)}>
-                     X
-                  </button> */}
                </li>
             ))}
          </ul>

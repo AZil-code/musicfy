@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { StationFilter } from './StationFilter';
-import { createStation, deleteStation, fetchStations } from '../store/actions/station.actions';
+import { createStation, deleteStation, fetchStations, saveStation } from '../store/actions/station.actions';
 import { StationList } from './StationList';
-import { showSuccessMsg } from '../services/event-bus.service';
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service';
+import { EditStationModal } from './EditModal';
 
 export function SideNav() {
    const [category, setCategory] = useState('');
    const [filterTxt, setFilterTxt] = useState('');
+   const [stationToEdit, setStationToEdit] = useState(null);
    const stations = useSelector((storeState) => storeState.stationModule.stations);
 
    useEffect(() => {
@@ -29,7 +31,15 @@ export function SideNav() {
    }
 
    async function onEditStation(station) {
-      showSuccessMsg('edit!');
+      try {
+         await saveStation(station);
+      } catch (error) {
+         showErrorMsg('Cannot edit playlist!');
+      }
+   }
+
+   function onSetIsEditOpen(station) {
+      setStationToEdit(station);
    }
 
    return (
@@ -62,8 +72,16 @@ export function SideNav() {
                setFilterTxt={setFilterTxt}
                filterTxt={filterTxt}
             />
-            <StationList stations={stations} onRemoveStation={onRemoveStation} filterTxt={filterTxt} />
+            <StationList
+               stations={stations}
+               onEditStation={onSetIsEditOpen}
+               onRemoveStation={onRemoveStation}
+               filterTxt={filterTxt}
+            />
          </div>
+         {stationToEdit && (
+            <EditStationModal onSetIsEditOpen={onSetIsEditOpen} station={stationToEdit} onSaveStation={onEditStation} />
+         )}
       </div>
    );
 }

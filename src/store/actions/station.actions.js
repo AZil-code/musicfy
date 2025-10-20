@@ -75,7 +75,7 @@ export async function updateStationArtwork(stationId, coverImage) {
 
 // For different uses - for example make station public/private
 export async function saveStation(station) {
-   const type = station._id ? 'UPDATE_station' : 'ADD_station';
+   const type = station._id ? UPDATE_STATION : ADD_STATION;
    try {
       const newstation = await stationService.save(station);
       store.dispatch({ type: type, station: newstation });
