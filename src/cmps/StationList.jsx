@@ -61,7 +61,7 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
                </li>
             ))}
          </ul>
-         <ContextMenu menuData={contextMenu} onClose={onCloseContextMenu} />
+         {contextMenu.visible && <ContextMenu menuData={contextMenu} onClose={onCloseContextMenu} />}
       </div>
    );
 }

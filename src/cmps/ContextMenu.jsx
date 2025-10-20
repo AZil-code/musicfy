@@ -1,8 +1,31 @@
+import { useEffect, useRef } from 'react';
+
 export function ContextMenu({ menuData, onClose }) {
+   const menu = useRef(null);
+
+   useEffect(() => {
+      const controller = new AbortController();
+      document.addEventListener(
+         'click',
+         ({ target }) => {
+            if (!menu.current.contains(target)) {
+               console.log('click');
+               onClose();
+               controller.abort();
+            }
+         },
+         { signal: controller.signal, capture: true }
+      );
+      return () => {
+         controller.abort();
+      };
+   }, []);
+
    if (!menuData.items || menuData.items.length === 0) return null;
 
    return (
       <ul
+         ref={menu}
          style={{
             top: `${menuData.y}px`,
             left: `${menuData.x}px`,
