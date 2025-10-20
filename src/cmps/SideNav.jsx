@@ -28,6 +28,10 @@ export function SideNav() {
       showSuccessMsg('Succesfully Removed!');
    }
 
+   async function onEditStation(station) {
+      showSuccessMsg('edit!');
+   }
+
    return (
       <div className="side-nav">
          <header>

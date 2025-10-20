@@ -16,7 +16,7 @@
 .app-header .search-bar {
    display: flex;
    align-items: center;
-   width: 100%;
+   width: 30%;
    background: var(--body-light-gray);
    padding: 10px 12px;
    border-radius: 999px;

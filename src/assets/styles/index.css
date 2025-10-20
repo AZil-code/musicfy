@@ -11,6 +11,7 @@
 @import './cmps/station-filter.css';
 @import './cmps/station-preview.css';
 @import './cmps/station-list.css';
+@import './cmps/context-menu.css';
 
 @import './pages/stationDetails.css';
 @import './pages/stationIndex.css';
