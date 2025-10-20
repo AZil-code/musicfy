@@ -51,13 +51,15 @@ export function SideNav() {
                </button>
             </div>
          </header>
-         <StationFilter
-            category={category}
-            setCategory={setCategory}
-            setFilterTxt={setFilterTxt}
-            filterTxt={filterTxt}
-         />
-         <StationList stations={stations} onRemoveStation={onRemoveStation} filterTxt={filterTxt} />
+         <div className="side-nav-content">
+            <StationFilter
+               category={category}
+               setCategory={setCategory}
+               setFilterTxt={setFilterTxt}
+               filterTxt={filterTxt}
+            />
+            <StationList stations={stations} onRemoveStation={onRemoveStation} filterTxt={filterTxt} />
+         </div>
       </div>
    );
 }

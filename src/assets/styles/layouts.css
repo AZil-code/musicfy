@@ -7,16 +7,17 @@
         "sidebar main"
         "player player";
     height: 100vh;
-    background-color: #121212;
-    color: #fff;
+    background-color: var(--body-black);
+    color: var(--text-white);
     gap: 16px;
     padding: 16px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .spotify-layout-header {
     grid-area: header;
-    background-color: #181818;
+    background-color: var(--surface-deep);
     border-radius: 8px;
     padding: 16px;
     display: flex;
@@ -26,28 +27,44 @@
 
 .spotify-layout-sidebar {
     grid-area: sidebar;
-    background-color: #181818;
+    background-color: var(--surface-deep);
     border-radius: 8px;
-    padding: 16px;
+    padding: 0px;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .spotify-layout-main {
     grid-area: main;
-    background-color: #181818;
+    background-color: var(--surface-deep);
     border-radius: 8px;
-    padding: 24px;
+    padding: 0px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
 
 .spotify-layout-player {
     grid-area: player;
-    background-color: #181818;
+    background-color: var(--surface-deep);
     border-radius: 8px;
-    padding: 16px 24px;
+    padding: 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: stretch;
+    justify-content: stretch;
+    overflow: hidden;
+}
+
+.spotify-layout-sidebar > * {
+    flex: 1;
+    min-height: 0;
+}
+
+.spotify-layout-main > * {
+    flex: 1;
+    min-height: 0;
 }

@@ -54,6 +54,25 @@ export async function removeSong(oldStation, songToRmv) {
    }
 }
 
+export async function updateStationArtwork(stationId, coverImage) {
+   if (!stationId || !coverImage) return;
+   const { stationModule } = store.getState();
+   const existingStation = stationModule.stations.find((station) => station._id === stationId);
+   if (!existingStation) return;
+   if (existingStation.coverImage === coverImage) return existingStation;
+
+   const stationToSave = { ...existingStation, coverImage };
+
+   try {
+      const updatedStation = await stationService.save(stationToSave);
+      store.dispatch({ station: updatedStation, type: UPDATE_STATION });
+      return updatedStation;
+   } catch (error) {
+      console.error('station actions -> cannot update station artwork! ', error);
+      throw error;
+   }
+}
+
 // For different uses - for example make station public/private
 export async function saveStation(station) {
    const type = station._id ? 'UPDATE_station' : 'ADD_station';

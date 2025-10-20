@@ -1,24 +1,38 @@
 .station-list-container ul {
-   display: flex;
-   flex-direction: column;
-   align-items: stretch;
-   margin-right: 0px;
-   gap: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-right: 0;
+    gap: 5px;
 }
 
 .station-list-container li {
    display: grid;
    grid-template-areas: 'thumbnail titles button';
-   border-radius: 1%;
+    border-radius: 1%;
 }
 
 .station-list-container li:hover {
-   cursor: pointer;
-   background-color: var(--body-mid-gray);
+    cursor: pointer;
+    background-color: var(--body-mid-gray);
 }
 
 .station-list-container li.selected {
-   background-color: var(--body-light-gray);
+    background-color: var(--body-light-gray);
+}
+
+.side-nav-content .station-list-container {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+}
+
+.side-nav-content .station-list-container ul {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 16px;
+    margin-right: -16px;
+    scrollbar-gutter: stable;
 }
 
 .station-list-container .remove-btn {
