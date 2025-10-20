@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { searchYoutube } from '../store/actions/search.actions';
 import { useParams } from 'react-router-dom';
+import { SongList } from '../cmps/SongList';
 
 export function SearchResults() {
    const [searchResults, setSearchResults] = useState(null);
    const { searchStr } = useParams();
-
-   console.log(`search string ` + searchStr);
 
    useEffect(() => {
       loadSearchResults();
@@ -20,11 +19,7 @@ export function SearchResults() {
 
    return (
       <div>
-         <ul>
-            {searchResults.map((res) => (
-               <li>{res.snippet.title}</li>
-            ))}
-         </ul>
+         <SongList songs={searchResults} />
       </div>
    );
 }

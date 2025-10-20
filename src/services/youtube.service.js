@@ -6,20 +6,17 @@ const base_url = 'https://www.googleapis.com/youtube/v3';
 
 export const youtubeService = {
    searchSongs,
+   formatSong,
 };
 
 // async function searchSongs(searchStr) {
 //    const type = 'video';
 //    const part = 'snippet';
-//    const endpoint = `${base_url}/search?key=${api_key}&type=${type}&part=${part}&q=${searchStr}&maxResults=${SEARCH_RESULT_AMOUNT}`;
-//    // try {
+//    const endpoint = `${base_url}/search?key=${YTB_API_KEY}&type=${type}&part=${part}&q=${searchStr}&maxResults=${SEARCH_RESULT_AMOUNT}`;
+//    console.log(endpoint);
 //    const res = await fetch(endpoint, { method: 'GET' });
 //    if (!res.ok) throw new Error(`Bad status code! ${res.status} - ${res.statusText}`);
 //    return res;
-//    // } catch (error) {
-//    //     console.error()
-//    //     throw error;
-//    // }
 // }
 
 // For dev purposes
@@ -28,534 +25,894 @@ async function searchSongs(searchStr) {
    return a;
 }
 
+function formatSong(ytbSong) {
+   const { id, snippet } = ytbSong;
+   return {
+      title: snippet.title,
+      ytbId: id.videoId,
+      album: '',
+      genre: '',
+      artists: [snippet.channelTitle],
+      imgUrl: snippet.thumbnails.default,
+   };
+}
+
 const mockRes = {
    kind: 'youtube#searchListResponse',
-   etag: 'MTu0bj7SFVUt1sVaTATaJe-5o8c',
-   nextPageToken: 'CA8QAA',
+   etag: 'QdMc67LNopY01xgXkj6TbBXN98M',
+   nextPageToken: 'CBkQAA',
    regionCode: 'IL',
    pageInfo: {
       totalResults: 1000000,
-      resultsPerPage: 15,
+      resultsPerPage: 25,
    },
    items: [
       {
          kind: 'youtube#searchResult',
-         etag: 'ZXmYc-svLECA8E1lFyJEkmHD7tY',
+         etag: 'XjuO8rb3WLMUqImUaXfn0RhiQXc',
          id: {
             kind: 'youtube#video',
-            videoId: 'uwCXfVsI6QU',
+            videoId: 'gKpdPOdN26Y',
          },
          snippet: {
-            publishedAt: '2025-10-20T09:13:52Z',
-            channelId: 'UCm7lHFkt2yB_WzL67aruVBQ',
-            title: 'Zelensky &amp; Vance&#39;s New TV Fight After Trump Says &#39;No&#39; To Ukraine For Tomahawk Missiles| Putin,Russia',
+            publishedAt: '2014-11-24T21:46:52Z',
+            channelId: 'UCJls2FMEbRYxi28jcuKe2vA',
+            title: 'Waking The Fallen: Resurrected',
             description:
-               'In a tense and revealing exchange, Ukrainian President Volodymyr Zelensky and U.S. Vice President JD Vance had contrasting ...',
+               'Provided to YouTube by Hopeless Records Inc Waking The Fallen: Resurrected · Avenged Sevenfold Waking The Fallen: ...',
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/uwCXfVsI6QU/default.jpg',
+                  url: 'https://i.ytimg.com/vi/gKpdPOdN26Y/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/uwCXfVsI6QU/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/gKpdPOdN26Y/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/uwCXfVsI6QU/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/gKpdPOdN26Y/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'Hindustan Times',
+            channelTitle: 'Avenged Sevenfold - Topic',
             liveBroadcastContent: 'none',
-            publishTime: '2025-10-20T09:13:52Z',
+            publishTime: '2014-11-24T21:46:52Z',
          },
       },
       {
          kind: 'youtube#searchResult',
-         etag: 'Ac8Migp2bQ9MxRFPoVxm7hR7vyw',
+         etag: 'vM7lg1PobhlzG4eUwaCZ-ZpzFsA',
          id: {
             kind: 'youtube#video',
-            videoId: 'YQ-obIXWNWg',
+            videoId: 'TIld9jnqZlA',
          },
          snippet: {
-            publishedAt: '2025-10-14T21:00:44Z',
-            channelId: 'UCRYxi3tzzGsXZuHv-upUBCA',
-            title: 'New Cool Tool💚🙌! New Viral Gadgets,SmartKitchen  Appliances, Tools,Utensils, Home Cleaning #shorts',
+            publishedAt: '2011-10-11T22:42:08Z',
+            channelId: 'UCToUNe4i9j_SlKGFl8MrQHg',
+            title: 'Avenged Sevenfold - Waking the Fallen',
             description:
-               'New Cool Tool    ! New Viral Gadgets,SmartKitchen Appliances, Tools,Utensils, Home Cleaning #shorts New Cool Tool! New ...',
+               "Avenged Sevenfold's 'Waking The Fallen: Resurrected' is out now via Hopeless Records. Buy now on iTunes: ...",
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/YQ-obIXWNWg/default.jpg',
+                  url: 'https://i.ytimg.com/vi/TIld9jnqZlA/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/YQ-obIXWNWg/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/TIld9jnqZlA/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/YQ-obIXWNWg/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/TIld9jnqZlA/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'Shehar-e-Madina',
+            channelTitle: 'Hopeless Records',
             liveBroadcastContent: 'none',
-            publishTime: '2025-10-14T21:00:44Z',
+            publishTime: '2011-10-11T22:42:08Z',
          },
       },
       {
          kind: 'youtube#searchResult',
-         etag: 'sH94P66ZuAKM7q38ajr3DqxPMuM',
+         etag: 'OJ6QVmAStGsc_8enJJXyHKGP4Ck',
          id: {
             kind: 'youtube#video',
-            videoId: 'ECqlObFCmZA',
+            videoId: '36stRPPIy2w',
          },
          snippet: {
-            publishedAt: '2025-10-20T03:00:17Z',
-            channelId: 'UCBi2mrWuNuyYy4gbM6fU18Q',
-            title: 'President Trump mocks Saturday&#39;s &#39;No Kings&#39; protest',
+            publishedAt: '2015-08-11T23:55:49Z',
+            channelId: 'UCJls2FMEbRYxi28jcuKe2vA',
+            title: 'Unholy Confessions',
             description:
-               'Trump responded via social media, posting an AI-generated video depicting a crowned Trump flying a "King Trump" jet. Subscribe ...',
+               'Provided to YouTube by Hopeless Records Inc Unholy Confessions · Avenged Sevenfold Waking The Fallen ℗ 2003 Hopeless ...',
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/ECqlObFCmZA/default.jpg',
+                  url: 'https://i.ytimg.com/vi/36stRPPIy2w/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/ECqlObFCmZA/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/36stRPPIy2w/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/ECqlObFCmZA/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/36stRPPIy2w/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'ABC News',
+            channelTitle: 'Avenged Sevenfold - Topic',
             liveBroadcastContent: 'none',
-            publishTime: '2025-10-20T03:00:17Z',
+            publishTime: '2015-08-11T23:55:49Z',
          },
       },
       {
          kind: 'youtube#searchResult',
-         etag: '2OyzdkG_Cw17lnqWb1TrT0mi9Io',
+         etag: 'OHcNGVkivYtjW75DlfRlB9LVJ1A',
          id: {
             kind: 'youtube#video',
-            videoId: 'iqcT0qOuPlE',
+            videoId: 'NiqJXz653IU',
          },
          snippet: {
-            publishedAt: '2023-02-28T12:00:34Z',
-            channelId: 'UCE-KQxU0N4684m_FJXofRTw',
-            title: 'Cool Gadgets!😍Smart Appliances,New Gadgets, Kitchen Gadgets, Home Gadgets,Inventions🙏P-112 #shorts',
+            publishedAt: '2025-03-15T23:12:42Z',
+            channelId: 'UCW65atOhrL2VNeD9CfYaqBg',
+            title: 'Avenged Sevenfold - Waking The Fallen (Full Album 2003)',
             description:
-               'Cool Gadgets!  Smart Appliances,New Gadgets, Kitchen Gadgets, Home Gadgets,Inventions  P-112 Hi Everyone This channel ...',
+               'Avenged Sevenfold (United States) Waking The Fallen (2nd Album) Released: August 26th, 2003 Label: Hopeless Records ...',
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/iqcT0qOuPlE/default.jpg',
+                  url: 'https://i.ytimg.com/vi/NiqJXz653IU/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/iqcT0qOuPlE/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/NiqJXz653IU/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/iqcT0qOuPlE/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/NiqJXz653IU/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'New Sky TV',
+            channelTitle: 'Metalhead - foREVer',
             liveBroadcastContent: 'none',
-            publishTime: '2023-02-28T12:00:34Z',
+            publishTime: '2025-03-15T23:12:42Z',
          },
       },
       {
          kind: 'youtube#searchResult',
-         etag: 'Hm0UicM-x6tRqJT_GyNjOi6CZtk',
+         etag: 'o2bb_eyuwE8yd3tEJXXloyQaARo',
          id: {
             kind: 'youtube#video',
-            videoId: 'O1iTw98dAwo',
+            videoId: 'pqdn1VvjVek',
          },
          snippet: {
-            publishedAt: '2025-03-18T12:00:36Z',
-            channelId: 'UC2s1BG4dr3K3OkKKfxTG_gQ',
-            title: 'Alibaba Utilities! 😍New Gadgets, Smart Kitchen Appliances, Tools, Utensils, Home Cleaning, Beauty',
+            publishedAt: '2023-04-25T15:00:39Z',
+            channelId: 'UCuvX5rV31-OL3IQVmqUkfdw',
+            title: 'What M Shadows REALLY thinks about &quot;Waking The Fallen&quot;',
+            description:
+               'M Shadows of Avenged Sevenfold joins to talk about what he REALLY thinks of "Waking The Fallen." Full interview: ...',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/pqdn1VvjVek/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/pqdn1VvjVek/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/pqdn1VvjVek/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Punk Rock MBA Podcast clips',
+            liveBroadcastContent: 'none',
+            publishTime: '2023-04-25T15:00:39Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: '9jRfIB1Vtb_Fwn-PNUBuxZRwmhk',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'uEWm-FfvgI4',
+         },
+         snippet: {
+            publishedAt: '2025-05-08T01:05:09Z',
+            channelId: 'UCw1NPWdyFiYTeHkA3XkE4cg',
+            title: 'Avenged Sevenfold, Waking The Fallen, Full Album (Original Tracks)',
+            description:
+               'Waking the Fallen is the second studio album by American heavy metal band Avenged Sevenfold, released on August 26, 2003, ...',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/uEWm-FfvgI4/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/uEWm-FfvgI4/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/uEWm-FfvgI4/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Goosetraxx Radio',
+            liveBroadcastContent: 'none',
+            publishTime: '2025-05-08T01:05:09Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'm6WXa7B8LbRBEuMkPsd61cltJAc',
+         id: {
+            kind: 'youtube#video',
+            videoId: '433S3tuuB94',
+         },
+         snippet: {
+            publishedAt: '2011-10-11T22:41:30Z',
+            channelId: 'UCToUNe4i9j_SlKGFl8MrQHg',
+            title: 'Avenged Sevenfold - Chapter Four',
+            description:
+               "Avenged Sevenfold's 'Waking The Fallen: Resurrected' is out now via Hopeless Records. Stream 'Waking The Fallen' today: ...",
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/433S3tuuB94/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/433S3tuuB94/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/433S3tuuB94/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Hopeless Records',
+            liveBroadcastContent: 'none',
+            publishTime: '2011-10-11T22:41:30Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: '8NXxkLADJbxjeGYkM8ufJLiNgBs',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'iyY7Z2hMMGM',
+         },
+         snippet: {
+            publishedAt: '2014-08-28T01:33:01Z',
+            channelId: 'UC9keqYABefKefWX11TrzC7w',
+            title: 'A7X - Waking the Fallen Resurrected Documentary',
+            description:
+               'A documentary about the making of waking the fallen and how the band became successful. Avenged Sevenfold Album Waking ...',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/iyY7Z2hMMGM/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/iyY7Z2hMMGM/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/iyY7Z2hMMGM/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'A7XEntertainment',
+            liveBroadcastContent: 'none',
+            publishTime: '2014-08-28T01:33:01Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'B9GE_jv6BCGJIReeiGF84X9C6gI',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'rCNTEAh9Kdw',
+         },
+         snippet: {
+            publishedAt: '2025-10-19T04:28:04Z',
+            channelId: 'UCWMJW-pr5kwmA-JDNvDhmbQ',
+            title: 'Will he able to save the cow 🐄❓ What you think 🤔 #shorts #viralshorts',
+            description:
+               'Oh! Will he able to save the cow ❓ What you think #shorts #viralshorts Once a Cow and baby cow was walking suddenly ...',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/rCNTEAh9Kdw/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/rCNTEAh9Kdw/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/rCNTEAh9Kdw/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'The Last Scene ',
+            liveBroadcastContent: 'none',
+            publishTime: '2025-10-19T04:28:04Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'XSI9OYzoGwcV3kfbKWhhMHp5Ojs',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'vqw65P2zOgo',
+         },
+         snippet: {
+            publishedAt: '2015-05-06T12:58:05Z',
+            channelId: 'UCxeSzFxBVyHUw8UINFBMcrQ',
+            title: 'Avenged Sevenfold - Waking The Fallen [Lyrics on screen] [Full HD]',
+            description: 'Song: Waking The Fallen Album: Waking The Fallen My Twitter: http://adf.ly/VQ6Ss.',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/vqw65P2zOgo/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/vqw65P2zOgo/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/vqw65P2zOgo/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'A7XLyrics',
+            liveBroadcastContent: 'none',
+            publishTime: '2015-05-06T12:58:05Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'x8c4ZBPzaAGj9GYTtwq7DQpBVz0',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'tysmwGx7TNU',
+         },
+         snippet: {
+            publishedAt: '2011-10-11T22:40:55Z',
+            channelId: 'UCToUNe4i9j_SlKGFl8MrQHg',
+            title: 'Avenged Sevenfold - Remenissions',
+            description:
+               "Avenged Sevenfold's 'Waking The Fallen' is out now via Hopeless Records. Stream today: https://ffm.to/wakingthefallen ...",
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/tysmwGx7TNU/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/tysmwGx7TNU/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/tysmwGx7TNU/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Hopeless Records',
+            liveBroadcastContent: 'none',
+            publishTime: '2011-10-11T22:40:55Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'WNU4H2arP8KH7-uDYM__zi10C7U',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'piRVvIlShyg',
+         },
+         snippet: {
+            publishedAt: '2015-08-12T01:06:59Z',
+            channelId: 'UCJls2FMEbRYxi28jcuKe2vA',
+            title: 'Eternal Rest',
+            description:
+               'Provided to YouTube by Hopeless Records Inc Eternal Rest · Avenged Sevenfold Waking The Fallen ℗ 2003 Hopeless Records, ...',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/piRVvIlShyg/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/piRVvIlShyg/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/piRVvIlShyg/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Avenged Sevenfold - Topic',
+            liveBroadcastContent: 'none',
+            publishTime: '2015-08-12T01:06:59Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'NhHzbOh3v5FPjz8Ra0mN_F56Q0Q',
+         id: {
+            kind: 'youtube#video',
+            videoId: '17HHZ0Jtbbs',
+         },
+         snippet: {
+            publishedAt: '2024-01-05T02:38:37Z',
+            channelId: 'UCnwBOsEmSyqeG-tlkVTZKCg',
+            title: 'Ranking &#39;Waking the Fallen&#39; Songs (Avenged Sevenfold)',
+            description: 'avengedsevenfold #Wakingthefallen #albumreview #songs #ranking #rating.',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/17HHZ0Jtbbs/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/17HHZ0Jtbbs/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/17HHZ0Jtbbs/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Song Rankings',
+            liveBroadcastContent: 'none',
+            publishTime: '2024-01-05T02:38:37Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'NdZZCit3nIy2Bd9QI2X49O0Urno',
+         id: {
+            kind: 'youtube#video',
+            videoId: '2mnLOTrpoEs',
+         },
+         snippet: {
+            publishedAt: '2023-09-03T09:27:46Z',
+            channelId: 'UC2UG5L-a3WC8MuT55ZfNWGA',
+            title: 'Waking the Fallen riffs are so good',
+            description:
+               'Original by Avenged Sevenfold Instagram : https://www.instagram.com/saysay_gtr Spotify : https://open.spotify.com/artist/5cxIb.',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/2mnLOTrpoEs/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/2mnLOTrpoEs/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/2mnLOTrpoEs/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Saysay',
+            liveBroadcastContent: 'none',
+            publishTime: '2023-09-03T09:27:46Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'kiy5ja_vu5wDN55A-csSVYXDs2M',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'Lkxt-6I48jA',
+         },
+         snippet: {
+            publishedAt: '2011-10-11T22:36:10Z',
+            channelId: 'UCToUNe4i9j_SlKGFl8MrQHg',
+            title: 'Avenged Sevenfold - Clairvoyant Disease',
+            description:
+               "Avenged Sevenfold's 'Waking The Fallen: Resurrected' is out now via Hopeless Records. Buy now on iTunes: ...",
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/Lkxt-6I48jA/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/Lkxt-6I48jA/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/Lkxt-6I48jA/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Hopeless Records',
+            liveBroadcastContent: 'none',
+            publishTime: '2011-10-11T22:36:10Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'UfASRzNgGQtwn-Pzh47UdbvsNwU',
+         id: {
+            kind: 'youtube#video',
+            videoId: '9GJoUzoBG5k',
+         },
+         snippet: {
+            publishedAt: '2023-08-25T23:18:25Z',
+            channelId: 'UCToUNe4i9j_SlKGFl8MrQHg',
+            title: '20 years of &#39;Waking The Fallen,&#39; can you believe it!? 🎉 #a7x #avengedsevenfold #metal',
             description: '',
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/O1iTw98dAwo/default.jpg',
+                  url: 'https://i.ytimg.com/vi/9GJoUzoBG5k/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/O1iTw98dAwo/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/9GJoUzoBG5k/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/O1iTw98dAwo/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/9GJoUzoBG5k/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'Color Sky',
+            channelTitle: 'Hopeless Records',
             liveBroadcastContent: 'none',
-            publishTime: '2025-03-18T12:00:36Z',
+            publishTime: '2023-08-25T23:18:25Z',
          },
       },
       {
          kind: 'youtube#searchResult',
-         etag: 'mgHoS9l4FFQfCamU2qnXH-tmFZE',
+         etag: 'MndR-Qarcc08ziVNXjBheKVMpjc',
          id: {
             kind: 'youtube#video',
-            videoId: 'sE-GRG5p1g0',
+            videoId: '3BIBk8WXuUY',
          },
          snippet: {
-            publishedAt: '2025-10-16T09:01:19Z',
-            channelId: 'UCaOtWkB5dZn85CqhDUDOdVw',
-            title: 'New Cool Tool! 🤲🕋😢 New Viral Gadgets,SmartKitchen Appliances, Tools, Utensils Home Cleaning #shorts',
+            publishedAt: '2014-09-16T18:07:26Z',
+            channelId: 'UCToUNe4i9j_SlKGFl8MrQHg',
+            title: 'Avenged Sevenfold - Chapter Four (Live Footage Video)',
             description:
-               'New Cool Tool! ❤️       New Viral Gadgets,SmartKitchen Appliances, Tools,Utensils,Home Cleaning #shorts Hi Everyone This ...',
+               "Avenged Sevenfold's 'Waking The Fallen: Resurrected' is out now via Hopeless Records. Buy now on iTunes: ...",
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/sE-GRG5p1g0/default.jpg',
+                  url: 'https://i.ytimg.com/vi/3BIBk8WXuUY/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/sE-GRG5p1g0/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/3BIBk8WXuUY/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/sE-GRG5p1g0/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/3BIBk8WXuUY/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'Medina sharif vlogs ',
+            channelTitle: 'Hopeless Records',
             liveBroadcastContent: 'none',
-            publishTime: '2025-10-16T09:01:19Z',
+            publishTime: '2014-09-16T18:07:26Z',
          },
       },
       {
          kind: 'youtube#searchResult',
-         etag: '-sO-GqYZjfTOOxKcOdzxxXFMyw0',
+         etag: '78lyAJB3WngreXLHECvi3jLvnQg',
          id: {
             kind: 'youtube#video',
-            videoId: 'lvthdMogRag',
+            videoId: '6uQ__DN_4iE',
          },
          snippet: {
-            publishedAt: '2025-10-11T12:01:32Z',
-            channelId: 'UCgKASTv4MvG_vAar1AKpQSA',
-            title: 'New Cool Tool! ❤️🕋💜 New Viral Gadgets,SmartKitchen Appliances, Tools,Utensils,Home Cleaning #shorts​',
+            publishedAt: '2015-08-11T23:59:42Z',
+            channelId: 'UCJls2FMEbRYxi28jcuKe2vA',
+            title: 'And All Things Will End',
             description:
-               'New Cool Tool! ❤️     New Viral Gadgets,SmartKitchen Appliances, Tools,Utensils,Home Cleaning #shorts​Hi Everyone This ...',
+               'Provided to YouTube by Hopeless Records Inc And All Things Will End · Avenged Sevenfold Waking The Fallen ℗ 2003 Hopeless ...',
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/lvthdMogRag/default.jpg',
+                  url: 'https://i.ytimg.com/vi/6uQ__DN_4iE/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/lvthdMogRag/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/6uQ__DN_4iE/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/lvthdMogRag/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/6uQ__DN_4iE/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'Macca madina status ',
+            channelTitle: 'Avenged Sevenfold - Topic',
             liveBroadcastContent: 'none',
-            publishTime: '2025-10-11T12:01:32Z',
+            publishTime: '2015-08-11T23:59:42Z',
          },
       },
       {
          kind: 'youtube#searchResult',
-         etag: 'lmwYaUettTkgggDDnXUpzcu7rtE',
+         etag: 'NL8gSf8eYbXdUIbZAraZrxdC7Qg',
          id: {
             kind: 'youtube#video',
-            videoId: '8nWwFDEAjfM',
+            videoId: 'uXz2XAT3YTQ',
          },
          snippet: {
-            publishedAt: '2025-10-15T14:47:25Z',
-            channelId: 'UCUUNkL6Wke6i0P6funa7wdQ',
-            title: 'New M5 iPad Pro released!',
+            publishedAt: '2024-11-07T17:33:19Z',
+            channelId: 'UCzSZY6RKNYVdLlCwEPWgFfg',
+            title: 'Avenged Sevenfold - Waking the Fallen REACTION',
+            description:
+               'Follow a real ONE: https://patreon.com/OkayReno https://kick.com/okayreno https://www.twitch.tv/okayreno ...',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/uXz2XAT3YTQ/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/uXz2XAT3YTQ/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/uXz2XAT3YTQ/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'OkayReno',
+            liveBroadcastContent: 'none',
+            publishTime: '2024-11-07T17:33:19Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'ZHJAT7gLK6i6e5DZngji8eWJVtk',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'bXbTtU252yM',
+         },
+         snippet: {
+            publishedAt: '2011-10-11T22:38:27Z',
+            channelId: 'UCToUNe4i9j_SlKGFl8MrQHg',
+            title: 'Avenged Sevenfold - Second Heartbeat',
+            description:
+               "Avenged Sevenfold's 'Waking The Fallen: Resurrected' is out now via Hopeless Records. Stream here: ...",
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/bXbTtU252yM/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/bXbTtU252yM/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/bXbTtU252yM/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Hopeless Records',
+            liveBroadcastContent: 'none',
+            publishTime: '2011-10-11T22:38:27Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'BVt5akQFI0ExKCit3XgmzqlPuVc',
+         id: {
+            kind: 'youtube#video',
+            videoId: '6AbLnI1nPiw',
+         },
+         snippet: {
+            publishedAt: '2022-03-09T13:28:35Z',
+            channelId: 'UCmvdTeaAfn2PKxhdTENUDOg',
+            title: 'Avenged Sevenfold - Waking The Fallen (Oxblood) Vinyl',
             description: '',
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/8nWwFDEAjfM/default.jpg',
+                  url: 'https://i.ytimg.com/vi/6AbLnI1nPiw/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/8nWwFDEAjfM/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/6AbLnI1nPiw/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/8nWwFDEAjfM/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/6AbLnI1nPiw/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'AppleInsider',
+            channelTitle: 'MidnightVinyl',
             liveBroadcastContent: 'none',
-            publishTime: '2025-10-15T14:47:25Z',
+            publishTime: '2022-03-09T13:28:35Z',
          },
       },
       {
          kind: 'youtube#searchResult',
-         etag: 'fwiqvgaPMzIPgtaKK4F9pOmBMXs',
+         etag: 'lvu_ry8rzorglmdZ5qTIgaeoO4I',
          id: {
             kind: 'youtube#video',
-            videoId: 'fML8Zl0WMss',
+            videoId: 'yd5fAmy2CLI',
          },
          snippet: {
-            publishedAt: '2025-10-13T16:36:49Z',
-            channelId: 'UCYS6mSp3x-dP0rxzWoM3x_Q',
-            title: 'Who made this! thenutsfactory 1030 3rd Ave, New York, NY 10065 chocolate #foodie #shorts',
+            publishedAt: '2022-11-03T04:08:37Z',
+            channelId: 'UCpZ02u1n8HuImKTOOOzOtqg',
+            title: 'Walking the Fallen',
+            description:
+               'Provided to YouTube by IIP-DDS Walking the Fallen · Kam Rapp Walking the Fallen ℗ Kam Rapp Released on: 2022-10-30 ...',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/yd5fAmy2CLI/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/yd5fAmy2CLI/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/yd5fAmy2CLI/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Kam Rapp - Topic',
+            liveBroadcastContent: 'none',
+            publishTime: '2022-11-03T04:08:37Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'YPFg8LlTf3ugh_tCNauHfADnjuM',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'ZQVU22YGTUc',
+         },
+         snippet: {
+            publishedAt: '2020-08-26T00:30:37Z',
+            channelId: 'UCmm9iuwnSkZzD1MwMqQahqQ',
+            title: 'Waking the Fallen - Avenged Sevenfold (lirik terjemahan)',
+            description: 'lirik dan terjemahan lagu: Waking the Fallen - Avenged Sevenfold album: Waking the Fallen.',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/ZQVU22YGTUc/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/ZQVU22YGTUc/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/ZQVU22YGTUc/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'LT PROJECT',
+            liveBroadcastContent: 'none',
+            publishTime: '2020-08-26T00:30:37Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'HVaJxNvJjkvOqDOVFuB_oAjU7WU',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'TF3lpJH-9Os',
+         },
+         snippet: {
+            publishedAt: '2021-02-22T21:18:52Z',
+            channelId: 'UClST1VvoC9ElRmK4XCfJ0QA',
+            title: 'Avenged Sevenfold - Waking the Fallen (Full Album)',
+            description: 'Avenged Sevenfold - Waking the Fallen (Full Album) Enjoy more the best Rock music: ...',
+            thumbnails: {
+               default: {
+                  url: 'https://i.ytimg.com/vi/TF3lpJH-9Os/default.jpg',
+                  width: 120,
+                  height: 90,
+               },
+               medium: {
+                  url: 'https://i.ytimg.com/vi/TF3lpJH-9Os/mqdefault.jpg',
+                  width: 320,
+                  height: 180,
+               },
+               high: {
+                  url: 'https://i.ytimg.com/vi/TF3lpJH-9Os/hqdefault.jpg',
+                  width: 480,
+                  height: 360,
+               },
+            },
+            channelTitle: 'Rock Solid Records',
+            liveBroadcastContent: 'none',
+            publishTime: '2021-02-22T21:18:52Z',
+         },
+      },
+      {
+         kind: 'youtube#searchResult',
+         etag: 'Jjn21KItkQBMFsBqvleadfOGyfI',
+         id: {
+            kind: 'youtube#video',
+            videoId: 'dQHPtZGqwjg',
+         },
+         snippet: {
+            publishedAt: '2022-11-28T11:50:16Z',
+            channelId: 'UCW0sf7RG9TSfT5DAQvfwRmg',
+            title: 'The Fallen Angel',
             description: '',
             thumbnails: {
                default: {
-                  url: 'https://i.ytimg.com/vi/fML8Zl0WMss/default.jpg',
+                  url: 'https://i.ytimg.com/vi/dQHPtZGqwjg/default.jpg',
                   width: 120,
                   height: 90,
                },
                medium: {
-                  url: 'https://i.ytimg.com/vi/fML8Zl0WMss/mqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/dQHPtZGqwjg/mqdefault.jpg',
                   width: 320,
                   height: 180,
                },
                high: {
-                  url: 'https://i.ytimg.com/vi/fML8Zl0WMss/hqdefault.jpg',
+                  url: 'https://i.ytimg.com/vi/dQHPtZGqwjg/hqdefault.jpg',
                   width: 480,
                   height: 360,
                },
             },
-            channelTitle: 'Biggroove',
+            channelTitle: 'Sarah New Sfx',
             liveBroadcastContent: 'none',
-            publishTime: '2025-10-13T16:36:49Z',
-         },
-      },
-      {
-         kind: 'youtube#searchResult',
-         etag: 'LMVcqU8kysZZ-XJfEhbxHGrTnCA',
-         id: {
-            kind: 'youtube#video',
-            videoId: 'm1VfsauiY-0',
-         },
-         snippet: {
-            publishedAt: '2025-10-15T03:26:29Z',
-            channelId: 'UCbmOgzvvDg60mXGm9t9Ad5Q',
-            title: 'Lays New Logo',
-            description: '',
-            thumbnails: {
-               default: {
-                  url: 'https://i.ytimg.com/vi/m1VfsauiY-0/default.jpg',
-                  width: 120,
-                  height: 90,
-               },
-               medium: {
-                  url: 'https://i.ytimg.com/vi/m1VfsauiY-0/mqdefault.jpg',
-                  width: 320,
-                  height: 180,
-               },
-               high: {
-                  url: 'https://i.ytimg.com/vi/m1VfsauiY-0/hqdefault.jpg',
-                  width: 480,
-                  height: 360,
-               },
-            },
-            channelTitle: 'Omar Agamy',
-            liveBroadcastContent: 'none',
-            publishTime: '2025-10-15T03:26:29Z',
-         },
-      },
-      {
-         kind: 'youtube#searchResult',
-         etag: 'cglN1p4_1ur5IZBRNi6nctjL2co',
-         id: {
-            kind: 'youtube#video',
-            videoId: '0g-IC-MSdXA',
-         },
-         snippet: {
-            publishedAt: '2025-04-03T03:35:19Z',
-            channelId: 'UCbynwHnYbSmDHuoQva81Wlg',
-            title: 'New Types Diwali crackers testing | 2025 Diwali',
-            description: '',
-            thumbnails: {
-               default: {
-                  url: 'https://i.ytimg.com/vi/0g-IC-MSdXA/default.jpg',
-                  width: 120,
-                  height: 90,
-               },
-               medium: {
-                  url: 'https://i.ytimg.com/vi/0g-IC-MSdXA/mqdefault.jpg',
-                  width: 320,
-                  height: 180,
-               },
-               high: {
-                  url: 'https://i.ytimg.com/vi/0g-IC-MSdXA/hqdefault.jpg',
-                  width: 480,
-                  height: 360,
-               },
-            },
-            channelTitle: 'Crackers Testing',
-            liveBroadcastContent: 'none',
-            publishTime: '2025-04-03T03:35:19Z',
-         },
-      },
-      {
-         kind: 'youtube#searchResult',
-         etag: 'w_GULkM3vcLP3Xc9ICZdoQiOwy8',
-         id: {
-            kind: 'youtube#video',
-            videoId: 'z0mBfBAfyJk',
-         },
-         snippet: {
-            publishedAt: '2025-10-20T00:08:34Z',
-            channelId: 'UCDVYQ4Zhbm3S2dlz7P1GBDg',
-            title: 'New York Giants vs Denver Broncos Game Highlights | 2025 NFL Season Week 7',
-            description:
-               'Get NFL Sunday Ticket: https://tv.youtube.com/learn/nflsundayticket/ Watch live local and primetime games, NFL RedZone, and ...',
-            thumbnails: {
-               default: {
-                  url: 'https://i.ytimg.com/vi/z0mBfBAfyJk/default.jpg',
-                  width: 120,
-                  height: 90,
-               },
-               medium: {
-                  url: 'https://i.ytimg.com/vi/z0mBfBAfyJk/mqdefault.jpg',
-                  width: 320,
-                  height: 180,
-               },
-               high: {
-                  url: 'https://i.ytimg.com/vi/z0mBfBAfyJk/hqdefault.jpg',
-                  width: 480,
-                  height: 360,
-               },
-            },
-            channelTitle: 'NFL',
-            liveBroadcastContent: 'none',
-            publishTime: '2025-10-20T00:08:34Z',
-         },
-      },
-      {
-         kind: 'youtube#searchResult',
-         etag: 'NP0ObgNg_9ti3BHLEj1YHSvfA2w',
-         id: {
-            kind: 'youtube#video',
-            videoId: '8ySSpqoQR0g',
-         },
-         snippet: {
-            publishedAt: '2025-10-19T16:45:00Z',
-            channelId: 'UC16niRr50-MSBwiO3YDb3RA',
-            title: 'What are the new allegations against Prince Andrew? | BBC Newscast',
-            description:
-               'Today, new allegations against Prince Andrew have appeared in the Sunday newspapers, accusing him of asking his police ...',
-            thumbnails: {
-               default: {
-                  url: 'https://i.ytimg.com/vi/8ySSpqoQR0g/default.jpg',
-                  width: 120,
-                  height: 90,
-               },
-               medium: {
-                  url: 'https://i.ytimg.com/vi/8ySSpqoQR0g/mqdefault.jpg',
-                  width: 320,
-                  height: 180,
-               },
-               high: {
-                  url: 'https://i.ytimg.com/vi/8ySSpqoQR0g/hqdefault.jpg',
-                  width: 480,
-                  height: 360,
-               },
-            },
-            channelTitle: 'BBC News',
-            liveBroadcastContent: 'none',
-            publishTime: '2025-10-19T16:45:00Z',
-         },
-      },
-      {
-         kind: 'youtube#searchResult',
-         etag: '_PVnnatXo85bFPffjwDCuPK0ANA',
-         id: {
-            kind: 'youtube#video',
-            videoId: 'IHTBUDtzOFM',
-         },
-         snippet: {
-            publishedAt: '2025-10-19T16:53:10Z',
-            channelId: 'UCJekW1Vj5fCVEGdye_mBN6Q',
-            title: 'Israel New Att@ck on G@za | Multiple Martyred | 9 PM News Headlines | Samaa TV',
-            description:
-               'samaatv #middleeast #middleeastconflict #headlines #pakistan #israel #headlinestoday #pakarmy #pakindiaconflict #modi ...',
-            thumbnails: {
-               default: {
-                  url: 'https://i.ytimg.com/vi/IHTBUDtzOFM/default.jpg',
-                  width: 120,
-                  height: 90,
-               },
-               medium: {
-                  url: 'https://i.ytimg.com/vi/IHTBUDtzOFM/mqdefault.jpg',
-                  width: 320,
-                  height: 180,
-               },
-               high: {
-                  url: 'https://i.ytimg.com/vi/IHTBUDtzOFM/hqdefault.jpg',
-                  width: 480,
-                  height: 360,
-               },
-            },
-            channelTitle: 'SAMAA TV',
-            liveBroadcastContent: 'none',
-            publishTime: '2025-10-19T16:53:10Z',
-         },
-      },
-      {
-         kind: 'youtube#searchResult',
-         etag: 'pyTl9v-sGNWL3wNWfN7dIT90iwg',
-         id: {
-            kind: 'youtube#video',
-            videoId: '41uU1EitO18',
-         },
-         snippet: {
-            publishedAt: '2025-10-18T12:32:36Z',
-            channelId: 'UC_vt34wimdCzdkrzVejwX9g',
-            title: '𝐀𝐟𝐠𝐡𝐚𝐧𝐢𝐬𝐭𝐚𝐧 𝐀𝐭𝐭𝐚𝐜𝐤.. - 𝐋𝐚𝐭𝐞𝐬𝐭 𝐍𝐞𝐰𝐬 𝐔𝐩𝐝𝐚𝐭𝐞𝐬..!! | Headlines Geo News 5 PM | 18 October 2025',
-            description:
-               'GeoNews #PakVSAfg #PakAfghanWAR #SohailAfridi #PMLN #DGISPR #PakArmy #WeatherUpdate #ISPR #PAKvsIND ...',
-            thumbnails: {
-               default: {
-                  url: 'https://i.ytimg.com/vi/41uU1EitO18/default.jpg',
-                  width: 120,
-                  height: 90,
-               },
-               medium: {
-                  url: 'https://i.ytimg.com/vi/41uU1EitO18/mqdefault.jpg',
-                  width: 320,
-                  height: 180,
-               },
-               high: {
-                  url: 'https://i.ytimg.com/vi/41uU1EitO18/hqdefault.jpg',
-                  width: 480,
-                  height: 360,
-               },
-            },
-            channelTitle: 'Geo News',
-            liveBroadcastContent: 'none',
-            publishTime: '2025-10-18T12:32:36Z',
+            publishTime: '2022-11-28T11:50:16Z',
          },
       },
    ],
