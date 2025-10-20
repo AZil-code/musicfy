@@ -146,6 +146,71 @@ const songsGroup11 = [
     { title: 'Respect', ytbId: '6FOUqQt3Kg0', album: 'I Never Loved a Man the Way I Love You', genre: 'R&B/Soul', artists: ['Aretha Franklin'], imgUrl: 'https://img.youtube.com/vi/6FOUqQt3Kg0/hqdefault.jpg' },
 ]
 
+const songsGroup12 = [
+    { title: 'Let It Be', ytbId: 'QDYfEBY9NM4', album: 'Let It Be', genre: 'Classic Rock', artists: ['The Beatles'], imgUrl: 'https://img.youtube.com/vi/QDYfEBY9NM4/hqdefault.jpg' },
+    { title: 'Here Comes The Sun', ytbId: 'KQetemT1sWc', album: 'Abbey Road', genre: 'Classic Rock', artists: ['The Beatles'], imgUrl: 'https://img.youtube.com/vi/KQetemT1sWc/hqdefault.jpg' },
+    { title: 'Go Your Own Way', ytbId: '6ul-cZyuYq4', album: 'Rumours', genre: 'Classic Rock', artists: ['Fleetwood Mac'], imgUrl: 'https://img.youtube.com/vi/6ul-cZyuYq4/hqdefault.jpg' },
+    { title: 'The Chain', ytbId: 'JDG2m5hN1vo', album: 'Rumours', genre: 'Classic Rock', artists: ['Fleetwood Mac'], imgUrl: 'https://img.youtube.com/vi/JDG2m5hN1vo/hqdefault.jpg' },
+    { title: 'More Than a Feeling', ytbId: 't4QK8RxCAwo', album: 'Boston', genre: 'Classic Rock', artists: ['Boston'], imgUrl: 'https://img.youtube.com/vi/t4QK8RxCAwo/hqdefault.jpg' },
+    { title: 'Carry On Wayward Son', ytbId: '2X_2IdybTV0', album: 'Leftoverture', genre: 'Classic Rock', artists: ['Kansas'], imgUrl: 'https://img.youtube.com/vi/2X_2IdybTV0/hqdefault.jpg' },
+    { title: 'Separate Ways (Worlds Apart)', ytbId: 'LatorN4P9aA', album: 'Frontiers', genre: 'Rock', artists: ['Journey'], imgUrl: 'https://img.youtube.com/vi/LatorN4P9aA/hqdefault.jpg' },
+    { title: 'Message In A Bottle', ytbId: 'MEb2CYNx-1g', album: 'Reggatta de Blanc', genre: 'Rock', artists: ['The Police'], imgUrl: 'https://img.youtube.com/vi/MEb2CYNx-1g/hqdefault.jpg' },
+    { title: 'Piano Man', ytbId: 'gxEPV4kolz0', album: 'Piano Man', genre: 'Rock', artists: ['Billy Joel'], imgUrl: 'https://img.youtube.com/vi/gxEPV4kolz0/hqdefault.jpg' },
+    { title: 'Rocket Man', ytbId: 'DtVBCG6ThDk', album: 'Honky Château', genre: 'Rock', artists: ['Elton John'], imgUrl: 'https://img.youtube.com/vi/DtVBCG6ThDk/hqdefault.jpg' },
+]
+
+const songsGroup13 = [
+    { title: 'Tiny Dancer', ytbId: 'yYcyacLRPNs', album: 'Madman Across the Water', genre: 'Rock', artists: ['Elton John'], imgUrl: 'https://img.youtube.com/vi/yYcyacLRPNs/hqdefault.jpg' },
+    { title: 'Space Oddity', ytbId: 'iYYRH4apXDo', album: 'David Bowie (Space Oddity)', genre: 'Classic Rock', artists: ['David Bowie'], imgUrl: 'https://img.youtube.com/vi/iYYRH4apXDo/hqdefault.jpg' },
+    { title: 'Black Dog', ytbId: 'z5LW07FTJbI', album: 'Led Zeppelin IV', genre: 'Classic Rock', artists: ['Led Zeppelin'], imgUrl: 'https://img.youtube.com/vi/z5LW07FTJbI/hqdefault.jpg' },
+    { title: 'Kashmir', ytbId: 'sfR_HWMzgyc', album: 'Physical Graffiti', genre: 'Classic Rock', artists: ['Led Zeppelin'], imgUrl: 'https://img.youtube.com/vi/sfR_HWMzgyc/hqdefault.jpg' },
+    { title: 'Purple Haze', ytbId: 'WGoDaYjdfSg', album: 'Are You Experienced', genre: 'Psychedelic Rock', artists: ['Jimi Hendrix'], imgUrl: 'https://img.youtube.com/vi/WGoDaYjdfSg/hqdefault.jpg' },
+    { title: 'Johnny B. Goode', ytbId: 'ZFo8-JqzSCM', album: 'Single', genre: 'Rock & Roll', artists: ['Chuck Berry'], imgUrl: 'https://img.youtube.com/vi/ZFo8-JqzSCM/hqdefault.jpg' },
+    { title: 'In The Air Tonight', ytbId: 'YkADj0TPrJA', album: 'Face Value', genre: 'Rock', artists: ['Phil Collins'], imgUrl: 'https://img.youtube.com/vi/YkADj0TPrJA/hqdefault.jpg' },
+    { title: 'Land of Confusion', ytbId: 'Ypkv0HeUvTc', album: 'Invisible Touch', genre: 'Rock', artists: ['Genesis'], imgUrl: 'https://img.youtube.com/vi/Ypkv0HeUvTc/hqdefault.jpg' },
+    { title: 'Sweet Dreams (Are Made of This)', ytbId: 'qeMFqkcPYcg', album: 'Sweet Dreams (Are Made of This)', genre: 'Synthpop', artists: ['Eurythmics'], imgUrl: 'https://img.youtube.com/vi/qeMFqkcPYcg/hqdefault.jpg' },
+    { title: 'Losing My Religion', ytbId: 'xwtdhWltSIg', album: 'Out of Time', genre: 'Alternative Rock', artists: ['R.E.M.'], imgUrl: 'https://img.youtube.com/vi/xwtdhWltSIg/hqdefault.jpg' },
+]
+
+const songsGroup14 = [
+    { title: 'The Show Must Go On', ytbId: 't99KH0TR-J4', album: 'Innuendo', genre: 'Rock', artists: ['Queen'], imgUrl: 'https://img.youtube.com/vi/t99KH0TR-J4/hqdefault.jpg' },
+    { title: 'I Want to Break Free', ytbId: 'f4Mc-NYPHaQ', album: 'The Works', genre: 'Rock', artists: ['Queen'], imgUrl: 'https://img.youtube.com/vi/f4Mc-NYPHaQ/hqdefault.jpg' },
+    { title: 'Radio Ga Ga', ytbId: 'azdwsXLmrHE', album: 'The Works', genre: 'Rock', artists: ['Queen'], imgUrl: 'https://img.youtube.com/vi/azdwsXLmrHE/hqdefault.jpg' },
+    { title: 'Enter Sandman', ytbId: 'CD-E-LDc384', album: 'Metallica', genre: 'Heavy Metal', artists: ['Metallica'], imgUrl: 'https://img.youtube.com/vi/CD-E-LDc384/hqdefault.jpg' },
+    { title: 'The Unforgiven', ytbId: 'Ckom3gf57Yw', album: 'Metallica', genre: 'Heavy Metal', artists: ['Metallica'], imgUrl: 'https://img.youtube.com/vi/Ckom3gf57Yw/hqdefault.jpg' },
+    { title: 'The Man Who Sold the World (MTV Unplugged)', ytbId: 'fregObNcHC8', album: 'MTV Unplugged in New York', genre: 'Alternative Rock', artists: ['Nirvana'], imgUrl: 'https://img.youtube.com/vi/fregObNcHC8/hqdefault.jpg' },
+    { title: 'Bittersweet Symphony', ytbId: '1lyu1KKwC74', album: 'Urban Hymns', genre: 'Alternative Rock', artists: ['The Verve'], imgUrl: 'https://img.youtube.com/vi/1lyu1KKwC74/hqdefault.jpg' },
+    { title: 'Angie', ytbId: 'RcZn2-bGXqQ', album: 'Goats Head Soup', genre: 'Classic Rock', artists: ['The Rolling Stones'], imgUrl: 'https://img.youtube.com/vi/RcZn2-bGXqQ/hqdefault.jpg' },
+    { title: 'Break On Through (To the Other Side)', ytbId: 'rOpQjD-0G7A', album: 'The Doors', genre: 'Psychedelic Rock', artists: ['The Doors'], imgUrl: 'https://img.youtube.com/vi/rOpQjD-0G7A/hqdefault.jpg' },
+    { title: "Let's Dance", ytbId: 'VbD_kBJc_gI', album: "Let's Dance", genre: 'Rock', artists: ['David Bowie'], imgUrl: 'https://img.youtube.com/vi/VbD_kBJc_gI/hqdefault.jpg' },
+]
+
+const songsGroup15 = [
+    { title: 'Sexual Healing', ytbId: 'rjlSiASsUIs', album: 'Midnight Love', genre: 'R&B/Soul', artists: ['Marvin Gaye'], imgUrl: 'https://img.youtube.com/vi/rjlSiASsUIs/hqdefault.jpg' },
+    { title: "(Sittin' On) The Dock of the Bay", ytbId: 'rTVjnBo96Ug', album: 'The Dock of the Bay', genre: 'R&B/Soul', artists: ['Otis Redding'], imgUrl: 'https://img.youtube.com/vi/rTVjnBo96Ug/hqdefault.jpg' },
+    { title: "Let's Stay Together", ytbId: 'COiIC3A0ROM', album: "Let's Stay Together", genre: 'R&B/Soul', artists: ['Al Green'], imgUrl: 'https://img.youtube.com/vi/COiIC3A0ROM/hqdefault.jpg' },
+    { title: "Ain't No Sunshine", ytbId: 'tIdIqbv7SPo', album: 'Just As I Am', genre: 'R&B/Soul', artists: ['Bill Withers'], imgUrl: 'https://img.youtube.com/vi/tIdIqbv7SPo/hqdefault.jpg' },
+    { title: 'I Just Called to Say I Love You', ytbId: 'QwOU3bnuU0k', album: 'The Woman in Red (Soundtrack)', genre: 'R&B/Soul', artists: ['Stevie Wonder'], imgUrl: 'https://img.youtube.com/vi/QwOU3bnuU0k/hqdefault.jpg' },
+    { title: 'Superstition', ytbId: '0CFuCYNx-1g', album: 'Talking Book', genre: 'R&B/Soul', artists: ['Stevie Wonder'], imgUrl: 'https://img.youtube.com/vi/0CFuCYNx-1g/hqdefault.jpg' },
+    { title: 'End of the Road', ytbId: 'zDKO6XYXioc', album: 'Boomerang (Soundtrack)', genre: 'R&B', artists: ['Boyz II Men'], imgUrl: 'https://img.youtube.com/vi/zDKO6XYXioc/hqdefault.jpg' },
+    { title: "I'll Make Love to You", ytbId: 'fV8vB1BB2Qc', album: 'II', genre: 'R&B', artists: ['Boyz II Men'], imgUrl: 'https://img.youtube.com/vi/fV8vB1BB2Qc/hqdefault.jpg' },
+    { title: 'I Wanna Dance with Somebody', ytbId: 'eH3giaIzONA', album: 'Whitney', genre: 'R&B/Pop', artists: ['Whitney Houston'], imgUrl: 'https://img.youtube.com/vi/eH3giaIzONA/hqdefault.jpg' },
+    { title: "Ain't No Mountain High Enough", ytbId: 'IC5PL0XImjw', album: 'United', genre: 'R&B/Soul', artists: ['Marvin Gaye', 'Tammi Terrell'], imgUrl: 'https://img.youtube.com/vi/IC5PL0XImjw/hqdefault.jpg' },
+]
+
+const songsGroup16 = [
+    { title: 'Halo', ytbId: 'bnVUHWCynig', album: 'I Am... Sasha Fierce', genre: 'R&B/Pop', artists: ['Beyoncé'], imgUrl: 'https://img.youtube.com/vi/bnVUHWCynig/hqdefault.jpg' },
+    { title: 'Crazy In Love (feat. JAY-Z)', ytbId: 'ViwtNLUqkMY', album: 'Dangerously in Love', genre: 'R&B/Pop', artists: ['Beyoncé', 'JAY-Z'], imgUrl: 'https://img.youtube.com/vi/ViwtNLUqkMY/hqdefault.jpg' },
+    { title: 'Umbrella (feat. JAY-Z)', ytbId: 'CvBfHwUxHIk', album: 'Good Girl Gone Bad', genre: 'R&B/Pop', artists: ['Rihanna', 'JAY-Z'], imgUrl: 'https://img.youtube.com/vi/CvBfHwUxHIk/hqdefault.jpg' },
+    { title: 'Diamonds', ytbId: 'lWA2pjMjpBs', album: 'Unapologetic', genre: 'R&B/Pop', artists: ['Rihanna'], imgUrl: 'https://img.youtube.com/vi/lWA2pjMjpBs/hqdefault.jpg' },
+    { title: 'So Sick', ytbId: 'IxszlJppRQI', album: 'In My Own Words', genre: 'R&B', artists: ['Ne-Yo'], imgUrl: 'https://img.youtube.com/vi/IxszlJppRQI/hqdefault.jpg' },
+    { title: 'Miss Independent', ytbId: 'k6M5C-oKw9k', album: 'Year of the Gentleman', genre: 'R&B', artists: ['Ne-Yo'], imgUrl: 'https://img.youtube.com/vi/k6M5C-oKw9k/hqdefault.jpg' },
+    { title: 'Burn', ytbId: 't5XNWFw5HVw', album: 'Confessions', genre: 'R&B', artists: ['Usher'], imgUrl: 'https://img.youtube.com/vi/t5XNWFw5HVw/hqdefault.jpg' },
+    { title: 'With You', ytbId: 'nmjdaBaZe8Y', album: 'Exclusive', genre: 'R&B', artists: ['Chris Brown'], imgUrl: 'https://img.youtube.com/vi/nmjdaBaZe8Y/hqdefault.jpg' },
+    { title: 'Doo Wop (That Thing)', ytbId: 'T6QKqFPRZSA', album: 'The Miseducation of Lauryn Hill', genre: 'R&B/Hip-Hop', artists: ['Lauryn Hill'], imgUrl: 'https://img.youtube.com/vi/T6QKqFPRZSA/hqdefault.jpg' },
+    { title: 'Killing Me Softly', ytbId: 'oKOtzIo-uYw', album: 'The Score', genre: 'R&B/Hip-Hop', artists: ['Fugees'], imgUrl: 'https://img.youtube.com/vi/oKOtzIo-uYw/hqdefault.jpg' },
+]
+
 _createStations()
 
 export const stationService = {
@@ -236,6 +301,11 @@ function _createStations() {
         _buildStation('Singalong Classics', songsGroup9, ['rock', 'favorites']),
         _buildStation('Rock Radio Classics', songsGroup10, ['rock', 'radio']),
         _buildStation('Golden Oldies Mix', songsGroup11, ['classics', 'soul']),
+        _buildStation('Classic Rock Revival', songsGroup12, ['classic-rock', 'revival']),
+        _buildStation('Legends of Sound', songsGroup13, ['rock', 'legends']),
+        _buildStation('Epic Rock Journeys', songsGroup14, ['rock', 'epic']),
+        _buildStation('Soulful Grooves', songsGroup15, ['soul', 'favorites']),
+        _buildStation('Modern R&B Icons', songsGroup16, ['R&B', 'modern']),
     ]
 
     utilService.saveToStorage(STATION_KEY, stations)
