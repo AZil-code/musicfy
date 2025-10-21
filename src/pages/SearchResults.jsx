@@ -15,10 +15,10 @@ export function SearchResults() {
       setSearchResults(await searchYoutube(searchStr));
    }
 
-   if (!searchResults) return <div></div>;
+   if (!searchResults) return <div className="page-station-details search-results-page" />;
 
    return (
-      <div>
+      <div className="page-station-details search-results-page">
          <SongList songs={searchResults} />
       </div>
    );

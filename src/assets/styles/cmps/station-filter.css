@@ -10,6 +10,10 @@
    scrollbar-width: none;
 }
 
+.circle-btn{
+   padding: 5px;
+}
+
 .circle-btn.selected {
    background-color: white;
    color: black;

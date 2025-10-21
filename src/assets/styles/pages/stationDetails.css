@@ -80,3 +80,14 @@
     text-align: center;
     color: rgba(255, 255, 255, 0.65);
 }
+
+.search-results-page {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.search-results-page .song-list {
+    flex: 1;
+}

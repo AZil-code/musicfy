@@ -12,7 +12,7 @@
     gap: 16px;
     padding: 16px;
     box-sizing: border-box;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .spotify-layout-header {
@@ -42,7 +42,7 @@
     background-color: var(--surface-deep);
     border-radius: 8px;
     padding: 0px;
-    overflow: show;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 0;
@@ -56,8 +56,8 @@
     display: flex;
     align-items: stretch;
     justify-content: stretch;
-    overflow: visible;
-    z-index: 99;
+    overflow: hidden;
+    z-index: 1;
 }
 
 .spotify-layout-sidebar > * {

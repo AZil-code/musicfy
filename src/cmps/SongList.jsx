@@ -1,6 +1,13 @@
 import { SongPreview } from './SongPreview.jsx'
 
-export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong, currentSongId, isPlaying }) {
+export function SongList({
+    songIds = [],
+    songs = [],
+    onSelectSong,
+    onRemoveSong,
+    currentSongId,
+    isPlaying,
+}) {
     const normalizedIds = Array.isArray(songIds)
         ? songIds.filter(Boolean).map(String)
         : []
@@ -24,6 +31,9 @@ export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong,
         )
     }
 
+    const handleSelectSong = typeof onSelectSong === 'function' ? onSelectSong : () => {}
+    const handleRemoveSong = typeof onRemoveSong === 'function' ? onRemoveSong : () => {}
+
     return (
         <ul className="song-list">
             {orderedSongs.map((song, idx) => (
@@ -31,8 +41,8 @@ export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong,
                     key={song._id || idx}
                     idx={idx}
                     song={song}
-                    onSelect={onSelectSong}
-                    onRemove={onRemoveSong}
+                    onSelect={handleSelectSong}
+                    onRemove={handleRemoveSong}
                     isCurrent={Boolean(currentSongId) && currentSongId === song._id}
                     isPlaying={isPlaying}
                 />

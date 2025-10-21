@@ -46,9 +46,12 @@ export function StationDetails({ stationId }) {
     ])
 
     const handleSelectSong = (song) => {
+        console.log('song', song)
         if (!song) return
         const selectedId = song._id
         const currentId = currentSong ? currentSong._id : null
+
+        console.log('test')
 
         if (selectedId && currentId && String(selectedId) === String(currentId)) {
             if (isPlaying) pause()

@@ -1,6 +1,6 @@
-import { youtubeService } from '../../services/youtube.service';
-import { SET_RESULTS } from '../reducers/seach.reducer';
-import { store } from '../store';
+import { youtubeService } from '../../services/youtube.service.js';
+import { SET_RESULTS } from '../reducers/seach.reducer.js';
+import { store } from '../store.js';
 
 export async function searchYoutube(searchStr) {
    try {

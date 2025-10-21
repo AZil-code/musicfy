@@ -17,6 +17,10 @@ export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlayin
     const artworkUrl =
         typeof song.imgUrl === 'string' && song.imgUrl.trim().length ? song.imgUrl : fallbackArtwork
 
+    const handleSelect = () => {
+        onSelect(song)
+    }
+
     const handleRemove = (event) => {
         event.stopPropagation()
         onRemove(song)
@@ -26,7 +30,7 @@ export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlayin
         <li
             className="song-preview"
             data-current={isCurrent}
-            onClick={() => onSelect(song)}
+            onClick={handleSelect}
         >
             <div className="song-preview-index">
                 <span className="song-preview-number">{idx + 1}</span>
@@ -36,7 +40,7 @@ export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlayin
                     aria-label={isCurrent && isPlaying ? 'Pause song' : 'Play song'}
                     onClick={(event) => {
                         event.stopPropagation()
-                        onSelect(song)
+                        handleSelect()
                     }}
                 >
                     <svg viewBox="0 0 16 16">

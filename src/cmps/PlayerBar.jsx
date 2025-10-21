@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom'
 import ReactPlayer from 'react-player'
 
 import { songService } from '../services/song.service.js'
-import { setCurrentSong as setCurrentSongAction, play, pause } from '../store/actions/player.actions.js'
+import { setCurrentSong, play, pause } from '../store/actions/player.actions.js'
 import { AddToStationsButton } from './AddToStationsButton.jsx'
 
 const DEBUG_PLAYER = false
 const UPDATE_INTERVAL = 500
 
-const isNumeric = (value) => typeof value === 'number' && !isNaN(value)
+const isValidNumber = (value) => typeof value === 'number' && Number.isFinite(value)
 
 function getCurrentTime(player) {
     if (!player) return 0
@@ -26,7 +26,7 @@ function getDuration(player) {
 }
 
 function seekToSeconds(player, seconds) {
-    if (!player || !isNumeric(seconds)) return
+    if (!player || !isValidNumber(seconds)) return
     if (typeof player.currentTime === 'number') {
         player.currentTime = seconds
     }
@@ -52,7 +52,7 @@ export function PlayerBar() {
                 .query()
                 .then((songs) => {
                     if (!isCancelled && songs && songs.length) {
-                        setCurrentSongAction(songs[0])
+                        setCurrentSong(songs[0])
                     }
                 })
                 .catch((error) => console.error('PlayerBar -> failed to load default song', error))
@@ -67,11 +67,11 @@ export function PlayerBar() {
         setCurrentTime(0)
         const p = playerRef.current
         const detected = getDuration(p)
-        if (isNumeric(detected) && detected > 0) {
+        if (isValidNumber(detected) && detected > 0) {
             setDuration(detected)
         } else if (currentSong && currentSong.duration) {
             const numeric = Number(currentSong.duration)
-            setDuration(isNumeric(numeric) ? numeric : 0)
+            setDuration(isValidNumber(numeric) ? numeric : 0)
         } else {
             setDuration(0)
         }
@@ -79,35 +79,33 @@ export function PlayerBar() {
 
     useEffect(() => {
         if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current)
+            clearInterval(timeoutRef.current)
             timeoutRef.current = null
         }
 
         if (!isPlaying || isSeeking) return
 
-        const tick = () => {
+        timeoutRef.current = setInterval(() => {
             const p = playerRef.current
-            if (p) {
-                const t = getCurrentTime(p)
-                if (isNumeric(t)) setCurrentTime(t)
-                const d = getDuration(p)
-                if (isNumeric(d)) setDuration(d)
-            }
-            timeoutRef.current = setTimeout(tick, UPDATE_INTERVAL)
-        }
+            if (!p) return
 
-        tick()
+            const t = getCurrentTime(p)
+            if (isValidNumber(t)) setCurrentTime(t)
+
+            const d = getDuration(p)
+            if (isValidNumber(d)) setDuration(d)
+        }, UPDATE_INTERVAL)
 
         return () => {
             if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current)
+                clearInterval(timeoutRef.current)
                 timeoutRef.current = null
             }
         }
     }, [isPlaying, isSeeking])
 
     const formatTime = (value) => {
-        if (!isNumeric(value) || value < 0) return '0:00'
+        if (!isValidNumber(value) || value < 0) return '0:00'
         const minutes = Math.floor(value / 60)
         const seconds = Math.floor(value % 60)
         return `${minutes}:${seconds.toString().padStart(2, '0')}`
@@ -117,19 +115,19 @@ export function PlayerBar() {
         if (isSeeking) return
         const p = playerRef.current
         const t = getCurrentTime(p)
-        if (isNumeric(t)) setCurrentTime(t)
+        if (isValidNumber(t)) setCurrentTime(t)
     }
 
     const handleDurationChange = (value) => {
         const d = Number(value)
-        if (isNumeric(d)) setDuration(d)
+        if (isValidNumber(d)) setDuration(d)
     }
 
     const handleSeekStart = () => setIsSeeking(true)
 
     const handleSeekChange = (value) => {
         const fraction = Number(value)
-        if (!isNumeric(fraction) || !duration) return
+        if (!isValidNumber(fraction) || !duration) return
         setCurrentTime(fraction * duration)
     }
 
@@ -137,7 +135,7 @@ export function PlayerBar() {
         const fraction = Number(value)
         const p = playerRef.current
 
-        if (!isNumeric(fraction) || !p || !duration) {
+        if (!isValidNumber(fraction) || !p || !duration) {
             setIsSeeking(false)
             return
         }
@@ -150,7 +148,7 @@ export function PlayerBar() {
 
     const handleVolumeChange = (event) => {
         const nextVolume = Number(event.target.value)
-        if (!isNumeric(nextVolume)) return
+        if (!isValidNumber(nextVolume)) return
         setVolume(nextVolume)
     }
 
