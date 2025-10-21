@@ -1,18 +1,94 @@
-.add-to-stations-btn {
-    padding: 8px 16px;
+.add-to-stations {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.add-to-stations-pill {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     border: none;
-    border-radius: 999px;
-    font-weight: 600;
-    background-color: var(--accent-spotify);
-    color: var(--body-black);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-white);
     cursor: pointer;
-    transition: filter 0.2s ease-in-out;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.add-to-stations-btn:hover {
-    filter: brightness(1.05);
+.add-to-stations-pill:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.03);
 }
 
-.add-to-stations-btn:active {
-    filter: brightness(0.95);
+.add-to-stations-pill:disabled {
+    opacity: 0.4;
+    cursor: default;
+    transform: none;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.add-to-stations-modal {
+    width: 320px;
+    max-height: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.add-to-stations-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.add-to-stations-empty {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.add-to-stations-modal-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow-y: auto;
+    max-height: 280px;
+}
+
+.add-to-stations-modal-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-white);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-to-stations-modal-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.add-to-stations-modal-item.is-added {
+    background: rgba(29, 185, 84, 0.2);
+}
+
+.add-to-stations-modal-name {
+    flex: 1;
+    text-align: left;
+}
+
+.add-to-stations-modal-status {
+    font-weight: 600;
 }

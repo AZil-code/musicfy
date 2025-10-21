@@ -6,6 +6,7 @@ import ReactPlayer from 'react-player'
 
 import { songService } from '../services/song.service.js'
 import { setCurrentSong as setCurrentSongAction, play, pause } from '../store/actions/player.actions.js'
+import { AddToStationsButton } from './AddToStationsButton.jsx'
 
 const DEBUG_PLAYER = false
 const UPDATE_INTERVAL = 500
@@ -195,6 +196,8 @@ export function PlayerBar() {
                     </Link>
                     <p>{artistNames}</p>
                 </div>
+                <AddToStationsButton song={currentSong} />
+
             </section>
 
             <section className="player-bar-controls-section">
