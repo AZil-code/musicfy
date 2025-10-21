@@ -1,40 +1,74 @@
 // https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=YOUR_API_KEY
 
-import { SEARCH_RESULT_AMOUNT, YTB_API_KEY } from '../consts';
+import { SEARCH_RESULT_AMOUNT, YTB_API_KEY } from '../consts'
 
-const base_url = 'https://www.googleapis.com/youtube/v3';
+const BASE_URL = 'https://www.googleapis.com/youtube/v3'
 
 export const youtubeService = {
-   searchSongs,
-   formatSong,
-};
-
-// async function searchSongs(searchStr) {
-//    const type = 'video';
-//    const part = 'snippet';
-//    const endpoint = `${base_url}/search?key=${YTB_API_KEY}&type=${type}&part=${part}&q=${searchStr}&maxResults=${SEARCH_RESULT_AMOUNT}`;
-//    console.log(endpoint);
-//    const res = await fetch(endpoint, { method: 'GET' });
-//    if (!res.ok) throw new Error(`Bad status code! ${res.status} - ${res.statusText}`);
-//    return res;
-// }
-
-// For dev purposes
-async function searchSongs(searchStr) {
-   const a = new Response(JSON.stringify(mockRes));
-   return a;
+    searchSongs,
+    formatSong,
 }
 
+async function searchSongs(searchStr) {
+    if (!searchStr) return []
+
+    const params = new URLSearchParams({
+        key: YTB_API_KEY,
+        type: 'video',
+        part: 'snippet',
+        q: searchStr,
+        maxResults: SEARCH_RESULT_AMOUNT,
+    })
+
+    const response = await fetch(`${BASE_URL}/search?${params.toString()}`, { method: 'GET' })
+    if (!response.ok) {
+        throw new Error(`youtube.service -> Cannot search songs: ${response.status} ${response.statusText}`)
+    }
+
+    const data = await response.json()
+    return Array.isArray(data.items) ? data.items : []
+}
+
+// For dev purposes
+// async function searchSongs(searchStr) {
+//    const a = new Response(JSON.stringify(mockRes));
+//    return a;
+// }
+
 function formatSong(ytbSong) {
-   const { id, snippet } = ytbSong;
-   return {
-      title: snippet.title,
-      ytbId: id.videoId,
-      album: '',
-      genre: '',
-      artists: [snippet.channelTitle],
-      imgUrl: snippet.thumbnails.default,
-   };
+    if (!ytbSong || typeof ytbSong !== 'object') return null
+
+    const { id = {}, snippet = {} } = ytbSong
+    const videoId = id.videoId || id.playlistId || id.channelId || utilRandomId()
+
+    const rawTitle = snippet.title || 'Untitled'
+    const cleanedTitle = rawTitle.replace(/\s*\([^)]*\)|\s*\[[^\]]*\]/g, '').trim()
+
+    const imgUrl =
+        snippet.thumbnails?.medium?.url ||
+        snippet.thumbnails?.high?.url ||
+        snippet.thumbnails?.default?.url ||
+        ''
+
+    return {
+        _id: videoId,
+        title: cleanedTitle || rawTitle,
+        ytbId: videoId,
+        album: snippet.channelTitle || '',
+        genre: snippet.categoryId || '',
+        artists: [snippet.channelTitle || 'Unknown artist'],
+        imgUrl,
+        duration: 0,
+    }
+}
+
+function utilRandomId(length = 8) {
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    let txt = ''
+    for (let i = 0; i < length; i++) {
+        txt += possible.charAt(Math.floor(Math.random() * possible.length))
+    }
+    return txt
 }
 
 const mockRes = {
