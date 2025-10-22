@@ -212,29 +212,29 @@ const songsGroup16 = [
 ]
 
 const songsGroup17 = [
-    { title: 'Holy Wars…The Punishment Due', ytbId: '9d4ui9q7eDM', album: 'Rust in Peace', genre: 'Thrash Metal', artists: ['Megadeth'], imgUrl: 'https://i.ytimg.com/vi/9d4ui9q7eDM/hqdefault.jpg' },
-    { title: 'Raining Blood', ytbId: 'd3-ITn0e00U', album: 'Reign in Blood', genre: 'Thrash Metal', artists: ['Slayer'], imgUrl: 'https://i.ytimg.com/vi/d3-ITn0e00U/hqdefault.jpg' },
-    { title: 'Arise', ytbId: '6BOHpjIZyx0', album: 'Arise', genre: 'Thrash Metal', artists: ['Sepultura'], imgUrl: 'https://i.ytimg.com/vi/6BOHpjIZyx0/hqdefault.jpg' },
-    { title: 'The Toxic Waltz', ytbId: 'n3xC1I2rXHE', album: 'Fabulous Disaster', genre: 'Thrash Metal', artists: ['Exodus'], imgUrl: 'https://i.ytimg.com/vi/n3xC1I2rXHE/hqdefault.jpg' },
-    { title: 'Cowboys from Hell', ytbId: 'i97OkCXwotE', album: 'Cowboys from Hell', genre: 'Thrash Metal', artists: ['Pantera'], imgUrl: 'https://i.ytimg.com/vi/i97OkCXwotE/hqdefault.jpg' },
-    { title: 'Battery (Remastered)', ytbId: 'RvW4OQFA_UY', album: 'Master of Puppets (Remastered)', genre: 'Thrash Metal', artists: ['Metallica'], imgUrl: 'https://i.ytimg.com/vi/RvW4OQFA_UY/hqdefault.jpg' },
-    { title: 'Caught in a Mosh', ytbId: 'zlLn0UicWrM', album: 'Among the Living', genre: 'Thrash Metal', artists: ['Anthrax'], imgUrl: 'https://i.ytimg.com/vi/zlLn0UicWrM/hqdefault.jpg' },
-    { title: 'Pleasure to Kill', ytbId: 'Y90LJipRCFk', album: 'Pleasure to Kill', genre: 'Thrash Metal', artists: ['Kreator'], imgUrl: 'https://i.ytimg.com/vi/Y90LJipRCFk/hqdefault.jpg' },
-    { title: 'Over the Wall', ytbId: 'V8Hr6S_uzCw', album: 'The Legacy', genre: 'Thrash Metal', artists: ['Testament'], imgUrl: 'https://i.ytimg.com/vi/V8Hr6S_uzCw/hqdefault.jpg' },
-    { title: 'Agent Orange', ytbId: 'CjP2HZ4-5ps', album: 'Agent Orange', genre: 'Thrash Metal', artists: ['Sodom'], imgUrl: 'https://i.ytimg.com/vi/CjP2HZ4-5ps/hqdefault.jpg' },
+    { title: 'Holy Wars...The Punishment Due', ytbId: '9d4ui9q7eDM', album: 'Rust in Peace', genre: 'Thrash Metal', artists: ['Megadeth'], imgUrl: 'https://img.youtube.com/vi/9d4ui9q7eDM/hqdefault.jpg' },
+    { title: 'Raining Blood', ytbId: 'd3-ITn0e00U', album: 'Reign in Blood', genre: 'Thrash Metal', artists: ['Slayer'], imgUrl: 'https://img.youtube.com/vi/d3-ITn0e00U/hqdefault.jpg' },
+    { title: 'Arise', ytbId: '6BOHpjIZyx0', album: 'Arise', genre: 'Thrash Metal', artists: ['Sepultura'], imgUrl: 'https://img.youtube.com/vi/6BOHpjIZyx0/hqdefault.jpg' },
+    { title: 'The Toxic Waltz', ytbId: 'n3xC1I2rXHE', album: 'Fabulous Disaster', genre: 'Thrash Metal', artists: ['Exodus'], imgUrl: 'https://img.youtube.com/vi/n3xC1I2rXHE/hqdefault.jpg' },
+    { title: 'Cowboys from Hell', ytbId: 'i97OkCXwotE', album: 'Cowboys from Hell', genre: 'Thrash Metal', artists: ['Pantera'], imgUrl: 'https://img.youtube.com/vi/i97OkCXwotE/hqdefault.jpg' },
+    { title: 'Battery (Remastered)', ytbId: 'RvW4OQFA_UY', album: 'Master of Puppets (Remastered)', genre: 'Thrash Metal', artists: ['Metallica'], imgUrl: 'https://img.youtube.com/vi/RvW4OQFA_UY/hqdefault.jpg' },
+    { title: 'Caught in a Mosh', ytbId: 'zlLn0UicWrM', album: 'Among the Living', genre: 'Thrash Metal', artists: ['Anthrax'], imgUrl: 'https://img.youtube.com/vi/zlLn0UicWrM/hqdefault.jpg' },
+    { title: 'Pleasure to Kill', ytbId: 'Y90LJipRCFk', album: 'Pleasure to Kill', genre: 'Thrash Metal', artists: ['Kreator'], imgUrl: 'https://img.youtube.com/vi/Y90LJipRCFk/hqdefault.jpg' },
+    { title: 'Over the Wall', ytbId: 'V8Hr6S_uzCw', album: 'The Legacy', genre: 'Thrash Metal', artists: ['Testament'], imgUrl: 'https://img.youtube.com/vi/V8Hr6S_uzCw/hqdefault.jpg' },
+    { title: 'Agent Orange', ytbId: 'CjP2HZ4-5ps', album: 'Agent Orange', genre: 'Thrash Metal', artists: ['Sodom'], imgUrl: 'https://img.youtube.com/vi/CjP2HZ4-5ps/hqdefault.jpg' },
 ]
 
 const songsGroup18 = [
-    { title: 'Pull Me Under', ytbId: 'mipc-JxrhRk', album: 'Images and Words', genre: 'Progressive Metal', artists: ['Dream Theater'], imgUrl: 'https://i.ytimg.com/vi/mipc-JxrhRk/hqdefault.jpg' },
-    { title: 'Schism', ytbId: 'MM62wjLrgmA', album: 'Lateralus', genre: 'Progressive Metal', artists: ['Tool'], imgUrl: 'https://i.ytimg.com/vi/MM62wjLrgmA/hqdefault.jpg' },
-    { title: 'Fear of a Blank Planet', ytbId: 'G9Dyy1oNkyk', album: 'Fear of a Blank Planet', genre: 'Progressive Metal', artists: ['Porcupine Tree'], imgUrl: 'https://i.ytimg.com/vi/G9Dyy1oNkyk/hqdefault.jpg' },
-    { title: 'Cockroach King', ytbId: 'x7wwYmgQAmY', album: 'The Mountain', genre: 'Progressive Metal', artists: ['Haken'], imgUrl: 'https://i.ytimg.com/vi/x7wwYmgQAmY/hqdefault.jpg' },
-    { title: 'Blood and Thunder', ytbId: 'labytsb3gfI', album: 'Leviathan', genre: 'Progressive Metal', artists: ['Mastodon'], imgUrl: 'https://i.ytimg.com/vi/labytsb3gfI/hqdefault.jpg' },
-    { title: 'Stranded', ytbId: 'FNdC_3LR2AI', album: 'Magma', genre: 'Progressive Metal', artists: ['Gojira'], imgUrl: 'https://i.ytimg.com/vi/FNdC_3LR2AI/hqdefault.jpg' },
-    { title: 'Serpents Kiss', ytbId: 'V8gA1ooxw0I', album: 'Paradise Lost', genre: 'Progressive Metal', artists: ['Symphony X'], imgUrl: 'https://i.ytimg.com/vi/V8gA1ooxw0I/hqdefault.jpg' },
-    { title: 'Parabola', ytbId: '-_nQhGR0K8M', album: 'Lateralus', genre: 'Progressive Metal', artists: ['Tool'], imgUrl: 'https://i.ytimg.com/vi/-_nQhGR0K8M/hqdefault.jpg' },
-    { title: 'The Grand Conjuration', ytbId: 'AY5LRReFYus', album: 'Ghost Reveries', genre: 'Progressive Metal', artists: ['Opeth'], imgUrl: 'https://i.ytimg.com/vi/AY5LRReFYus/hqdefault.jpg' },
-    { title: 'Another Day', ytbId: 'LYtiDCXLAcQ', album: 'Images and Words', genre: 'Progressive Metal', artists: ['Dream Theater'], imgUrl: 'https://i.ytimg.com/vi/LYtiDCXLAcQ/hqdefault.jpg' },
+    { title: 'Pull Me Under', ytbId: 'mipc-JxrhRk', album: 'Images and Words', genre: 'Progressive Metal', artists: ['Dream Theater'], imgUrl: 'https://img.youtube.com/vi/mipc-JxrhRk/hqdefault.jpg' },
+    { title: 'Schism', ytbId: 'MM62wjLrgmA', album: 'Lateralus', genre: 'Progressive Metal', artists: ['Tool'], imgUrl: 'https://img.youtube.com/vi/MM62wjLrgmA/hqdefault.jpg' },
+    { title: 'Fear of a Blank Planet', ytbId: 'G9Dyy1oNkyk', album: 'Fear of a Blank Planet', genre: 'Progressive Metal', artists: ['Porcupine Tree'], imgUrl: 'https://img.youtube.com/vi/G9Dyy1oNkyk/hqdefault.jpg' },
+    { title: 'Cockroach King', ytbId: 'x7wwYmgQAmY', album: 'The Mountain', genre: 'Progressive Metal', artists: ['Haken'], imgUrl: 'https://img.youtube.com/vi/x7wwYmgQAmY/hqdefault.jpg' },
+    { title: 'Blood and Thunder', ytbId: 'labytsb3gfI', album: 'Leviathan', genre: 'Progressive Metal', artists: ['Mastodon'], imgUrl: 'https://img.youtube.com/vi/labytsb3gfI/hqdefault.jpg' },
+    { title: 'Stranded', ytbId: 'FNdC_3LR2AI', album: 'Magma', genre: 'Progressive Metal', artists: ['Gojira'], imgUrl: 'https://img.youtube.com/vi/FNdC_3LR2AI/hqdefault.jpg' },
+    { title: 'Serpents Kiss', ytbId: 'V8gA1ooxw0I', album: 'Paradise Lost', genre: 'Progressive Metal', artists: ['Symphony X'], imgUrl: 'https://img.youtube.com/vi/V8gA1ooxw0I/hqdefault.jpg' },
+    { title: 'Parabola', ytbId: '-_nQhGR0K8M', album: 'Lateralus', genre: 'Progressive Metal', artists: ['Tool'], imgUrl: 'https://img.youtube.com/vi/-_nQhGR0K8M/hqdefault.jpg' },
+    { title: 'The Grand Conjuration', ytbId: 'AY5LRReFYus', album: 'Ghost Reveries', genre: 'Progressive Metal', artists: ['Opeth'], imgUrl: 'https://img.youtube.com/vi/AY5LRReFYus/hqdefault.jpg' },
+    { title: 'Another Day', ytbId: 'LYtiDCXLAcQ', album: 'Images and Words', genre: 'Progressive Metal', artists: ['Dream Theater'], imgUrl: 'https://img.youtube.com/vi/LYtiDCXLAcQ/hqdefault.jpg' },
 ]
 
 const songsGroup19 = [
@@ -365,8 +365,8 @@ function _buildStation(name, songs, tags = []) {
                 : '',
         tags,
         createdBy: {
-            _id: 'spotify',
-            username: 'Spotify',
+            _id: 'musicfy',
+            username: 'Musicfy',
             imgUrl: 'https://misc.scdn.co/liked-songs/playlist-announcement-image.jpg',
         },
         likedByUsers: [],

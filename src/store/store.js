@@ -1,12 +1,10 @@
 import { combineReducers, compose, legacy_createStore as createStore } from 'redux';
-import { songsReducer } from './reducers/song.reducer.js';
 import { userReducer } from './reducers/user.reducer.js';
 import { stationsReducer } from './reducers/station.reducer.js';
 import { playerReducer } from './reducers/player.reducer.js';
 import { searchReducer } from './reducers/seach.reducer.js';
 
 export const rootReducer = combineReducers({
-   songModule: songsReducer,
    userModule: userReducer,
    stationModule: stationsReducer,
    playerModule: playerReducer,

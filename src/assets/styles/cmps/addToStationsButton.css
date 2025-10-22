@@ -2,32 +2,37 @@
     position: relative;
     display: inline-flex;
     align-items: center;
+    height: auto;
+    width: auto;
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .add-to-stations-pill {
-    width: 32px;
-    height: 32px;
+    background-color: rgba(255, 255, 255, 0);
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    border: none;
+    border: 1.5px solid;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-white);
+    color: var(--text-gray);
+
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease;
+    padding: 0;
 }
 
 .add-to-stations-pill:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.03);
+    color: var(--text-white);
+    border: 1.5px solid;
+    border-color: var(--text-white);
 }
 
 .add-to-stations-pill:disabled {
     opacity: 0.4;
     cursor: default;
     transform: none;
-    background: rgba(255, 255, 255, 0.08);
 }
 
 .add-to-stations-modal {

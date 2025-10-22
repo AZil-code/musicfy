@@ -29,7 +29,15 @@ export function SearchResults() {
             if (isPlaying) pause()
             else play()
         } else {
-            setCurrentSong(song)
+            const queue = searchResults
+            const queueIndex = queue.findIndex(
+                (currSong) => currSong && String(currSong._id) === String(selectedId)
+            )
+            setCurrentSong(song, {
+                queue,
+                queueId: 'search',
+                queueIndex: queueIndex >= 0 ? queueIndex : 0,
+            })
             play()
         }
     }

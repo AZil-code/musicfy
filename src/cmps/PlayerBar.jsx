@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 
 import ReactPlayer from 'react-player'
 
-import { songService } from '../services/song.service.js'
-import { setCurrentSong, play, pause } from '../store/actions/player.actions.js'
+import { setCurrentSong, play, pause, playNext, playPrev } from '../store/actions/player.actions.js'
 import { AddToStationsButton } from './AddToStationsButton.jsx'
 
 const DEBUG_PLAYER = false
@@ -36,7 +35,8 @@ export function PlayerBar() {
     const playerRef = useRef(null)
     const timeoutRef = useRef(null)
 
-    const { currentSong, isPlaying } = useSelector((storeState) => storeState.playerModule)
+    const { currentSong, isPlaying, queue } = useSelector((storeState) => storeState.playerModule)
+    const stations = useSelector((storeState) => storeState.stationModule.stations)
 
     const [volume, setVolume] = useState(0.7)
     const [duration, setDuration] = useState(0)
@@ -45,23 +45,22 @@ export function PlayerBar() {
 
     // Load a default song if none is selected
     useEffect(() => {
-        let isCancelled = false
+        if (currentSong) return
+        if (!Array.isArray(stations) || !stations.length) return
 
-        if (!currentSong) {
-            songService
-                .query()
-                .then((songs) => {
-                    if (!isCancelled && songs && songs.length) {
-                        setCurrentSong(songs[0])
-                    }
-                })
-                .catch((error) => console.error('PlayerBar -> failed to load default song', error))
-        }
+        const stationWithSongs = stations.find(
+            (station) => Array.isArray(station?.songs) && station.songs.length
+        )
+        const firstSong = stationWithSongs ? stationWithSongs.songs[0] : null
 
-        return () => {
-            isCancelled = true
-        }
-    }, [currentSong])
+        if (!firstSong) return
+
+        setCurrentSong(firstSong, {
+            queue: stationWithSongs.songs,
+            queueId: stationWithSongs._id || '',
+            queueIndex: 0,
+        })
+    }, [currentSong, stations])
 
     useEffect(() => {
         setCurrentTime(0)
@@ -153,6 +152,8 @@ export function PlayerBar() {
     }
 
     const progressValue = duration ? Math.min(Math.max(currentTime / duration, 0), 1) : 0
+    const queueLength = Array.isArray(queue) ? queue.length : 0
+    const hasNextPrev = queueLength > 1
 
     const songTitle = (currentSong && currentSong.title) ? currentSong.title : 'song'
     const artistNames = (currentSong && currentSong.artists && Array.isArray(currentSong.artists))
@@ -194,19 +195,82 @@ export function PlayerBar() {
                     </Link>
                     <p>{artistNames}</p>
                 </div>
-                <AddToStationsButton song={currentSong} />
+                <AddToStationsButton className='player-bar-add-to-station' song={currentSong} />
 
             </section>
 
             <section className="player-bar-controls-section">
                 <div className="player-bar-controls-buttons-container">
-                    <button className="player-bar-controls-play" onClick={() => (isPlaying ? pause() : play())}>
+                    <button
+                        className="player-bar-controls-icon player-bar-controls-shuffle white-on-hover"
+                        type="button"
+                        aria-label="Shuffle"
+                    >
+                        <svg role="img" viewBox="0 0 16 16">
+                            <path
+                                d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75zM.391 3.5H0V2h.391c1.109 0 2.16.49 2.873 1.34L4.89 5.277l-.979 1.167-1.796-2.14A2.25 2.25 0 0 0 .39 3.5z"
+                                fill="currentColor"
+                            />
+                            <path
+                                d="m7.5 10.723.98-1.167.957 1.14a2.25 2.25 0 0 0 1.724.804h1.947l-1.017-1.018a.75.75 0 1 1 1.06-1.06l2.829 2.828-2.829 2.828a.75.75 0 1 1-1.06-1.06L13.109 13H11.16a3.75 3.75 0 0 1-2.873-1.34l-.787-.938z"
+                                fill="currentColor"
+                            />
+                        </svg>
+                    </button>
+                    <button
+                        className="player-bar-controls-prev white-on-hover"
+                        onClick={() => playPrev()}
+                        type="button"
+                        aria-label="Previous song"
+                        disabled={!hasNextPrev}
+                    >
+                        <svg role="img" viewBox="0 0 16 16">
+                            <g transform="scale(-1,1) translate(-16,0)">
+                                <path
+                                    d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7Z"
+                                    fill="currentColor"
+                                />
+                            </g>
+                        </svg>
+                    </button>
+                    <button
+                        className="player-bar-controls-play"
+                        onClick={() => (isPlaying ? pause() : play())}
+                        type="button"
+                        aria-label={isPlaying ? 'Pause song' : 'Play song'}
+                    >
                         <svg role="img" viewBox="0 0 16 16">
                             {isPlaying ? (
                                 <path d="M3 2h3v12H3zm7 0h3v12h-3z"></path>
                             ) : (
                                 <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288z"></path>
                             )}
+                        </svg>
+                    </button>
+                    <button
+                        className="player-bar-controls-next white-on-hover"
+                        onClick={() => playNext()}
+                        type="button"
+                        aria-label="Next song"
+                        disabled={!hasNextPrev}
+                    >
+                        <svg role="img" viewBox="0 0 16 16">
+                            <path
+                                d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7Z"
+                                fill="currentColor"
+                            />
+                        </svg>
+                    </button>
+                    <button
+                        className="player-bar-controls-icon player-bar-controls-repeat white-on-hover"
+                        type="button"
+                        aria-label="Repeat"
+                    >
+                        <svg role="img" viewBox="0 0 16 16">
+                            <path
+                                d="M0 4.75A3.75 3.75 0 0 1 3.75 1h8.5A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25h-8.5A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75z"
+                                fill="currentColor"
+                            />
                         </svg>
                     </button>
                 </div>
@@ -233,11 +297,18 @@ export function PlayerBar() {
             <section className="player-bar-buttons-section">
                 <div className="player-bar-volume">
                     <button
-                        className="player-bar-mute-button"
+                        className="player-bar-mute-button white-on-hover"
                         onClick={() => setVolume((prev) => (prev ? -0.1 : 0.7))}
                     >
                         <svg role="img" viewBox="0 0 16 16">
-                            <path d="M3.5 6H1v4h2.5L7 12V4zm7.5 2a2.5 2.5 0 0 0-2-2.45v4.9a2.5 2.5 0 0 0 2-2.45z"></path>
+                            <path
+                                d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88"
+                                fill="currentColor"
+                            />
+                            <path
+                                d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127z"
+                                fill="currentColor"
+                            />
                         </svg>
                     </button>
                     <input

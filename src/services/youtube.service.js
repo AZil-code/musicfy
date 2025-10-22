@@ -1,32 +1,24 @@
 // https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=YOUR_API_KEY
 
-import { SEARCH_RESULT_AMOUNT, YTB_API_KEY } from '../consts'
+import { SEARCH_RESULT_AMOUNT, YTB_API_KEY } from '../consts';
 
-const BASE_URL = 'https://www.googleapis.com/youtube/v3'
+const base_url = 'https://www.googleapis.com/youtube/v3';
 
 export const youtubeService = {
-    searchSongs,
-    formatSong,
-}
+   searchSongs,
+   formatSong,
+};
 
 async function searchSongs(searchStr) {
-    if (!searchStr) return []
-
-    const params = new URLSearchParams({
-        key: YTB_API_KEY,
-        type: 'video',
-        part: 'snippet',
-        q: searchStr,
-        maxResults: SEARCH_RESULT_AMOUNT,
-    })
-
-    const response = await fetch(`${BASE_URL}/search?${params.toString()}`, { method: 'GET' })
-    if (!response.ok) {
-        throw new Error(`youtube.service -> Cannot search songs: ${response.status} ${response.statusText}`)
-    }
-
-    const data = await response.json()
-    return Array.isArray(data.items) ? data.items : []
+   const type = 'video';
+   const part = 'snippet';
+   const endpoint = `${base_url}/search?key=${YTB_API_KEY}&type=${type}&part=${part}&q=${searchStr}&maxResults=${SEARCH_RESULT_AMOUNT}`;
+   console.log(endpoint);
+   const res = await fetch(endpoint, { method: 'GET' });
+   if (!res.ok) throw new Error(`Bad status code! ${res.status} - ${res.statusText}`);
+   const data = await res.json();
+   if (!data || !Array.isArray(data.items)) return [];
+   return data.items;
 }
 
 // For dev purposes
@@ -35,40 +27,21 @@ async function searchSongs(searchStr) {
 //    return a;
 // }
 
-function formatSong(ytbSong) {
-    if (!ytbSong || typeof ytbSong !== 'object') return null
-
-    const { id = {}, snippet = {} } = ytbSong
-    const videoId = id.videoId || id.playlistId || id.channelId || utilRandomId()
-
-    const rawTitle = snippet.title || 'Untitled'
-    const cleanedTitle = rawTitle.replace(/\s*\([^)]*\)|\s*\[[^\]]*\]/g, '').trim()
-
-    const imgUrl =
-        snippet.thumbnails?.medium?.url ||
-        snippet.thumbnails?.high?.url ||
-        snippet.thumbnails?.default?.url ||
-        ''
-
-    return {
-        _id: videoId,
-        title: cleanedTitle || rawTitle,
-        ytbId: videoId,
-        album: snippet.channelTitle || '',
-        genre: snippet.categoryId || '',
-        artists: [snippet.channelTitle || 'Unknown artist'],
-        imgUrl,
-        duration: 0,
-    }
-}
-
-function utilRandomId(length = 8) {
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    let txt = ''
-    for (let i = 0; i < length; i++) {
-        txt += possible.charAt(Math.floor(Math.random() * possible.length))
-    }
-    return txt
+function formatSong(ytbSong = {}) {
+   const { id, snippet = {} } = ytbSong;
+   const videoId = (id && id.videoId) || id || '';
+   const thumbnails = snippet && snippet.thumbnails ? snippet.thumbnails : {};
+   const fallbackImg = thumbnails.high?.url || thumbnails.medium?.url || thumbnails.default?.url || '';
+   const channelTitle = (snippet && snippet.channelTitle) || '';
+   return {
+      _id: videoId,
+      title: snippet.title,
+      ytbId: videoId,
+      album: '',
+      genre: '',
+      artists: channelTitle ? [{ name: channelTitle }] : [],
+      imgUrl: fallbackImg,
+   };
 }
 
 const mockRes = {
@@ -546,7 +519,7 @@ const mockRes = {
             channelId: 'UC2UG5L-a3WC8MuT55ZfNWGA',
             title: 'Waking the Fallen riffs are so good',
             description:
-               'Original by Avenged Sevenfold Instagram : https://www.instagram.com/saysay_gtr Spotify : https://open.spotify.com/artist/5cxIb.',
+               'Original by Avenged Sevenfold Instagram : https://www.instagram.com/saysay_gtr',
             thumbnails: {
                default: {
                   url: 'https://i.ytimg.com/vi/2mnLOTrpoEs/default.jpg',

@@ -3,13 +3,19 @@
     height: 100%;
     display: flex;
     align-items: center;
-    background-color: var(--surface-deep);
+    justify-content: space-between;
+    background-color: var(--body-black);
     color: var(--text-white);
-    padding: 0 24px;
     box-sizing: border-box;
     gap: 24px;
     border-radius: inherit;
     z-index: 99;
+    max-height: 72px;
+    padding: 8px;
+}
+
+.white-on-hover:hover {
+    color: var(--text-white);
 }
 
 .player-bar-hidden-player {
@@ -23,16 +29,22 @@
 }
 
 .player-bar-info-section {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
-    flex: 0 0 280px;
     min-width: 0;
 }
 
+.player-bar-add-to-station {
+    position: relative;
+    right: 0px;
+    margin-left: 24px;
+}
+
 .player-bar-song-img {
-    width: 56px;
-    height: 56px;
+    width: 62px;
+    height: 62px;
     border-radius: 8px;
     object-fit: cover;
     background-color: var(--surface-overlay);
@@ -41,40 +53,48 @@
 .player-bar-info-container {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0px;
+    line-height: 18px;
 }
 
 .player-bar-song-name {
     color: var(--text-white);
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-weight: 500;
     text-decoration: none;
+    font-size: var(--font-player-mid);
+    max-width: 200px;
+    min-width: 120px;
+    overflow: hidden;
+
 }
 
 .player-bar-info-container p {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: var(--font-player-small);
     color: rgba(255, 255, 255, 0.7);
+    max-width: 200px;
+
 }
 
 .player-bar-controls-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
     flex: 1;
-    min-width: 0;
+    min-width: 300px;
+    max-width: 600px;
 }
 
 .player-bar-controls-buttons-container {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
 }
 
 .player-bar-controls-play {
-    width: 46px;
-    height: 46px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: var(--text-white);
     display: grid;
@@ -82,24 +102,22 @@
     border: none;
     cursor: pointer;
     transition: transform 0.15s ease;
+    padding: 0px;
 }
 
-.player-bar-controls-play:hover {
-    transform: scale(1.08);
-}
 
 .player-bar-controls-play svg {
     width: 18px;
     height: 18px;
     fill: var(--body-black);
     display: block;
-    padding: 5px;
+    padding: 0px;
 }
 
 .player-bar-controls-progress-container {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
     width: 100%;
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.7);
@@ -128,7 +146,7 @@
     justify-content: flex-end;
     align-items: center;
     gap: 12px;
-    flex: 0 0 280px;
+    
 }
 
 .player-bar-volume {
@@ -145,7 +163,28 @@
     height: 4px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.3);
+    --fill: var(--body-green); 
 }
+
+input[type="range"]{
+  --track: #4b4b4b;  
+  --fill:  var(--body-green);   
+  --h: 4px;           
+  --thumb: 16px;   
+  --pct: 0%;          
+
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* input[type="range"]::-webkit-slider-runnable-track{
+  height: var(--h);
+  border-radius: 999px;
+  background: var(--track);
+  background-image: linear-gradient(var(--body-green), var(--body-green));
+  background-size: var(--pct) 100%;
+  background-repeat: no-repeat;
+} */
 
 /* .player-bar-volume input::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -165,6 +204,14 @@
    
 }
 
+.player-bar-mute-button {
+    background-color: rgba(255, 255, 255, 0);
+    width: auto;
+    height: auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
 
 
 .player-bar-mute-button svg {
@@ -173,12 +220,42 @@
 
 .player-bar-controls-section .player-bar-controls-play{
     background-color: var(--text-white);
-    width: 40px;
-    height: 40px;
 }
 
 .player-bar-controls-buttons-container button {
     padding: 5px;
+}
+
+.player-bar-controls-icon,
+.player-bar-controls-prev,
+.player-bar-controls-next {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    transition: transform 0.15s ease;
+}
+
+
+.player-bar-controls-icon svg,
+.player-bar-controls-prev svg,
+.player-bar-controls-next svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--text-white);
+    display: block;
+}
+
+.player-bar-controls-icon[aria-pressed='true'],
+.player-bar-controls-icon[data-active='true'] {
+    color: var(--body-green);
+}
+
+.player-bar-controls-prev:disabled,
+.player-bar-controls-next:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .player-bar-volume svg {

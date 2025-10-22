@@ -57,7 +57,17 @@ export function StationDetails({ stationId }) {
             if (isPlaying) pause()
             else play()
         } else {
-            setCurrentSong(song)
+            const queue = songs
+            const queueIndex = queue.findIndex(
+                (currSong) => currSong && String(currSong._id) === String(selectedId)
+            )
+            const queueId = station ? station._id || '' : ''
+
+            setCurrentSong(song, {
+                queue,
+                queueId,
+                queueIndex: queueIndex >= 0 ? queueIndex : 0,
+            })
             play()
         }
     }
