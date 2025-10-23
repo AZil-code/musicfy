@@ -74,7 +74,9 @@ export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlayin
                 aria-label="Song actions"
                 onClick={handleRemove}
             >
-                …
+                <svg viewBox="0 0 16 16" aria-hidden="true" role="img">
+                    <path d="M3 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m6.5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0M16 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"></path>
+                </svg>
             </button>
         </li>
     )

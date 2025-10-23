@@ -2,8 +2,8 @@
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    padding-right: 16px;
-    margin-right: -16px;
+    /* padding-right: 16px;
+    margin-right: -16px; */
     box-sizing: border-box;
     scrollbar-gutter: stable;
 }
@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    padding: 24px 24px 24px 24px;
+    padding: 16px;
     min-height: 100%;
     box-sizing: border-box;
 }
@@ -42,27 +42,29 @@
 .station-details-title {
     margin: 0;
     font-size: clamp(2.5rem, 5vw, 3.5rem);
-    font-weight: 800;
+    font-weight: 1200;
 }
 
-@media (max-width: 768px) {
-    .page-station-details {
-        padding: 20px;
-    }
+.station-details-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
 
-    .station-details-content {
-        padding: 20px;
-    }
+.station-details-user-info-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 0px;
+}
 
-    .station-details-header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+.station-detials-user {
+    font-size: 13px;
+    font-weight: 900;
+}
 
-    .station-details-cover {
-        width: min(220px, 70vw);
-    }
+.station-detials-song-length {
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .page-station-details .song-list,

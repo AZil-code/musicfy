@@ -39,7 +39,7 @@
 
 .spotify-layout-main {
     grid-area: main;
-    background-color: var(--surface-deep);
+    background-color: var(--body-dark-gray);
     border-radius: 8px;
     padding: 0px;
     overflow: hidden;

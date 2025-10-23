@@ -39,6 +39,14 @@ body {
    -moz-osx-font-smoothing: grayscale;
 }
 
+.text-white{
+   color: var(--text-white);
+}
+
+.text-gray{
+   color: var(--text-gray);
+}
+
 a {
    font-weight: 500;
    color: var(--text-link);

@@ -36,6 +36,19 @@ export function SongList({
 
     return (
         <ul className="song-list">
+            <li className='song-preview song-preview-desc-container'>
+                <div className='song-preview-desc song-preview-index-desc song-preview-index'>#</div>
+                <div className='song-preview-desc song-preview-artwork-desc song-preview-artwork'>Title</div>
+                <div className='song-preview-desc song-preview-meta-desc song-preview-meta'></div>
+                <div className='song-preview-desc song-preview-album-desc song-preview-album'>Album</div>
+                <div className='song-preview-desc song-preview-duration-desc song-preview-duration'>
+                    <svg role="img" aria-hidden="true" viewBox="0 0 16 16">
+                        <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8"></path>
+                        <path d="M8 3.25a.75.75 0 0 1 .75.75v3.25H11a.75.75 0 0 1 0 1.5H7.25V4A.75.75 0 0 1 8 3.25"></path>
+                    </svg>
+                </div>
+                <div className='song-preview-more-desc song-preview-more-btn'>...</div>
+            </li>
             {orderedSongs.map((song, idx) => (
                 <SongPreview
                     key={song._id || idx}
