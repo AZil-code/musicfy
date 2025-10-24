@@ -7,7 +7,7 @@
     color: var(--text-gray);
     font-size: small;
     overflow: hidden;
-    padding: 16px 0 16px 16px;
+    /* padding: 16px 0 16px 16px; */
     box-sizing: border-box;
 
     svg {
@@ -31,7 +31,52 @@
     flex-direction: column;
     gap: 12px;
     overflow-y: auto;
-    padding: 0 16px 0 0;
-    margin-right: -16px;
-    scrollbar-gutter: stable;
+    /* padding: 0 16px 0 0;
+    margin-right: -16px; */
+    /* scrollbar-gutter: stable; */
+    margin: 0px;
+}
+
+.side-nav-info-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.add-station-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background-color: var(--body-light-gray);
+    border: none;
+    border-radius: 999px;
+    color: var(--text-white);
+    font-weight: 600;
+    /* width: max-content; */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-station-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--text-white);
+}
+
+.add-station-btn:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.expand-btn{
+    display: none;
+}
+
+/* Ensure pill width is not constrained by the generic header circle size */
+.side-nav header .add-station-btn {
+    width: auto;            /* override header .circle-btn width */
+    height: 35px;           /* keep vertical rhythm with header */
+    padding: 6px 16px;      /* keep nice pill shape */
+    border-radius: 999px;
 }

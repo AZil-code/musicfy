@@ -8,6 +8,7 @@ const validCategories = ['Playlists', 'Artists', 'Albums']; // for development
 export function StationFilter({ category, setCategory, setFilterTxt, filterTxt }) {
    const searchBarRef = useRef(null);
    const carouselRef = useRef(null);
+   const searchSectionRef = useRef(null);
    const filterTxtDebounce = useRef(debounce(setFilterTxt, 750)).current;
 
    useEffect(() => {
@@ -41,11 +42,13 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt }
    }
 
    function onSearchClick({ currentTarget: searchBtn }) {
-      const { current: searchBar } = searchBarRef;
-      searchBtn.style.display = 'none';
+       const { current: searchBar } = searchBarRef;
+      if (searchSectionRef.current) {
+         searchSectionRef.current.classList.add('search-section--open');
+      }
+      searchBar.classList.add('is-open');
       onOutsideSeachBarClick(searchBar, searchBtn);
-      searchBar.style.display = '';
-      searchBar.focus();
+       searchBar.focus();
    }
 
    function onOutsideSeachBarClick(searchBar, searchBtn) {
@@ -53,9 +56,11 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt }
       document.addEventListener(
          'click',
          ({ target }) => {
-            if (!searchBar.contains(target)) {
-               searchBtn.style.display = '';
-               searchBar.style.display = 'none';
+            if (!searchBar.contains(target) && !searchBtn.contains(target)) {
+               if (searchSectionRef.current) {
+                  searchSectionRef.current.classList.remove('search-section--open');
+               }
+               searchBar.classList.remove('is-open');
                searchBar.value = '';
                setFilterTxt('');
                controller.abort();
@@ -115,20 +120,20 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt }
                ›
             </button>
          </div>
-         <input
-            ref={searchBarRef}
-            type="text"
-            className="searchbar"
-            style={{ display: 'none' }}
-            placeholder="Search in Your Library"
-            onChange={({ target }) => filterTxtDebounce(target.value)}
-         />
-         <div className="search-section">
+         
+         <div ref={searchSectionRef} className="search-section">
             <button className="circle-btn search-btn" onClick={onSearchClick}>
                <svg width="16" height="16">
                   <path d="M7 1.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5M.25 7a6.75 6.75 0 1 1 12.096 4.12l3.184 3.185a.75.75 0 1 1-1.06 1.06L11.304 12.2A6.75 6.75 0 0 1 .25 7"></path>
                </svg>
             </button>
+            <input
+               ref={searchBarRef}
+               type="text"
+               className="searchbar"
+               placeholder="Search in Your Library"
+               onChange={({ target }) => filterTxtDebounce(target.value)}
+            />
          </div>
       </div>
    );

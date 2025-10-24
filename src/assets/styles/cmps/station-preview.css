@@ -3,7 +3,8 @@
     grid-template-columns: 48px 1fr;
     align-items: center;
     column-gap: 12px;
-    border-radius: 12px;
+    border: 0px solid;
+    border-radius: 4px;
     padding: 6px 10px;
     transition: background-color 0.2s ease;
 }
@@ -22,8 +23,9 @@
 .station-preview .play-button {
     position: absolute;
     inset: 0;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.35);
     transition: opacity 0.2s ease;
@@ -52,15 +54,19 @@
 .details {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0px;
+    /* line-height: 18px; */
 }
 
 .details .title {
     color: var(--text-white);
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 15px;
+    word-spacing: 2px;
+    letter-spacing: 0.3px;
 }
 
 .details .subtitle {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.85rem;
+    color: var(--text-gray);
+    font-size: 13px;
 }

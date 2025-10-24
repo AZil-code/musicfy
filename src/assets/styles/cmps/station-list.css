@@ -4,17 +4,22 @@
     align-items: stretch;
     margin-right: 0;
     gap: 5px;
+    margin: 0px;
+}
+
+.clean-list {
+    margin: 0px;
 }
 
 .station-list-container li {
-   display: grid;
-   grid-template-areas: 'thumbnail titles button';
-    border-radius: 1%;
+    display: grid;
+    grid-template-areas: 'thumbnail titles button';
+    border-radius: 4px;
 }
 
 .station-list-container li:hover {
     cursor: pointer;
-    background-color: var(--body-mid-gray);
+    background-color: var(--body-light-gray);
 }
 
 .station-list-container li.selected {
@@ -30,12 +35,17 @@
 .side-nav-content .station-list-container ul {
     flex: 1;
     overflow-y: auto;
-    padding-right: 16px;
-    margin-right: -16px;
-    scrollbar-gutter: stable;
+    /* padding-right: 16px;
+    margin-right: -16px; */
+    /* scrollbar-gutter: stable; */
 }
 
 .station-list-container .remove-btn {
    justify-self: flex-end;
    align-self: first baseline;
+}
+
+.side-nav-content {
+    margin: 0px !important;
+    padding: 0px !important;
 }
