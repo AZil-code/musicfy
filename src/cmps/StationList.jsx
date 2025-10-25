@@ -24,7 +24,6 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
 
    function onOpenContextMenu(ev, station) {
       ev.preventDefault();
-      console.log(ev.pageX);
       setContextMenu({
          visible: true,
          x: ev.pageX,
