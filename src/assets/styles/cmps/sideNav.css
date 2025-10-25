@@ -20,9 +20,9 @@
     }
 }
 
-.side-nav header {
+/* .side-nav header {
     padding-right: 16px;
-}
+} */
 
 .side-nav-content {
     flex: 1;
@@ -30,7 +30,8 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    overflow-y: auto;
+    overflow: hidden;
+
     /* padding: 0 16px 0 0;
     margin-right: -16px; */
     /* scrollbar-gutter: stable; */
@@ -42,6 +43,38 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    width: auto;
+}
+
+.collapse-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0);
+    height: 70px;
+}
+
+.collapse-btn h2 {
+    font-size: 16px;
+    margin-left: 12px;
+
+}
+
+.collapse-btn svg { 
+    display: flex;
+    justify-content: center;
+    fill: var(--text-white);
+}
+
+
+.collapse-btn-close {
+    width: 16px;
+    height: 16px;
+}
+
+.collapse-btn-open {
+    width: 20px;
+    height: 20px;
 }
 
 .add-station-btn {
@@ -57,13 +90,10 @@
     /* width: max-content; */
     cursor: pointer;
     transition: background-color 0.2s ease;
+    margin-right: 16px;
 }
 
-.add-station-btn svg {
-    width: 16px;
-    height: 16px;
-    fill: var(--text-white);
-}
+
 
 .add-station-btn:hover {
     background-color: rgba(255, 255, 255, 0.18);

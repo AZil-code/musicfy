@@ -5,10 +5,13 @@
     margin-right: 0;
     gap: 5px;
     margin: 0px;
+    width: auto;
 }
 
 .clean-list {
     margin: 0px;
+    width: auto;
+    overflow-x: hidden;
 }
 
 .station-list-container li {

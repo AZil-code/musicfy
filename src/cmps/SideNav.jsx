@@ -10,11 +10,23 @@ export function SideNav() {
    const [category, setCategory] = useState('');
    const [filterTxt, setFilterTxt] = useState('');
    const [stationToEdit, setStationToEdit] = useState(null);
+   const [isColapsed, setIsColapsed] = useState(false)
    const stations = useSelector((storeState) => storeState.stationModule.stations);
 
    useEffect(() => {
       loadStations();
    }, []);
+
+   // Adjust the main layout columns from the sidebar
+   useEffect(() => {
+      const layoutEl = document.querySelector('.spotify-layout');
+      const original = layoutEl.style.gridTemplateColumns;
+      layoutEl.style.gridTemplateColumns = isColapsed ? '82px 1fr' : '360px 1fr';
+      return () => {
+         // restore on unmount
+         layoutEl.style.gridTemplateColumns = original;
+      };
+   }, [isColapsed]);
 
    async function loadStations() {
       await fetchStations();
@@ -42,14 +54,26 @@ export function SideNav() {
       setStationToEdit(station);
    }
 
+   function onClickColapse() {
+        setIsColapsed(isColapsed ? false : true)
+   }
+
    return (
       <div className="side-nav">
          <header>
             <div className='side-nav-info-container'>
-               <button className="collpase-btn">
-                  <h2>Your Library</h2>
+               <button className="collapse-btn" onClick={onClickColapse}>
+                    <svg className={`collapse-btn-open ${isColapsed ?  '' : 'display-none' }`} role="img" aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M14.457 15.207a1 1 0 0 1-1.414-1.414L14.836 12l-1.793-1.793a1 1 0 0 1 1.414-1.414l2.5 2.5a1 1 0 0 1 0 1.414z"></path>
+                        <path d="M20 22a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2zM4 20V4h4v16zm16 0H10V4h10z"></path>
+                    </svg>
+                  <svg className={`collapse-btn-close ${isColapsed ?  'display-none' : '' }`} role="img" aria-hidden="true" viewBox="0 0 16 16">
+                     <path d="M10.97 5.47a.75.75 0 1 1 1.06 1.06L10.56 8l1.47 1.47a.75.75 0 1 1-1.06 1.06l-2-2a.75.75 0 0 1 0-1.06z"></path>
+                     <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1zm.5 1.5H5v13H1.5zm13 13h-8v-13h8z"></path>
+                  </svg>
+                  <h2 className={`${isColapsed ? 'display-none' : '' }`}>Your Library</h2>
                </button>
-               <button className="circle-btn add-station-btn" onClick={onCreateClick} aria-label="create">
+               <button className={`circle-btn add-station-btn ${isColapsed ? 'display-none' : '' }`} onClick={onCreateClick} aria-label="create">
                   <svg width="16" height="16">
                      <path d="M15.25 8a.75.75 0 0 1-.75.75H8.75v5.75a.75.75 0 0 1-1.5 0V8.75H1.5a.75.75 0 0 1 0-1.5h5.75V1.5a.75.75 0 0 1 1.5 0v5.75h5.75a.75.75 0 0 1 .75.75"></path>
                   </svg>
@@ -73,12 +97,14 @@ export function SideNav() {
                setCategory={setCategory}
                setFilterTxt={setFilterTxt}
                filterTxt={filterTxt}
+               isColapsed={isColapsed}
             />
             <StationList
                stations={stations}
                onEditStation={onSetIsEditOpen}
                onRemoveStation={onRemoveStation}
                filterTxt={filterTxt}
+               isColapsed={isColapsed}
             />
          </div>
          {stationToEdit && (

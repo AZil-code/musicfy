@@ -7,6 +7,7 @@
     border-radius: 4px;
     padding: 6px 10px;
     transition: background-color 0.2s ease;
+    width: auto;
 }
 
 .thumbnail-container {
@@ -69,4 +70,8 @@
 .details .subtitle {
     color: var(--text-gray);
     font-size: 13px;
+}
+
+.station-selected {
+    color: var(--body-green) !important;
 }

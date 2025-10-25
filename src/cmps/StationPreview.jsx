@@ -1,4 +1,4 @@
-export function StationPreview({ station }) {
+export function StationPreview({ station, isColapsed, isSelected }) {
    const songs = station && Array.isArray(station.songs) ? station.songs : [];
    const firstSong = songs.length ? songs[0] : null;
    const hasCover =
@@ -33,8 +33,8 @@ export function StationPreview({ station }) {
             </button>
             <img className="thumbnail" src={coverImage} alt={`${station.name} cover`} loading="lazy" />
          </div>
-         <div className="details">
-            <div className="title">{station.name}</div>
+         <div className={`details ${isColapsed ? 'display-none' : '' }`}>
+            <div className={`title ${isSelected ? 'station-selected' : ''}`}>{station.name}</div>
             <div className="subtitle">{subtitle}</div>
          </div>
       </div>
