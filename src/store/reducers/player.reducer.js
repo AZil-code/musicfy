@@ -69,6 +69,12 @@ export function playerReducer(state = initialState, cmd = {}) {
                 isShuffle: cmd.isShuffle,
             }
         }
+        case SET_IS_REPEAT: {
+            return {
+                ...state,
+                isRepeat: cmd.isRepeat,
+            }
+        }
         default: {
             return state
         }

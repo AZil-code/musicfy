@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import ReactPlayer from 'react-player'
 
-import { setCurrentSong, play, pause, playNext, playPrev, shuffle } from '../store/actions/player.actions.js'
+import { setCurrentSong, play, pause, playNext, playPrev, shuffle, repeat } from '../store/actions/player.actions.js'
 import { AddToStationsButton } from './AddToStationsButton.jsx'
 
 const DEBUG_PLAYER = false
@@ -37,7 +37,7 @@ export function PlayerBar() {
     const shuffleButtonRef = useRef()
     const repeatButtonRef = useRef()
     
-    const { currentSong, isPlaying, queue, isShuffle } = useSelector((storeState) => storeState.playerModule)
+    const { currentSong, isPlaying, queue, isShuffle, isRepeat } = useSelector((storeState) => storeState.playerModule)
     const stations = useSelector((storeState) => storeState.stationModule.stations)
 
     const [volume, setVolume] = useState(0.7)
@@ -153,11 +153,11 @@ export function PlayerBar() {
     }
 
     const handleShuffleClick = () => {
-        shuffle(!isShuffle)
+        if (!isRepeat) shuffle(!isShuffle)
     }
 
     const handleRepeatClick = () => {
-
+        repeat(!isRepeat)
     }
 
     const progressValue = duration ? Math.min(Math.max(currentTime / duration, 0), 1) : 0
@@ -279,6 +279,7 @@ export function PlayerBar() {
                         className="player-bar-controls-icon player-bar-controls-repeat white-on-hover"
                         type="button"
                         aria-label="Repeat"
+                        aria-pressed={!!isRepeat}
                         onClick={handleRepeatClick}
                     >
                         <svg role="img" viewBox="0 0 16 16">

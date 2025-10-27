@@ -40,10 +40,23 @@ export const shuffle = (shuffle) => {
         const orderObject = getIndexArray(queue)
         const playOrder = shuffle ? orderObject.randomizedIndexes : orderObject.orderedIndexes
         
-        dispatch({ type: SET_IS_SHUFFLE, isShuffle: (shuffle ? true : false) })
+        dispatch({ type: SET_IS_SHUFFLE, isShuffle: shuffle })
         dispatch({ type: SET_PLAY_ORDER, playOrder: playOrder })
     }
     catch (e) {
+        console.log('Error in player action: ', e)
+        throw e
+    }
+}
+
+export const repeat = (repeat) => {
+    try {
+        const state = getState()
+        const isShuffle = state.playerModule.isShuffle
+        dispatch({ type: SET_IS_REPEAT, isRepeat: repeat })
+        if (isShuffle) dispatch({ type: SET_IS_SHUFFLE, isShuffle: false })
+    }
+    catch(e) {
         console.log('Error in player action: ', e)
         throw e
     }
@@ -67,18 +80,19 @@ export const setCurrentSong = (song, options = {}) => {
 export const playNext = () => {
     try {
         const state = getState()
-        const { queue = [], queueIndex = -1, isShuffle, playOrder = [] } = state.playerModule || {}
-        // if (!Array.isArray(queue) || !queue.length) return
-
+        const { queue = [], queueIndex = -1, isShuffle, playOrder = [], isRepeat } = state.playerModule || {}
         let nextIndex
         if (isShuffle && Array.isArray(playOrder) && playOrder.length === queue.length) {
             const pos = playOrder.indexOf(queueIndex)
             const nextPos = (pos + 1) % playOrder.length
             nextIndex = playOrder[nextPos]
+        } else if (isRepeat) {
+            nextIndex = queueIndex
         } else {
             nextIndex = (queueIndex + 1) % queue.length
         }
 
+        console.log('nextIndex: ', nextIndex)
         const nextSong = queue[nextIndex]
         if (!nextSong) return
         setCurrentSong(nextSong, { queue, queueIndex: nextIndex })
@@ -91,24 +105,15 @@ export const playNext = () => {
 
 export const playPrev = () => {
     try {
-        // const state = getState()
-        // const { queue = [], queueIndex = -1 } = state.playerModule || {}
-        // if (!Array.isArray(queue) || !queue.length) return
-        // const prevIndex = (queueIndex - 1 + queue.length) % queue.length
-        // const prevSong = queue[prevIndex]
-        // if (!prevSong) return
-        // setCurrentSong(prevSong, { queue, queueIndex: prevIndex })
-        // play()
-
         const state = getState()
-        const { queue = [], queueIndex = -1, isShuffle, playOrder = [] } = state.playerModule || {}
-        // if (!Array.isArray(queue) || !queue.length) return
-
+        const { queue = [], queueIndex = -1, isShuffle, playOrder = [], isRepeat } = state.playerModule || {}
         let nextIndex
         if (isShuffle && Array.isArray(playOrder) && playOrder.length === queue.length) {
             const pos = playOrder.indexOf(queueIndex)
             const nextPos = (pos - 1 + playOrder.length) % playOrder.length
             nextIndex = playOrder[nextPos]
+        } else if (isRepeat) {
+            nextIndex = queueIndex
         } else {
             nextIndex = (queueIndex - 1 + playOrder.length) % queue.length
         }
