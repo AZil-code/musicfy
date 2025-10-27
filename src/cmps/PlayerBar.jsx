@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import ReactPlayer from 'react-player'
 
-import { setCurrentSong, play, pause, playNext, playPrev } from '../store/actions/player.actions.js'
+import { setCurrentSong, play, pause, playNext, playPrev, shuffle } from '../store/actions/player.actions.js'
 import { AddToStationsButton } from './AddToStationsButton.jsx'
 
 const DEBUG_PLAYER = false
@@ -34,8 +34,10 @@ function seekToSeconds(player, seconds) {
 export function PlayerBar() {
     const playerRef = useRef(null)
     const timeoutRef = useRef(null)
-
-    const { currentSong, isPlaying, queue } = useSelector((storeState) => storeState.playerModule)
+    const shuffleButtonRef = useRef()
+    const repeatButtonRef = useRef()
+    
+    const { currentSong, isPlaying, queue, isShuffle } = useSelector((storeState) => storeState.playerModule)
     const stations = useSelector((storeState) => storeState.stationModule.stations)
 
     const [volume, setVolume] = useState(0.7)
@@ -57,7 +59,6 @@ export function PlayerBar() {
 
         setCurrentSong(firstSong, {
             queue: stationWithSongs.songs,
-            queueId: stationWithSongs._id || '',
             queueIndex: 0,
         })
     }, [currentSong, stations])
@@ -151,6 +152,14 @@ export function PlayerBar() {
         setVolume(nextVolume)
     }
 
+    const handleShuffleClick = () => {
+        shuffle(!isShuffle)
+    }
+
+    const handleRepeatClick = () => {
+
+    }
+
     const progressValue = duration ? Math.min(Math.max(currentTime / duration, 0), 1) : 0
     const queueLength = Array.isArray(queue) ? queue.length : 0
     const hasNextPrev = queueLength > 1
@@ -183,7 +192,7 @@ export function PlayerBar() {
 
                 onPlay={() => play()}
                 onPause={() => pause()}
-                onEnded={() => pause()}
+                onEnded={() => playNext()}
                 onError={(error) => console.error('Player error:', error)}
             />
 
@@ -202,9 +211,13 @@ export function PlayerBar() {
             <section className="player-bar-controls-section">
                 <div className="player-bar-controls-buttons-container">
                     <button
+                        ref={shuffleButtonRef}
                         className="player-bar-controls-icon player-bar-controls-shuffle white-on-hover"
                         type="button"
                         aria-label="Shuffle"
+                        aria-pressed={!!isShuffle}
+                        // data-active={!!isShuffle}
+                        onClick={handleShuffleClick}
                     >
                         <svg role="img" viewBox="0 0 16 16">
                             <path
@@ -262,9 +275,11 @@ export function PlayerBar() {
                         </svg>
                     </button>
                     <button
+                        ref={repeatButtonRef}
                         className="player-bar-controls-icon player-bar-controls-repeat white-on-hover"
                         type="button"
                         aria-label="Repeat"
+                        onClick={handleRepeatClick}
                     >
                         <svg role="img" viewBox="0 0 16 16">
                             <path

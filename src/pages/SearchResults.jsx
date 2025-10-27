@@ -35,7 +35,6 @@ export function SearchResults() {
             )
             setCurrentSong(song, {
                 queue,
-                queueId: 'search',
                 queueIndex: queueIndex >= 0 ? queueIndex : 0,
             })
             play()

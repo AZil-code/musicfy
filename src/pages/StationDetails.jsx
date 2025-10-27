@@ -131,8 +131,6 @@ export function StationDetails({ stationId }) {
         const selectedId = song._id
         const currentId = currentSong ? currentSong._id : null
 
-        console.log('test')
-
         if (selectedId && currentId && String(selectedId) === String(currentId)) {
             if (isPlaying) pause()
             else play()
@@ -141,11 +139,8 @@ export function StationDetails({ stationId }) {
             const queueIndex = queue.findIndex(
                 (currSong) => currSong && String(currSong._id) === String(selectedId)
             )
-            const queueId = station ? station._id || '' : ''
-
             setCurrentSong(song, {
                 queue,
-                queueId,
                 queueIndex: queueIndex >= 0 ? queueIndex : 0,
             })
             play()

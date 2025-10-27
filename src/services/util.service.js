@@ -5,6 +5,7 @@ export const utilService = {
    debounce,
    animateCSS,
    getRandomIntInclusive,
+   getIndexArray,
 };
 
 function makeId(length = 5) {
@@ -43,6 +44,22 @@ export function getRandomIntInclusive(min, max) {
    min = Math.ceil(min);
    max = Math.floor(max);
    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export function getIndexArray(array){
+   const orderedIndexes = array.map( (x, index) => index)
+   const unusedIndexes = [ ...orderedIndexes ]
+   const randomizedIndexes = array.map( (x, index, array) => {
+      const idx = unusedIndexes[getRandomIntInclusive(0, unusedIndexes.length - 1)]
+      const pos = unusedIndexes.findIndex((index) => index === idx)
+      if (pos !== -1) unusedIndexes.splice(pos, 1)
+      return idx
+   })
+
+   return {
+      orderedIndexes: orderedIndexes,
+      randomizedIndexes: randomizedIndexes,
+   }
 }
 
 export function animateCSS(el, animation, options = {}) {
