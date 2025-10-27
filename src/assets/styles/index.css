@@ -39,11 +39,11 @@ body {
    -moz-osx-font-smoothing: grayscale;
 }
 
-.text-white{
+.text-white {
    color: var(--text-white);
 }
 
-.text-gray{
+.text-gray {
    color: var(--text-gray);
 }
 
@@ -100,6 +100,9 @@ button:active {
 .circle-btn {
    border-radius: 9999px;
    background-color: var(--button-light-gray);
+}
+.circle-btn:hover {
+   background-color: rgba(255, 255, 255, 0.18);
 }
 
 @media (prefers-color-scheme: light) {
