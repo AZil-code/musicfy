@@ -44,7 +44,7 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
       });
    }
 
-   const filteredStations = stations.filter((station) => station.name.includes(filterTxt));
+   const filteredStations = stations.filter(({ name }) => name.toLowerCase().includes(filterTxt.toLowerCase()));
 
    return (
       <div className="station-list-container">
@@ -56,9 +56,9 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
                   onContextMenu={(ev) => onOpenContextMenu(ev, station)}
                   className={selectedStationId === station._id ? 'selected' : ''}
                >
-                  <StationPreview 
-                     isSelected={station._id === selectedStationId ? true : false} 
-                     station={station} 
+                  <StationPreview
+                     isSelected={station._id === selectedStationId ? true : false}
+                     station={station}
                      isColapsed={isColapsed}
                   />
                </li>
