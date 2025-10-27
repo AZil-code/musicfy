@@ -13,6 +13,20 @@
    height: 32px;
 }
 
+.app-header-middle {
+   display: flex;
+   gap: 10px;
+
+   button {
+      height: 48px;
+      width: 48px;
+   }
+
+   svg {
+      height: 25px;
+   }
+}
+
 .app-header .search-bar {
    display: flex;
    align-items: center;
@@ -47,7 +61,7 @@
    transition: fill 320ms;
 }
 
-.search-active { 
+.search-active {
    border: 2px solid var(--text-white);
 }
 
