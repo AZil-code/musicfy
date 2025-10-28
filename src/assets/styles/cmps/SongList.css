@@ -184,3 +184,9 @@
 .song-preview[data-current="true"] .song-preview-number {
     color: var(--accent-spotify);
 }
+
+.liked-songs-img-container svg{
+    fill: var(--text-white);
+    height: 24px;
+    width: 24px;
+}

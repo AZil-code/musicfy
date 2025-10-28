@@ -3,6 +3,8 @@ import { utilService } from './util.service.js'
 
 const STATION_KEY = 'stationDB'
 
+
+
 const songsGroup1 = [
     { title: 'Never Gonna Give You Up', ytbId: 'dQw4w9WgXcQ', album: 'Single', genre: 'Pop', artists: ['Rick Astley'], imgUrl: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg' },
     { title: 'GANGNAM STYLE', ytbId: '9bZkp7q19f0', album: 'PSY 6 (Six Rules), Part 1', genre: 'K-Pop', artists: ['PSY'], imgUrl: 'https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg' },
@@ -329,6 +331,7 @@ function _createStations() {
     if (existing && existing.length) return
 
     const stations = [
+        _buildStation('Liked Songs', [], ['liked']),
         _buildStation('Global Pop Essentials', songsGroup1, ['pop', 'global']),
         _buildStation('Chart Toppers', songsGroup2, ['hits', 'trending']),
         _buildStation('Alt & Classics Mix', songsGroup3, ['alternative', 'classics']),
