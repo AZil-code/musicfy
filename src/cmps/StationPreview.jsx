@@ -3,18 +3,13 @@ import likedSongsImg from '../assets/imgs/liked-songs-img.png'
 export function StationPreview({ station, isColapsed, isSelected }) {
    const songs = station && Array.isArray(station.songs) ? station.songs : [];
    const firstSong = songs.length ? songs[0] : null;
-   const hasCover =
-      station &&
-      typeof station.coverImage === 'string' &&
-      station.coverImage.trim().length;
+   const hasCover = station && typeof station.coverImage === 'string' && station.coverImage.trim().length;
    const coverImage =
       (hasCover && station.coverImage) ||
       (firstSong && firstSong.imgUrl) ||
       'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=200&q=60';
    const subtitle =
-      firstSong &&
-      Array.isArray(firstSong.artists) &&
-      firstSong.artists.length
+      firstSong && Array.isArray(firstSong.artists) && firstSong.artists.length
          ? firstSong.artists.map((artist) => artist.name).join(', ')
          : 'Handpicked playlist';
 
@@ -44,7 +39,7 @@ export function StationPreview({ station, isColapsed, isSelected }) {
             }
             
          </div>
-         <div className={`details ${isColapsed ? 'display-none' : '' }`}>
+         <div className={`details ${isColapsed ? 'display-none' : ''}`}>
             <div className={`title ${isSelected ? 'station-selected' : ''}`}>{station.name}</div>
             <div className="subtitle">{subtitle}</div>
          </div>

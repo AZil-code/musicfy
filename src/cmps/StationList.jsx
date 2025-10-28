@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const likedSongsImgSrc = 'https://misc.scdn.co/liked-songs/liked-songs-64.png';
 
-export function StationList({ stations, onRemoveStation, filterTxt, onEditStation, isColapsed }) {
+export function StationList({ stations, onRemoveStation, filterTxt, onEditStation, isColapsed, onPlay }) {
    const navigate = useNavigate();
    const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId);
    const [contextMenu, setContextMenu] = useState({
@@ -60,6 +60,7 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
                      isSelected={station._id === selectedStationId ? true : false}
                      station={station}
                      isColapsed={isColapsed}
+                     onClick={onPlay}
                   />
                </li>
             ))}
