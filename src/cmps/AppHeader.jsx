@@ -44,7 +44,7 @@ export function AppHeader() {
 
    return (
       <div className="app-header">
-         <button onClick={onHome}>
+         <button className='app-header-logo-container' onClick={onHome}>
             <svg role="img" viewBox="0 0 24 24" aria-hidden="false">
                <title>Spotify</title>
                <path

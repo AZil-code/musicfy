@@ -14,7 +14,7 @@
     position: relative;
     width: 44px;
     height: 44px;
-    border-radius: 12px;
+    border-radius: 4px;
     overflow: hidden;
     background-color: var(--body-light-gray);
     display: grid;
@@ -32,11 +32,14 @@
     transition: opacity 0.2s ease;
     border: none;
     cursor: pointer;
+    width: auto;
+    padding: 0;
+    border-radius: 4px;
 }
 
 .station-preview .play-button svg {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     fill: var(--text-white);
 }
 

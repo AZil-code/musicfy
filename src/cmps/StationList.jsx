@@ -44,7 +44,7 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
       });
    }
 
-   const filteredStations = stations.filter((station) => station.name.includes(filterTxt));
+   const filteredStations = stations.filter(({ name }) => name.toLowerCase().includes(filterTxt.toLowerCase()));
 
    return (
       <div className="station-list-container">

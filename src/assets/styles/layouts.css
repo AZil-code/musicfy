@@ -1,7 +1,7 @@
 .spotify-layout {
     display: grid;
     grid-template-columns: 360px 1fr;
-    grid-template-rows: 72px 1fr 90px;
+    grid-template-rows: 64px 1fr 90px;
     grid-template-areas:
         "header header"
         "sidebar main"
@@ -9,17 +9,17 @@
     height: 100vh;
     background-color: var(--body-black);
     color: var(--text-white);
-    gap: 8px;
-    padding: 8px;
+    gap: 0px 8px;
+    padding: 0px 8px;
     box-sizing: border-box;
     overflow: hidden;
 }
 
 .spotify-layout-header {
     grid-area: header;
-    background-color: var(--surface-deep);
+    background-color: var(--body-black);
     border-radius: 8px;
-    padding: 16px;
+    padding: 4px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -27,7 +27,7 @@
 
 .spotify-layout-sidebar {
     grid-area: sidebar;
-    background-color: var(--surface-deep);
+    background-color: var(--body-dark-gray);
     border-radius: 8px;
     padding-left: 8px;
     display: flex;
