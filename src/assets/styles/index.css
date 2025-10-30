@@ -6,6 +6,7 @@
 @import './cmps/playerBar.css';
 @import './cmps/sideNav.css';
 @import './cmps/addToStationsButton.css';
+@import './cmps/addToStationsModal.css';
 @import './cmps/progressControl.css';
 @import './cmps/SongList.css';
 @import './cmps/user-msg.css';

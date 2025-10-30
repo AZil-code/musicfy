@@ -93,7 +93,7 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt, 
             >
                ‹
             </button>
-            {categoryBtnsToDisplay.map((btnLabel) => {
+            {/* {categoryBtnsToDisplay.map((btnLabel) => {
                return (
                   <button
                      className={`circle-btn${category === btnLabel ? ' selected' : ''}`}
@@ -103,7 +103,7 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt, 
                      {btnLabel}
                   </button>
                );
-            })}
+            })} */}
 
             {/* Bug - when selecting category ('arist'), page renders button in view before scrollWidth, making it visible */}
             <button

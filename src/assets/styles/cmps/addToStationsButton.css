@@ -97,3 +97,13 @@
 .add-to-stations-modal-status {
     font-weight: 600;
 }
+
+.added-to-liked-svg {
+    height: 16px;
+    width: 16px;
+    fill: var(--body-green);
+}
+
+.added-to-liked-svg:hover {
+    cursor: pointer;
+}

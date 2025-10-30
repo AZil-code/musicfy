@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import ReactPlayer from 'react-player'
 
 import { setCurrentSong, play, pause, playNext, playPrev, shuffle, repeat } from '../store/actions/player.actions.js'
+import { fetchStations } from '../store/actions/station.actions.js'
 import { AddToStationsButton } from './AddToStationsButton.jsx'
 
 const DEBUG_PLAYER = false
@@ -173,6 +174,8 @@ export function PlayerBar() {
         (currentSong && (currentSong.src || currentSong.url || (currentSong.ytbId ? `https://www.youtube.com/watch?v=${currentSong.ytbId}` : undefined))) ||
         'https://www.youtube.com/watch?v=if8dhRibiKM'
 
+
+   
     return (
         <div className="player-bar">
             <ReactPlayer
@@ -204,7 +207,7 @@ export function PlayerBar() {
                     </Link>
                     <p>{artistNames}</p>
                 </div>
-                <AddToStationsButton className='player-bar-add-to-station' song={currentSong} />
+                <AddToStationsButton className='player-bar-add-to-station' song={ currentSong }/>
 
             </section>
 
@@ -340,3 +343,5 @@ export function PlayerBar() {
         </div>
     )
 }
+
+

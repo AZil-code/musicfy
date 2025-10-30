@@ -32,7 +32,7 @@ export function StationDetails({ stationId }) {
         station && typeof station.coverImage === 'string'
             ? station.coverImage.trim()
             : ''
-    const coverImage =
+    const coverImage = station && station.name === 'Liked Songs' ? 'https://misc.scdn.co/liked-songs/liked-songs-300.jpg' :
         coverFromStation ||
         (firstSong && firstSong.imgUrl) ||
         'https://images.unsplash.com/photo-1526243741027-444d633d7365?auto=format&fit=crop&w=600&q=60'

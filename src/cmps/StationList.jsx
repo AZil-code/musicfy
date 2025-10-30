@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const likedSongsImgSrc = 'https://misc.scdn.co/liked-songs/liked-songs-64.png';
 
-export function StationList({ stations, onRemoveStation, filterTxt, onEditStation, isColapsed }) {
+export function StationList({ stations, onRemoveStation, filterTxt, onEditStation, isColapsed, modalVersion=false, songToAdd=null, toggleStation }) {
    const navigate = useNavigate();
    const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId);
    const [contextMenu, setContextMenu] = useState({
@@ -17,9 +17,14 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
       items: null,
    });
 
-   function onSelectStation(stationId) {
-      selectStation(stationId);
-      navigate(`/station/${stationId}`);
+   function onSelectStation(station) {
+      if (modalVersion) {
+         return
+         // toggleStation(station)
+      } else {
+         selectStation(station._id);
+         navigate(`/station/${station._id}`);   
+      }
    }
 
    function onOpenContextMenu(ev, station) {
@@ -52,7 +57,7 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
             {filteredStations.map((station) => (
                <li
                   key={station._id}
-                  onClick={() => onSelectStation(station._id)}
+                  onClick={() => onSelectStation(station)}
                   onContextMenu={(ev) => onOpenContextMenu(ev, station)}
                   className={selectedStationId === station._id ? 'selected' : ''}
                >
@@ -60,6 +65,8 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
                      isSelected={station._id === selectedStationId ? true : false}
                      station={station}
                      isColapsed={isColapsed}
+                     modalVersion={modalVersion}
+                     songToAdd={songToAdd}
                   />
                </li>
             ))}

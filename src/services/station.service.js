@@ -362,8 +362,8 @@ function _buildStation(name, songs, tags = []) {
         _id: stationId,
         name,
         description: `${name} playlist`,
-        coverImage:
-            songs && songs.length && songs[0] && typeof songs[0].imgUrl === 'string'
+        coverImage: name === 'Liked Songs' ? 'https://misc.scdn.co/liked-songs/liked-songs-300.jpg' 
+            : songs && songs.length && songs[0] && typeof songs[0].imgUrl === 'string'
                 ? songs[0].imgUrl
                 : '',
         tags,
