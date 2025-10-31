@@ -28,12 +28,12 @@ export function SongSuggestion({ title, station, onPlay }) {
                ))}
             </div>
             {/* </div> */}
-            <button className="embla__prev" onClick={onScrollPrev}>
+            {/* <button className="embla__prev" onClick={onScrollPrev}>
                Prev
             </button>
             <button className="embla__next" onClick={onScrollNext}>
                Next
-            </button>
+            </button> */}
          </div>
       </section>
    );
