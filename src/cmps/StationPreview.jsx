@@ -13,9 +13,7 @@ export function StationPreview({ station, isColapsed, isSelected, modalVersion=f
       (firstSong && firstSong.imgUrl) ||
       'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=200&q=60';
    const subtitle =
-      firstSong &&
-      Array.isArray(firstSong.artists) &&
-      firstSong.artists.length
+      firstSong && Array.isArray(firstSong.artists) && firstSong.artists.length
          ? firstSong.artists.map((artist) => artist.name).join(', ')
          : 'Handpicked playlist';
 
