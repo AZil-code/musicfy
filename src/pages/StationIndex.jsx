@@ -9,8 +9,12 @@ export function StationIndex() {
 
    function onPlay(station, ev = {}) {
       if (!currentStation || station._id !== currentStation._id) {
+         setCurrentSong(station.songs[0], {
+               queue: station.songs,
+               queueIndex: 0,
+         })
          setCurrentStation(station);
-         setCurrentSong(station.songs[0]);
+         
          play();
       } else if (isPlaying) pause();
       else play();

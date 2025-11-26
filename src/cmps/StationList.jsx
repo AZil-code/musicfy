@@ -57,7 +57,11 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
             {filteredStations.map((station) => (
                <li
                   key={station._id}
-                  onClick={() => onSelectStation(station)}
+                  onClick={(ev) => {
+                     ev.stopPropagation()
+                     onSelectStation(station)
+                     onPlay(station)
+                  }}
                   onContextMenu={(ev) => onOpenContextMenu(ev, station)}
                   className={selectedStationId === station._id ? 'selected' : ''}
                >
@@ -65,7 +69,7 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
                      isSelected={station._id === selectedStationId ? true : false}
                      station={station}
                      isColapsed={isColapsed}
-                     onClick={onPlay}
+                     onPlay={onPlay}
 
                      modalVersion={modalVersion}
                      songToAdd={songToAdd}

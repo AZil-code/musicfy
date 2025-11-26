@@ -15,10 +15,18 @@ export function SideNav() {
    const stations = useSelector((storeState) => storeState.stationModule.stations);
    const { currentStation, isPlaying } = useSelector((store) => store.playerModule);
 
-   function onPlay(station, ev = {}) {
+   function onPlay( station , ev={}) {
+
+      // if (!station) return
+
+      console.log('station: ', station)
+
       if (!currentStation || station._id !== currentStation._id) {
          setCurrentStation(station);
-         setCurrentSong(station.songs[0]);
+         setCurrentSong(station.songs[0], {
+               queue: station.songs,
+               queueIndex: 0,
+         })
          play();
       } else if (isPlaying) pause();
       else play();
