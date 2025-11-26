@@ -17,10 +17,6 @@ export function SideNav() {
 
    function onPlay( station , ev={}) {
 
-      // if (!station) return
-
-      console.log('station: ', station)
-
       if (!currentStation || station._id !== currentStation._id) {
          setCurrentStation(station);
          setCurrentSong(station.songs[0], {

@@ -190,3 +190,7 @@
     height: 24px;
     width: 24px;
 }
+
+.song-preview-add-button{
+    z-index: 4;
+}

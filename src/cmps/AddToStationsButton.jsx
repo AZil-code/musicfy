@@ -25,7 +25,9 @@ export function AddToStationsButton({ song, station=null, inModal=false }) {
     }, [song, stations])  
 
     useEffect( () => {
-        if (song && Array.isArray(stationToAdd.songs)) setIsAdded(stationToAdd.songs.some((item) => item._id === song._id))
+        if (song && stationToAdd && Array.isArray(stationToAdd.songs)) {
+            setIsAdded(stationToAdd.songs.some((item) => item._id === song._id))
+        }
     }, [stationToAdd])
 
     const handleClick = (e) => {

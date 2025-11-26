@@ -1,3 +1,6 @@
+import { AddToStationsButton } from "./AddToStationsButton.jsx"
+
+
 export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlaying, onContextMenu }) {
    const artistNames = Array.isArray(song.artists)
       ? song.artists.map((artist) => artist.name).join(', ')
@@ -64,11 +67,10 @@ export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlayin
             {albumName}
          </div>
 
+         <AddToStationsButton className='song-preview-add-button' song={song}/>
+
          <div className="song-preview-duration">{formattedDuration}</div>
 
-         {/* <button className="song-preview-more-btn" type="button" aria-label="Song actions" onClick={handleRemove}>
-            …
-         </button> */}
       </li>
    );
 }

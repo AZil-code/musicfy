@@ -60,7 +60,6 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
                   onClick={(ev) => {
                      ev.stopPropagation()
                      onSelectStation(station)
-                     onPlay(station)
                   }}
                   onContextMenu={(ev) => onOpenContextMenu(ev, station)}
                   className={selectedStationId === station._id ? 'selected' : ''}
