@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { SearchBar } from './SearchBar';
-import { youtubeService } from '../services/youtube.service';
-import { SongPreview } from './SongPreview';
-import { X } from '../svgs/Icons';
+import { useState } from 'react';
+import { SearchBar } from './SearchBar.jsx';
+import { youtubeService } from '../services/youtube.service.js';
+import { SongPreview } from './SongPreview.jsx';
+import { X } from '../svgs/Icons.jsx';
 
 export function FindMore({ onClose }) {
    const [songs, setSongs] = useState([]);
