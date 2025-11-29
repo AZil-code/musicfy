@@ -83,8 +83,8 @@ export function SongPreview({
             </div>
          )}
 
-         <div className="song-preview-artwork">
-            <img src={artworkUrl} alt={`${song.title || 'Song'} cover art`} loading="lazy" />
+         <div className="song-preview-artwork-container">
+            <img className="song-preview-img" src={artworkUrl} alt={`${song.title || 'Song'} cover art`} loading="lazy" />
          </div>
 
          <div className="song-preview-meta">

@@ -12,10 +12,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 12px;
+    padding: 6px 12px;
     border-radius: 6px;
     transition: background-color 0.2s ease;
     gap: 16px;
+    
 }
 
 .song-preview-index {
@@ -42,6 +43,7 @@
     border-bottom: 1px solid;
     border-color: var(--body-light-gray);
     border-radius: 0px;
+    margin-bottom: 12px;
 }
 
 .song-preview-desc-container:hover {
@@ -50,6 +52,7 @@
 
 .song-preview-number {
     transition: opacity 0.2s ease;
+    font-size: 16px;
 }
 
 .song-preview-desc {
@@ -80,9 +83,9 @@
     fill: currentColor;
 }
 
-.song-preview-artwork {
-    width: 46px;
-    height: 46px;
+.song-preview-artwork-container {
+    width: 40px;
+    height: 40px;
     border-radius: 8px;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.05);
@@ -92,12 +95,12 @@
     flex-shrink: 0;
 }
 
-.song-preview-artwork img {
+.song-preview-artwork-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transform: scale(1.05);
+    transform: scale(1.4);
     display: block;
 }
 
@@ -110,7 +113,7 @@
 }
 
 .song-preview-title {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-white);
     letter-spacing: 0.01em;
     font-size: 0.9rem;
@@ -123,6 +126,7 @@
 .song-preview-artists {
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.85rem;
+    font-weight: 500;
 }
 
 .song-preview-album {
@@ -134,6 +138,7 @@
     min-width: 0;
     flex: 0 0 160px;
     margin-left: 8px;
+    font-weight: 500;
 }
 
 .song-preview-duration {
@@ -144,8 +149,18 @@
     margin-left: 8px;
 }
 
+.song-preview-add-button{
+    z-index: 4;
+    opacity: 0;
+    transition: 0.2s ease-in;
+}
+
 .song-preview:hover {
     background-color: rgba(255, 255, 255, 0.12);
+    
+    .song-preview-add-button{
+        opacity: 1;
+    }
 }
 
 .song-preview-more-btn {
@@ -189,8 +204,4 @@
     fill: var(--text-white);
     height: 24px;
     width: 24px;
-}
-
-.song-preview-add-button{
-    z-index: 4;
 }

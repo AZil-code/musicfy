@@ -3,25 +3,47 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { SongList } from '../cmps/SongList.jsx';
-import { setCurrentSong, play, pause } from '../store/actions/player.actions.js';
+import { setCurrentSong, play, pause, shuffle } from '../store/actions/player.actions.js';
+import { selectStation } from '../store/actions/station.actions.js';
 import { fetchStations, removeSong, updateStationArtwork } from '../store/actions/station.actions.js';
 import { FindMore } from '../cmps/FindMore.jsx';
+import { PlayButton } from '../cmps/PlayButton.jsx';
+import { ShuffleButton } from '../svgs/Icons.jsx';
 
 export function StationDetails({ stationId }) {
    const params = useParams();
    const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId);
    const stations = useSelector((storeState) => storeState.stationModule.stations);
-   const { currentSong, isPlaying } = useSelector((storeState) => storeState.playerModule);
+   const { currentSong, isPlaying, isShuffle } = useSelector((storeState) => storeState.playerModule);
+   
    // const [headerGradient, setHeaderGradient] = useState(null)
    const [isFindMore, setIsFindMore] = useState(false);
+   const [showStickyControls, setShowStickyControls] = useState(false);
 
    const containerRef = useRef();
+   const stickyControlsRef = useRef();
+   const stickySentinelRef = useRef(null);
 
    const activeStationId = selectedStationId || stationId || params.stationID;
+
 
    useEffect(() => {
       if (!stations.length) fetchStations();
    }, [stations.length]);
+
+
+   useEffect(() => {
+      const sentinel = stickySentinelRef.current;
+      if (!sentinel || typeof IntersectionObserver === 'undefined') return;
+
+      const observer = new IntersectionObserver(
+         ([entry]) => setShowStickyControls(!entry.isIntersecting),
+         { root: null, threshold: 0 }
+      );
+
+      observer.observe(sentinel);
+      return () => observer.disconnect();
+   }, []);
 
    const station =
       activeStationId && Array.isArray(stations)
@@ -103,6 +125,7 @@ export function StationDetails({ stationId }) {
 
          const gradient = `linear-gradient(180deg, rgba(${r}, ${g}, ${b}, 0.85) 20%, rgba(${r}, ${g}, ${b}, 0.18) 35%, rgba(18, 18, 18, 1) 100%)`;
          containerRef.current.style.background = gradient;
+         stickyControlsRef && (stickyControlsRef.current.style.background = `rgba(${r},${g},${b}, 1)`)
          // setHeaderGradient(gradient)
       };
 
@@ -139,6 +162,7 @@ export function StationDetails({ stationId }) {
             queue,
             queueIndex: queueIndex >= 0 ? queueIndex : 0,
          });
+         selectStation(station._id)
          play();
       }
    };
@@ -162,6 +186,20 @@ export function StationDetails({ stationId }) {
       setIsFindMore((prev) => !prev);
    }
 
+   function handlePlayClick(){
+      if (station.songs.findIndex((song) => song._id === currentSong._id) !== -1){
+         handleSelectSong(currentSong)
+      } else{
+         shuffle(false)
+         handleSelectSong(station.songs[0])
+      }
+   }
+
+   function handleShuffle(){
+
+      isShuffle ? (shuffle(false)) : (shuffle(true))
+   }
+
    if (!station) {
       return (
          <div className="page-station-details">
@@ -179,7 +217,7 @@ export function StationDetails({ stationId }) {
          >
             <header className="station-details-header">
                <div className="station-details-cover">
-                  <img src={coverImage} alt={`${station.name || 'Station'} cover`} />
+                  <img className="station-details-img" src={coverImage} alt={`${station.name || 'Station'} cover`} />
                </div>
                <div className="station-details-info-container">
                   <p className="station-details-station-type">Playlist</p>
@@ -192,8 +230,31 @@ export function StationDetails({ stationId }) {
                      </span>
                   </p>
                </div>
+               
             </header>
-
+            <div className='station-controls-container'>
+               <PlayButton 
+                  onClick={handlePlayClick}
+                  className='station-play-button'
+                  isPlaying={activeStationId === selectedStationId && isPlaying && (station.songs.findIndex((song) => song._id === currentSong._id) !== -1)}
+                  alwaysShow={true}
+                  variant={'station'}
+               />
+               <button className='station-shuffle-button' onClick={handleShuffle}>
+                  <ShuffleButton className='station-shuffle-icon' ariaPressed={!!isShuffle && (station.songs.findIndex((song) => song._id === currentSong._id) !== -1)}/>
+               </button>
+            </div>
+            <div ref={stickySentinelRef} className="station-controls-sentinel" aria-hidden="true"></div>
+            <div className={`station-controls-sticky ${showStickyControls ? 'is-sticky-visible' : ''}`} ref={stickyControlsRef}>
+               <PlayButton 
+                  onClick={handlePlayClick}
+                  className='station-play-button-sticky'
+                  isPlaying={activeStationId === selectedStationId && isPlaying && (station.songs.findIndex((song) => song._id === currentSong._id) !== -1)}
+                  alwaysShow={true}
+                  variant={'sticky'}
+               />
+               <span>{station.name}</span>
+            </div>
             <SongList
                songs={songs}
                onSelectSong={handleSelectSong}
