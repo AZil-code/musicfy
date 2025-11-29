@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { AddToStationsButton } from "./AddToStationsButton.jsx"
+import { AddToStationsButton } from './AddToStationsButton.jsx';
 
 
 export function StationPreview({ station, isColapsed, isSelected, modalVersion=false, songToAdd=null, onPlay}) {

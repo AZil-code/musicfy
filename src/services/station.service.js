@@ -333,7 +333,7 @@ function _createStations() {
     const stations = [
         _buildStation('Liked Songs', [], ['liked']),
         _buildStation('Global Pop Essentials', songsGroup1, ['pop', 'global']),
-        _buildStation('Chart Toppers', songsGroup2, ['hits', 'trending']),
+        _buildStation('Chart Toppers', songsGroup2, ['pop' ,'hits', 'trending']),
         _buildStation('Alt & Classics Mix', songsGroup3, ['alternative', 'classics']),
         _buildStation('Anthems of Rock', songsGroup4, ['rock', 'classics']),
         _buildStation('Legends Never Fade', songsGroup5, ['rock', 'classics']),

@@ -1,11 +1,20 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import { useSelector } from 'react-redux';
 import { StationCard } from './StationCard';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export function SongSuggestion({ title, station, onPlay }) {
-   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'center' });
-   const stations = useSelector((store) => store.stationModule.stations);
+   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'start' });
+   const [isHovered, setIsHovered] = useState(false);
+   const [canScrollPrev, setCanScrollPrev] = useState(false);
+   const [canScrollNext, setCanScrollNext] = useState(false);
+   const stations = useSelector((store) =>
+      store.stationModule.stations.filter(
+         (station) =>
+            Array.isArray(station.tags) &&
+            station.tags.some((tag) => String(tag).toLowerCase() === String(title).toLowerCase())
+      )
+   );
 
    const onScrollNext = useCallback(() => {
       if (emblaApi) emblaApi.scrollNext();
@@ -14,26 +23,56 @@ export function SongSuggestion({ title, station, onPlay }) {
       if (emblaApi) emblaApi.scrollPrev();
    }, [emblaApi]);
 
+   useEffect(() => {
+      if (!emblaApi) return;
+
+      const updateButtons = () => {
+         setCanScrollPrev(emblaApi.canScrollPrev());
+         setCanScrollNext(emblaApi.canScrollNext());
+      };
+
+      updateButtons();
+      emblaApi.on('select', updateButtons);
+      emblaApi.on('reInit', updateButtons);
+
+      return () => {
+         emblaApi.off('select', updateButtons);
+         emblaApi.off('reInit', updateButtons);
+      };
+   }, [emblaApi]);
+
    if (stations.length === 0) return;
    return (
       <section className="song-suggestion">
          <h3>{title}</h3>
-         <div className="embla" ref={emblaRef}>
-            {/* <div class="embla__viewport"> */}
-            <div className="embla__container">
-               {stations.map((station) => (
-                  <div className="embla__slide">
-                     <StationCard station={station} onClickCard={onPlay} />
-                  </div>
-               ))}
+         <div
+            className={`embla ${canScrollPrev ? 'can-scroll-prev' : ''} ${canScrollNext ? 'can-scroll-next' : ''}`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+         >
+            <div className="embla__viewport" ref={emblaRef}>
+               <div className="embla__container">
+                  {stations.map((station) => (
+                     <div className="embla__slide" key={station._id}>
+                        <StationCard station={station} onClickCard={onPlay} />
+                     </div>
+                  ))}
+               </div>
             </div>
-            {/* </div> */}
-            {/* <button className="embla__prev" onClick={onScrollPrev}>
-               Prev
-            </button>
-            <button className="embla__next" onClick={onScrollNext}>
-               Next
-            </button> */}
+            {isHovered && canScrollPrev && (
+               <button className="embla__btn embla__prev" onClick={onScrollPrev} aria-label="Previous">
+                  <svg viewBox="0 0 16 16" role="img" aria-hidden="true">
+                     <path d="M11.03.47a.75.75 0 0 1 0 1.06L4.56 8l6.47 6.47a.75.75 0 1 1-1.06 1.06L2.44 8 9.97.47a.75.75 0 0 1 1.06 0"></path>
+                  </svg>
+               </button>
+            )}
+            {isHovered && canScrollNext && (
+               <button className="embla__btn embla__next" onClick={onScrollNext} aria-label="Next">
+                  <svg viewBox="0 0 16 16" role="img" aria-hidden="true">
+                     <path d="M4.97.47a.75.75 0 0 0 0 1.06L11.44 8l-6.47 6.47a.75.75 0 1 0 1.06 1.06L13.56 8 6.03.47a.75.75 0 0 0-1.06 0"></path>
+                  </svg>
+               </button>
+            )}
          </div>
       </section>
    );

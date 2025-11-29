@@ -40,7 +40,7 @@
 .station-preview .play-button svg {
     width: 24px;
     height: 24px;
-    fill: var(--text-white);
+    fill: var(--text-white) !important;
 }
 
 .station-preview .thumbnail {

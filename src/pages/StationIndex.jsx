@@ -1,11 +1,21 @@
-import { useSelector } from 'react-redux';
-import { SongSuggestion } from '../cmps/SongSuggestion';
-import { pause, play, setCurrentSong, setCurrentStation } from '../store/actions/player.actions';
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const categories = ['For You', 'Top Hits', 'Best of 2025'];
+import { SongSuggestion } from '../cmps/SongSuggestion'
+import { PlayButton } from '../cmps/PlayButton.jsx'
+import { pause, play, setCurrentSong, setCurrentStation } from '../store/actions/player.actions'
+import { fetchStations } from '../store/actions/station.actions.js'
+import { selectStation } from '../store/actions/station.actions.js'
+import { store } from '../store/store.js';
+
+const categories = ['Pop', 'Rock', 'Metal', 'R&B', 'classics'];
 
 export function StationIndex() {
    const { currentStation, isPlaying } = useSelector((store) => store.playerModule);
+   const { user } = useSelector( (store) => store.userModule)
+   const navigate = useNavigate()
+   
 
    function onPlay(station, ev = {}) {
       if (!currentStation || station._id !== currentStation._id) {
@@ -21,8 +31,34 @@ export function StationIndex() {
       ev.stopPropagation();
    }
 
+   function onSelectStation(station){
+      
+      selectStation(station._id)
+      navigate(`/station/${station._id}`)
+   }
+
    return (
       <div className="page-home">
+         <section className='recently-played-section'>
+            {user.recentlyPlayed && user.recentlyPlayed.map( (station) => {
+               return (
+                  <div className='recently-played-station-container' onClick={() => onSelectStation(station)}>
+                     <div className='recently-played-station-img-container'>
+                        <img className='recently-played-station-img' src={station.name === 'Liked Songs' ? 'https://misc.scdn.co/liked-songs/liked-songs-300.jpg' : station.coverImage } alt="station-img" />
+                     </div>
+                     <span className='recently-played-station-name'>{station.name}</span>
+                     <PlayButton 
+                        className="circle-btn recently-played-play-button"
+                        isPlaying={currentStation === station && isPlaying}
+                        alwaysShow={false}
+                        onClick={(ev) => onPlay(station, ev)}
+                     />
+                     {(isPlaying && currentStation === station) &&
+                        <img className='is-station-playing-img' src="https://open.spotifycdn.com/cdn/images/equaliser-green.f8937a92.svg" alt="isPlaying" />
+                     }
+                  </div>
+               )})}
+         </section>
          {categories.map((category) => (
             <SongSuggestion title={category} onPlay={onPlay} />
          ))}

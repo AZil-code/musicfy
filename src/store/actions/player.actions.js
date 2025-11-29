@@ -6,6 +6,7 @@ import {
    SET_PLAY_ORDER,
    SET_CURRENT_STATION,
 } from '../reducers/player.reducer.js';
+import { addRecentlyPlayed } from './user.actions.js'; 
 import { store } from '../store.js';
 import { getRandomIntInclusive, getIndexArray } from '../../services/util.service.js';
 
@@ -83,7 +84,9 @@ export const setCurrentSong = (song, options = {}) => {
 };
 
 export const setCurrentStation = (station) => {
+   
    try {
+      addRecentlyPlayed(station)
       dispatch({
          type: SET_CURRENT_STATION,
          currentStation: station,

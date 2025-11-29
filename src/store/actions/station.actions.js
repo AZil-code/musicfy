@@ -98,6 +98,7 @@ export async function deleteStation(stationId) {
 }
 
 export function selectStation(stationId) {
+   
    try {
       store.dispatch({ stationId, type: SELECT_STATION });
    } catch (error) {
