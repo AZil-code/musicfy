@@ -1,0 +1,36 @@
+.find-more-btn {
+   margin-left: auto;
+}
+
+.find-more-container {
+   padding: 15px;
+}
+
+.find-more-container button {
+   background-color: transparent;
+}
+
+.find-more-container .search-container {
+   max-width: 400px;
+   width: 400px;
+}
+
+.find-more-container .header {
+   display: flex;
+   justify-content: space-between;
+}
+
+.find-more-container button svg {
+   width: 24px;
+   height: 24px;
+   fill: var(--text-gray);
+}
+
+.find-more-container .song-preview button {
+   width: 61px;
+}
+
+.find-more-container .song-preview button:hover {
+   border: 1px solid;
+   background-color: transparent;
+}

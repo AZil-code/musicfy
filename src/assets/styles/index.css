@@ -16,6 +16,8 @@
 @import './cmps/context-menu.css';
 @import './cmps/modal.css';
 @import './cmps/station-card.css';
+@import './cmps/search-bar.css';
+@import './cmps/find-more.css';
 
 @import './pages/stationDetails.css';
 @import './pages/stationIndex.css';

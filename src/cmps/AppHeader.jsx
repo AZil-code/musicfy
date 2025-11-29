@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { debounce } from '../services/util.service';
 import { useNavigate } from 'react-router-dom';
+import { SearchBar } from './SearchBar';
 
 export function AppHeader() {
    const navigate = useNavigate();
@@ -44,7 +45,7 @@ export function AppHeader() {
 
    return (
       <div className="app-header">
-         <button className='app-header-logo-container' onClick={onHome}>
+         <button className="app-header-logo-container" onClick={onHome}>
             <svg role="img" viewBox="0 0 24 24" aria-hidden="false">
                <title>Spotify</title>
                <path
@@ -65,8 +66,14 @@ export function AppHeader() {
                   <path d="M13.5 1.515a3 3 0 0 0-3 0L3 5.845a2 2 0 0 0-1 1.732V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6h4v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.577a2 2 0 0 0-1-1.732z"></path>
                </svg>
             </button>
-            <div
-               className={`app-header-search-container ${isActive ? 'search-active' : ''}`}
+            <SearchBar
+               placeholderTxt={'What do you want to play?'}
+               onSearch={() => {
+                  null;
+               }}
+            />
+            {/* <div
+               className={`search-container ${isActive ? 'search-active' : ''}`}
                onClick={handleSearchClick}
                ref={searchContainerRef}
             >
@@ -80,7 +87,7 @@ export function AppHeader() {
                   placeholder="What do you want to play?"
                   ref={searchBarRef}
                />
-            </div>
+            </div> */}
          </div>
          <div></div>
       </div>
