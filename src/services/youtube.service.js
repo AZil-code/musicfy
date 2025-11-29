@@ -13,7 +13,6 @@ async function searchSongs(searchStr) {
    const type = 'video';
    const part = 'snippet';
    const endpoint = `${base_url}/search?key=${YTB_API_KEY}&type=${type}&part=${part}&q=${searchStr}&maxResults=${SEARCH_RESULT_AMOUNT}`;
-   console.log(endpoint);
    const res = await fetch(endpoint, { method: 'GET' });
    if (!res.ok) throw new Error(`Bad status code! ${res.status} - ${res.statusText}`);
    const data = await res.json();
@@ -518,8 +517,7 @@ const mockRes = {
             publishedAt: '2023-09-03T09:27:46Z',
             channelId: 'UC2UG5L-a3WC8MuT55ZfNWGA',
             title: 'Waking the Fallen riffs are so good',
-            description:
-               'Original by Avenged Sevenfold Instagram : https://www.instagram.com/saysay_gtr',
+            description: 'Original by Avenged Sevenfold Instagram : https://www.instagram.com/saysay_gtr',
             thumbnails: {
                default: {
                   url: 'https://i.ytimg.com/vi/2mnLOTrpoEs/default.jpg',

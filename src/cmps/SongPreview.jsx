@@ -1,7 +1,15 @@
-import { AddToStationsButton } from "./AddToStationsButton.jsx"
+import { AddToStationsButton } from './AddToStationsButton.jsx';
 
-
-export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlaying, onContextMenu }) {
+export function SongPreview({
+   idx = null,
+   song,
+   onSelect,
+   onRemove,
+   isCurrent = false,
+   isPlaying = false,
+   onContextMenu,
+   type = 'StationDetails',
+}) {
    const artistNames = Array.isArray(song.artists)
       ? song.artists.map((artist) => artist.name).join(', ')
       : 'Unknown artist';
@@ -26,6 +34,25 @@ export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlayin
       onRemove(song);
    };
 
+   function createActions() {
+      switch (type) {
+         case 'FindMore':
+            return <button className="circle-btn">Add</button>;
+         default:
+            return (
+               <>
+                  <div className="song-preview-album" title={albumName}>
+                     {albumName}
+                  </div>
+
+                  <AddToStationsButton className="song-preview-add-button" song={song} />
+
+                  <div className="song-preview-duration">{formattedDuration}</div>
+               </>
+            );
+      }
+   }
+
    return (
       <li
          className="song-preview"
@@ -33,26 +60,28 @@ export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlayin
          onClick={handleSelect}
          onContextMenu={(ev) => onContextMenu(ev, song)}
       >
-         <div className="song-preview-index">
-            <span className="song-preview-number">{idx + 1}</span>
-            <button
-               className="song-preview-play-btn"
-               type="button"
-               aria-label={isCurrent && isPlaying ? 'Pause song' : 'Play song'}
-               onClick={(event) => {
-                  event.stopPropagation();
-                  handleSelect();
-               }}
-            >
-               <svg viewBox="0 0 16 16">
-                  {isCurrent && isPlaying ? (
-                     <path d="M3 2h3v12H3zm7 0h3v12h-3z"></path>
-                  ) : (
-                     <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288z"></path>
-                  )}
-               </svg>
-            </button>
-         </div>
+         {type === 'StationDetails' && (
+            <div className="song-preview-index">
+               <span className="song-preview-number">{idx !== null ? idx + 1 : idx}</span>
+               <button
+                  className="song-preview-play-btn"
+                  type="button"
+                  aria-label={isCurrent && isPlaying ? 'Pause song' : 'Play song'}
+                  onClick={(event) => {
+                     event.stopPropagation();
+                     handleSelect();
+                  }}
+               >
+                  <svg viewBox="0 0 16 16">
+                     {isCurrent && isPlaying ? (
+                        <path d="M3 2h3v12H3zm7 0h3v12h-3z"></path>
+                     ) : (
+                        <path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288z"></path>
+                     )}
+                  </svg>
+               </button>
+            </div>
+         )}
 
          <div className="song-preview-artwork">
             <img src={artworkUrl} alt={`${song.title || 'Song'} cover art`} loading="lazy" />
@@ -63,14 +92,7 @@ export function SongPreview({ idx, song, onSelect, onRemove, isCurrent, isPlayin
             <div className="song-preview-artists">{artistNames}</div>
          </div>
 
-         <div className="song-preview-album" title={albumName}>
-            {albumName}
-         </div>
-
-         <AddToStationsButton className='song-preview-add-button' song={song}/>
-
-         <div className="song-preview-duration">{formattedDuration}</div>
-
+         {createActions()}
       </li>
    );
 }
