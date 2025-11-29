@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { selectStation } from '../store/actions/station.actions';
 import { useSelector } from 'react-redux';
+import { PlayButton } from './PlayButton';
+import { ShortenedTxt } from '../cmps/ShortenedTxt.jsx';
 
 export function StationCard({ station, onClickCard }) {
    const { isPlaying, currentStation } = useSelector((store) => store.playerModule);
@@ -16,29 +18,29 @@ export function StationCard({ station, onClickCard }) {
       firstSong && Array.isArray(firstSong.artists) && firstSong.artists.length
          ? firstSong.artists.map((artist) => artist.name).join(', ')
          : 'Handpicked playlist';
+   const isCurrentStation = currentStation && currentStation._id === station._id;
+   const isStationPlaying = Boolean(isPlaying && isCurrentStation);
 
    function onSelectStation(stationId) {
       selectStation(stationId);
       navigate(`/station/${stationId}`);
-   }
+   } 
 
    return (
-      <div className="station-card">
+      <div className="station-card" onClick={() => onSelectStation(station._id)}>
          {/* <div className="thumbnail-container"> */}
-         <button className="thumbnail-btn thumbnail-container" onClick={() => onSelectStation(station._id)}>
-            <button className="play-button circle-btn" onClick={(ev) => onClickCard(station, ev)}>
-               <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24" height={25} width={25}>
-                  {isPlaying && currentStation && currentStation._id === station._id ? (
-                     <path d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7z"></path>
-                  ) : (
-                     <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606"></path>
-                  )}
-               </svg>
-            </button>
+         <button className="thumbnail-btn thumbnail-container" >
+            <PlayButton
+               className="circle-btn"
+               variant="card"
+               isPlaying={isStationPlaying}
+               alwaysShow={isStationPlaying}
+               onClick={(ev) => onClickCard(station, ev)}
+            />
             <img className="thumbnail" src={coverImage} alt={`${station.name} cover`} loading="lazy" />
          </button>
          {/* </div> */}
-         <div>{station.name}</div>
+         <ShortenedTxt text={station.name} numOfCharToDisplay={20} className="station-name"></ShortenedTxt>
          {/* <div className={`details ${isColapsed ? 'display-none' : '' }`}>
             <div className={`title ${isSelected ? 'station-selected' : ''}`}>{station.name}</div>
             <div className="subtitle">{subtitle}</div>

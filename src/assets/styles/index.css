@@ -23,6 +23,7 @@
 
 @import './pages/stationDetails.css';
 @import './pages/stationIndex.css';
+@import './cmps/playButton.css';
 
 html,
 body {
