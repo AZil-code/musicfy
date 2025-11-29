@@ -32,6 +32,7 @@ export function AddToStationsButton({ song, station=null, inModal=false }) {
 
     const handleClick = (e) => {
 
+        e.stopPropagation()
         if (isAdded) {
             if (inModal && stationToAdd) {
                 removeSong(stationToAdd, song)
