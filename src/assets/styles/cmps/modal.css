@@ -13,7 +13,7 @@
    font-size: 1.1em;
    inset: 0;
    width: 524px;
-   height: 425px;
+   height: 384px;
    /* max-width: 425px; */
    /* height: fit-content; */
    /* padding: 33px; */
@@ -26,25 +26,17 @@
    justify-content: space-evenly;
    margin: auto;
    z-index: 99;
-
-   .submit-btn {
-      background-color: var(--text-white);
-      color: black;
-      font-size: large;
-      align-self: flex-end;
-      margin: 30px;
-      width: 99px;
-      height: 48px;
-   }
 }
 
 .modal-header {
    display: flex;
-   justify-content: space-between; /* title left, button right */
+   justify-content: space-between;
    align-items: center; /* vertically center them */
    width: 100%;
-   padding: 0 20px; /* optional side padding */
+   padding: 0 20px;
    box-sizing: border-box;
+   font-size: medium;
+   font-weight: bold;
 }
 
 .modal-title {
@@ -59,10 +51,23 @@
    font-size: 1.2em;
    cursor: pointer;
    transition: opacity 0.2s;
+   height: 32px;
+   width: 32px;
+   border-radius: 100%;
+   display: grid;
+   align-content: center;
+   justify-content: center;
 }
 
 .close-btn:hover {
-   opacity: 0.8;
+   cursor: default;
+   background-color: var(--body-light-gray);
+}
+
+.close-btn svg {
+   width: 16px;
+   height: 16px;
+   justify-self: center;
 }
 
 .modal-content .content-container {
@@ -71,8 +76,9 @@
    grid-template-rows: 1fr 3fr;
    grid-template-areas:
       'img name'
-      'img description';
-   gap: 24px;
+      'img description'
+      '. save';
+   gap: 18px;
 
    img {
       grid-area: img;
@@ -80,8 +86,10 @@
       height: 180px;
    }
 
-   input {
+   .input {
       border-radius: 5%;
+      padding: 5px;
+      font: inherit;
    }
 
    .field-name {
@@ -90,5 +98,18 @@
 
    .field-desc {
       grid-area: description;
+   }
+   .submit-btn {
+      background-color: var(--text-white);
+      color: black;
+      font-size: large;
+      align-self: flex-end;
+      width: 99px;
+      height: 48px;
+      grid-area: save;
+      justify-self: end;
+      border-radius: 30px;
+      border: none;
+      outline: none;
    }
 }

@@ -1,0 +1,26 @@
+.edit-modal .content-container .input {
+   border-color: transparent;
+   background-color: var(--body-light-gray);
+   border-radius: 2%;
+}
+
+.edit-modal .content-container .input:focus {
+   border: 1px solid;
+   border-color: #636363;
+   outline: none;
+}
+
+.edit-modal .submit-btn {
+   font-weight: bold;
+}
+
+.edit-modal .submit-btn:hover {
+   background-color: var(--surface-contrast);
+   transform: scale(1.05);
+   cursor: pointer;
+}
+
+.edit-modal svg {
+   width: 16px;
+   height: 16px;
+}
