@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { AddToStationsModal } from './AddToStationsModal.jsx'
 import { addSong, removeSong, createStation, saveStation, fetchStations } from '../store/actions/station.actions.js'
 
-export function AddToStationsButton({ song, station=null, inModal=false }) {
+export function AddToStationsButton({ song, station=null, inModal=false, className='' }) {
     const stations = useSelector((state) => state.stationModule.stations)
     const [isOpen, setIsOpen] = useState(false)
     const [isAdded, setIsAdded] = useState(false)
@@ -47,7 +47,7 @@ export function AddToStationsButton({ song, station=null, inModal=false }) {
     }
  
     return (
-        <div ref={containerRef} className="add-to-stations">
+        <div ref={containerRef} className={`add-to-stations `+className}>
             {
                 isAdded ? 
                     <svg 

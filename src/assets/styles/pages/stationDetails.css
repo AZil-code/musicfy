@@ -4,39 +4,46 @@
     overflow-y: auto;
     /* padding-right: 16px;
     margin-right: -16px; */
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     scrollbar-gutter: stable;
+    position: relative;
 }
 
 .station-details-content {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    padding: 16px;
+    padding: 24px;
     min-height: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
 .station-details-header {
     display: flex;
     align-items: flex-end;
     gap: 24px;
+    position: relative;
 }
 
 .station-details-cover {
     width: 200px;
     aspect-ratio: 1;
-    border-radius: 16px;
+    border-radius: 4px;
     overflow: hidden;
     background-color: rgba(255, 255, 255, 0.06);
     flex-shrink: 0;
+    box-shadow: 0 0 24px 8px rgba(0, 0, 0, 0.15);
 }
+
 
 .station-details-cover img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    transform: scale(1.4);
+    
 }
 
 .station-details-title {
@@ -92,4 +99,84 @@
 
 .search-results-page .song-list {
     flex: 1;
+}
+
+.station-controls-container{
+    display: flex;
+    /* margin-top: 16px; */
+    top: 20px;
+    position: relative;
+}
+
+.play-button--station{
+    height: 56px;
+    width: 56px;
+    border: 0px solid;
+    border-radius: 50%;
+}
+
+.play-button--station:hover{
+    background-color: var(--body-light-green) !important;
+}
+
+
+.station-controls-container .station-shuffle-button {
+
+    background-color: rgba(0, 0, 0, 0);
+
+    /* svg{
+        height: 16px;
+        width: 16px;
+        fill: var(--body-light-gray) !important;
+    } */
+}
+
+.station-shuffle-icon{
+    height: 30px;
+    width: 32px;
+    /* fill: var(--body-light-gray) !important; */
+    fill: var(--text-gray);
+}
+
+.station-shuffle-icon[aria-pressed='true'] {
+    fill: var(--body-green) !important;
+}
+
+.station-controls-sentinel{
+    width: 100%;
+    height: 1px;
+    pointer-events: none;
+}
+
+.station-controls-sticky{
+    padding: 8px;
+    width: calc(100% + 32px);
+    margin-left: -24px;
+    margin-right: -24px;
+    display: none;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    z-index: 6;
+    transition: 0.3s ease-in;
+    /* opacity: 0; */
+    span{
+        margin-left: 8px;
+        font-size: 22px;
+        font-weight: 700;
+        /* letter-spacing: 0.01rem; */
+    }
+}
+
+.play-button--sticky{
+    height: 48px;
+    width: 48px;
+    margin-left: 18px;
+    border: 0px solid;
+    border-radius: 50%;
+}
+
+.station-controls-sticky.is-sticky-visible{
+    display: flex;
+    /* opacity: 1; */
 }

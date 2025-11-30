@@ -43,6 +43,7 @@ export const playPause = (isPlaying) => {
 
 export const shuffle = (shuffle) => {
    try {
+      console.log('shuffle: ', shuffle)
       const state = getState();
       const queue = state.playerModule.queue;
       const orderObject = getIndexArray(queue);
