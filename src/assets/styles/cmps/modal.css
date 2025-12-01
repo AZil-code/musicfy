@@ -52,10 +52,10 @@
    cursor: pointer;
    transition: opacity 0.2s;
    height: 32px;
-   width: 32px;
-   border-radius: 100%;
-   display: grid;
-   align-content: center;
+   width: 32px !important;
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
    justify-content: center;
 }
 
@@ -67,7 +67,8 @@
 .close-btn svg {
    width: 16px;
    height: 16px;
-   justify-self: center;
+   /* fill: ; */
+   /* justify-self: center; */
 }
 
 .modal-content .content-container {

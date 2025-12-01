@@ -1,3 +1,8 @@
+.song-list-container{
+    position: relative;
+    width: 100%;
+}
+
 .song-list {
     list-style: none;
     margin: 0;
@@ -6,27 +11,29 @@
     flex-direction: column;
     gap: 4px;
     width: 100%;
+    position: relative;
 }
 
 .song-preview {
-    display: flex;
+    display: grid;
+    grid-template-columns: 36px 48px minmax(0, 2fr) minmax(0, 1.6fr) 44px 56px;
     align-items: center;
-    justify-content: space-between;
-    padding: 6px 12px;
+    column-gap: 12px;
+    padding: 8px 12px;
     border-radius: 6px;
     transition: background-color 0.2s ease;
-    gap: 16px;
-    
+    position: relative;
 }
 
 .song-preview-index {
-    position: relative;
+    position: sticky;
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 255, 0.6);
     font-size: 0.875rem;
-    flex: 0 0 32px;
+    width: 32px;
+    top: 80px;
 }
 
 .song-preview-duration-desc svg {
@@ -84,8 +91,8 @@
 }
 
 .song-preview-artwork-container {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 8px;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.05);
@@ -93,6 +100,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    justify-self: center;
 }
 
 .song-preview-artwork-container img {
@@ -107,9 +115,8 @@
 .song-preview-meta {
     display: flex;
     flex-direction: column;
-    line-height: 18px ;
+    line-height: 18px;
     min-width: 0;
-    flex: 1;
 }
 
 .song-preview-title {
@@ -125,8 +132,8 @@
 
 .song-preview-artists {
     color: rgba(255, 255, 255, 0.7);
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .song-preview-album {
@@ -136,23 +143,23 @@
     overflow: hidden;
     text-overflow: ellipsis;
     min-width: 0;
-    flex: 0 0 160px;
-    margin-left: 8px;
     font-weight: 500;
+    justify-self: start;
 }
 
 .song-preview-duration {
     text-align: right;
     color: rgba(255, 255, 255, 0.6);
     font-size: 0.85rem;
-    flex: 0 0 60px;
-    margin-left: 8px;
+    min-width: 0;
+    justify-self: end;
 }
 
 .song-preview-add-button{
     z-index: 4;
     opacity: 0;
     transition: 0.2s ease-in;
+    justify-self: center;
 }
 
 .song-preview:hover {
@@ -171,6 +178,7 @@
     font-size: 1.2rem;
     line-height: 1;
     padding: 0;
+    justify-self: center;
 }
 
 .song-preview-more-btn svg {
