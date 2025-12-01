@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { debounce } from '../services/util.service';
 import { MagnifyingGlass } from '../svgs/Icons.jsx';
 
-export function SearchBar({ onSearch, placeholderTxt }) {
+export function SearchBar({ onSearch, placeholderTxt, searchBarRef }) {
    const [isActive, setIsActive] = useState(false);
    const [searchStr, setSearchStr] = useState('');
-   const searchBarRef = useRef(null);
+   // const searchBarRef = useRef(null);
    const searchContainerRef = useRef(null);
    const searchStrDebounce = useRef(debounce(handleChange, 750)).current;
+
+   console.log(searchBarRef);
 
    useEffect(() => {
       onSearch(searchStr);
