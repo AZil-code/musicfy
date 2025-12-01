@@ -23,6 +23,7 @@ export async function createStation() {
          // add to user liked playlists - or do it in cmp
       });
       store.dispatch({ station, type: ADD_STATION });
+      return station;
    } catch (error) {
       console.error('station actions -> cannot create station! ', error);
       throw error;
@@ -98,7 +99,6 @@ export async function deleteStation(stationId) {
 }
 
 export function selectStation(stationId) {
-   
    try {
       store.dispatch({ stationId, type: SELECT_STATION });
    } catch (error) {

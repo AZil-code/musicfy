@@ -6,8 +6,10 @@ import { StationList } from './StationList';
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service';
 import { EditStationModal } from './EditModal';
 import { pause, play, setCurrentSong, setCurrentStation } from '../store/actions/player.actions';
+import { useNavigate } from 'react-router-dom';
 
 export function SideNav() {
+   const navigate = useNavigate();
    const [category, setCategory] = useState('');
    const [filterTxt, setFilterTxt] = useState('');
    const [stationToEdit, setStationToEdit] = useState(null);
@@ -15,14 +17,13 @@ export function SideNav() {
    const stations = useSelector((storeState) => storeState.stationModule.stations);
    const { currentStation, isPlaying } = useSelector((store) => store.playerModule);
 
-   function onPlay( station , ev={}) {
-
+   function onPlay(station, ev = {}) {
       if (!currentStation || station._id !== currentStation._id) {
          setCurrentStation(station);
          setCurrentSong(station.songs[0], {
-               queue: station.songs,
-               queueIndex: 0,
-         })
+            queue: station.songs,
+            queueIndex: 0,
+         });
          play();
       } else if (isPlaying) pause();
       else play();
@@ -49,8 +50,9 @@ export function SideNav() {
    }
 
    async function onCreateClick() {
-      await createStation();
+      const station = await createStation();
       showSuccessMsg('Added to your Library');
+      navigate(`/station/${station._id}`);
    }
 
    async function onRemoveStation(stationId) {
