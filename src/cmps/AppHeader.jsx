@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SearchBar } from './SearchBar';
 
 export function AppHeader() {
    const navigate = useNavigate();
+   const location = useLocation();
    const searchBarRef = useRef(null);
    const searchContainerRef = useRef(null);
    const [searchStr, setSearchStr] = useState(null);
@@ -57,12 +58,12 @@ export function AppHeader() {
             </svg>
          </button>
          <div className="app-header-middle">
-            <button className="circle-btn" onClick={onHome}>
+            <button className={`circle-btn`} onClick={onHome}>
                <svg
                   data-encore-id="icon"
                   role="img"
                   aria-hidden="true"
-                  class="e-91000-icon e-91000-baseline"
+                  className={location.pathname === '/home' ? '' : 'transparent'}
                   viewBox="0 0 24 24"
                >
                   <path d="M13.5 1.515a3 3 0 0 0-3 0L3 5.845a2 2 0 0 0-1 1.732V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6h4v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.577a2 2 0 0 0-1-1.732z"></path>

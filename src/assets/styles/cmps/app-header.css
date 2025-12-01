@@ -13,6 +13,10 @@
    background-color: transparent;
    height: 32px;
 }
+.app-header svg.transparent {
+   fill: transparent;
+   stroke: var(--text-gray);
+}
 
 .app-header-middle {
    display: flex;
