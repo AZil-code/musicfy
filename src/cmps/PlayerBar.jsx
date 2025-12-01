@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom'
 import ReactPlayer from 'react-player'
 
 import { setCurrentSong, play, pause, playNext, playPrev, shuffle, repeat } from '../store/actions/player.actions.js'
+import { selectStation } from '../store/actions/station.actions.js'
 import { fetchStations } from '../store/actions/station.actions.js'
 import { AddToStationsButton } from './AddToStationsButton.jsx'
+
+import { VolumeIcon } from '../svgs/Icons.jsx'
 
 const DEBUG_PLAYER = false
 const UPDATE_INTERVAL = 500
@@ -39,7 +42,7 @@ export function PlayerBar() {
     const repeatButtonRef = useRef()
     
     const { currentSong, isPlaying, queue, isShuffle, isRepeat } = useSelector((storeState) => storeState.playerModule)
-    const stations = useSelector((storeState) => storeState.stationModule.stations)
+    const { stations, selectedStationId } = useSelector((storeState) => storeState.stationModule.stations)
 
     const [volume, setVolume] = useState(0.7)
     const [duration, setDuration] = useState(0)
@@ -55,6 +58,8 @@ export function PlayerBar() {
             (station) => Array.isArray(station?.songs) && station.songs.length
         )
         const firstSong = stationWithSongs ? stationWithSongs.songs[0] : null
+
+        console.log('firstSong: ', firstSong)
 
         if (!firstSong) return
 
@@ -200,7 +205,11 @@ export function PlayerBar() {
             />
 
             <section className="player-bar-info-section">
-                {songImg ? <img src={songImg} alt="Current track cover" className="player-bar-song-img" /> : null}
+                {songImg &&
+                    <div>
+                        <img src={songImg} alt="Current track cover" className="player-bar-song-img" /> 
+                    </div>
+                }
                 <div className="player-bar-info-container">
                     <Link to={`/station/${''}`} className="player-bar-song-name">
                         {songTitle}
@@ -308,6 +317,7 @@ export function PlayerBar() {
                         onChange={(event) => handleSeekChange(event.target.value)}
                         onMouseUp={(event) => commitSeek(event.target.value)}
                         onTouchEnd={(event) => commitSeek(event.target.value)}
+                        style={{ '--pct': `${progressValue * 100}%` }}
                     />
                     <span className="player-bar-controls-song-time">{formatTime(duration)}</span>
                 </div>
@@ -319,16 +329,7 @@ export function PlayerBar() {
                         className="player-bar-mute-button white-on-hover"
                         onClick={() => setVolume((prev) => (prev ? -0.1 : 0.7))}
                     >
-                        <svg role="img" viewBox="0 0 16 16">
-                            <path
-                                d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88"
-                                fill="currentColor"
-                            />
-                            <path
-                                d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127z"
-                                fill="currentColor"
-                            />
-                        </svg>
+                        <VolumeIcon volume={volume}/>
                     </button>
                     <input
                         type="range"
@@ -337,6 +338,7 @@ export function PlayerBar() {
                         step="0.01"
                         value={volume}
                         onChange={handleVolumeChange}
+                        style={{ '--pct': `${((volume + 0.1) / 1.1) * 100}%` }}
                     />
                 </div>
             </section>

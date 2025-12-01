@@ -51,7 +51,7 @@ export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong,
       <div className="song-list-container">
          <ul className="song-list">
             <li className='song-preview song-preview-desc-container'>
-                <div className='song-preview-desc song-preview-index-desc song-preview-index'>#</div>
+               <div className='song-preview-desc song-preview-index-desc song-preview-index'>#</div>
                 <div className='song-preview-desc song-preview-artwork-desc song-preview-artwork'>Title</div>
                 <div className='song-preview-desc song-preview-meta-desc song-preview-meta'></div>
                 <div className='song-preview-desc song-preview-album-desc song-preview-album'>Album</div>
@@ -62,7 +62,6 @@ export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong,
                         <path d="M8 3.25a.75.75 0 0 1 .75.75v3.25H11a.75.75 0 0 1 0 1.5H7.25V4A.75.75 0 0 1 8 3.25"></path>
                     </svg>
                 </div>
-                
             </li>
             {orderedSongs.map((song, idx) => (
                <SongPreview
