@@ -18,9 +18,9 @@ export async function createStation() {
    try {
       const station = await stationService.save({
          ...stationService.getDefaultStation(),
-         createdBy: '', // Use user reducer or take user ID as an argument? add logic
+         createdBy: '', // Use user reducer or take user ID as an argument? add logic OR let backend hanlde it with auth
          createdAt: Date.now(),
-         name: `My Playlist ${state.userModule.user.savedStations.length + 1}`,
+         name: `My Playlist #${state.userModule.user.savedStations.length + 1}`,
          // add to user liked playlists - or do it in cmp
       });
       store.dispatch({ station, type: ADD_STATION });
@@ -108,5 +108,3 @@ export function selectStation(stationId) {
       throw error;
    }
 }
-
-
