@@ -1,0 +1,21 @@
+.page-station-details,.search-results-page{
+    padding: 0px !important;
+}
+
+
+.search-results-page{
+    position: relative;
+    width: 100%;
+    padding: 0px !important;
+    padding-top: 24px !important;
+   
+}
+
+
+.search-results-page .song-preview-desc-container{
+    /* display: none !important; */
+    position: relative !important;
+    top: inherit;
+    
+
+}

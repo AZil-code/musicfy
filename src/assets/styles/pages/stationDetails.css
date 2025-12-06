@@ -1,12 +1,21 @@
 .page-station-details {
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
+    position: relative;
+
     /* padding-right: 16px;
     margin-right: -16px; */
     /* box-sizing: border-box; */
-    scrollbar-gutter: stable;
-    position: relative;
+    /* scrollbar-gutter: unset; */
+    
+    /* display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px !important;
+    min-height: 100%; */
+    /* box-sizing: border-box; */
+    
 }
 
 .station-details-content {
@@ -17,6 +26,7 @@
     min-height: 100%;
     box-sizing: border-box;
     position: relative;
+    /* overflow-y: scroll; */
 }
 
 .station-details-header {
@@ -90,12 +100,12 @@
     color: rgba(255, 255, 255, 0.65);
 }
 
-.search-results-page {
+/* .search-results-page {
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 24px;
-}
+} */
 
 .search-results-page .song-list {
     flex: 1;
@@ -103,9 +113,11 @@
 
 .station-controls-container{
     display: flex;
+    align-items: center;
     /* margin-top: 16px; */
     top: 20px;
     position: relative;
+    gap: 18px;
 }
 
 .play-button--station{
@@ -119,23 +131,50 @@
     background-color: var(--body-light-green) !important;
 }
 
+.station-add-button{
+    height: auto;
+    width: auto;
+    background-color: transparent;
+    padding: 1px;
+    display: flex;
+    align-items: center;
+    svg{
+        height: 30px;
+        width: 30px;
+        fill: var(--body-green);
+    }
+
+    .add-button-not-added{
+        fill: var(--text-gray);
+    }
+    .add-button-not-added:hover{
+        fill: var(--text-white);
+    }
+}
+
 
 .station-controls-container .station-shuffle-button {
 
     background-color: rgba(0, 0, 0, 0);
+}
 
-    /* svg{
-        height: 16px;
-        width: 16px;
-        fill: var(--body-light-gray) !important;
-    } */
+.station-shuffle-button{
+    height: 32px;
+    width: 32px;
+    padding: 1px;
+    padding-top: 2px;
 }
 
 .station-shuffle-icon{
-    height: 30px;
-    width: 32px;
+    height: 28px;
+    width: 30px;
     /* fill: var(--body-light-gray) !important; */
     fill: var(--text-gray);
+}
+
+.station-shuffle-icon:hover{
+    fill: var(--text-white);
+
 }
 
 .station-shuffle-icon[aria-pressed='true'] {
@@ -180,3 +219,4 @@
     display: flex;
     /* opacity: 1; */
 }
+

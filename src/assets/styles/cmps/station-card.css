@@ -144,7 +144,7 @@
    justify-content: center; */
    cursor: pointer;
    z-index: 3;
-   padding: 8px;
+   padding: 8px !important;
    opacity: 0.7;
    transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -154,6 +154,7 @@
    height: 16px;
    fill: var(--text-gray);
    z-index: 4;
+   margin:8px;
 }
 
 .embla:hover .embla__btn {
@@ -171,4 +172,8 @@
 
 .embla__next {
    right: 6px;
+}
+
+.thumbnail-btn .circle-btn:hover{
+   background-color: var(--body-light-green) !important;
 }

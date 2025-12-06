@@ -4,6 +4,7 @@ import { StationPreview } from './StationPreview';
 import { selectStation } from '../store/actions/station.actions';
 import { ContextMenu } from './ContextMenu';
 import { useState } from 'react';
+import { pinStation } from '../store/actions/user.actions.js';
 
 const likedSongsImgSrc = 'https://misc.scdn.co/liked-songs/liked-songs-64.png';
 
@@ -34,8 +35,9 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
          x: ev.pageX,
          y: ev.pageY,
          items: new Map([
-            ['Delete', () => onRemoveStation(station._id)],
-            ['Edit', () => onEditStation(station)],
+            [station.isPinned ? 'Unpin Station' : 'Pin Station' , () => pinStation(station._id)],
+            ['Edit details', () => onEditStation(station)],
+            ['Remove from Your Library', () => onRemoveStation(station._id)],
          ]),
       });
    }
@@ -53,7 +55,7 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
 
    return (
       <div className="station-list-container">
-         <ul className="clean-list">
+         <ul className={`clean-list${+ isColapsed ? ' clean-list-collapsed' : ''}`}>
             {filteredStations.map((station) => (
                <li
                   key={station._id}
@@ -69,14 +71,13 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
                      station={station}
                      isColapsed={isColapsed}
                      onPlay={onPlay}
-
                      modalVersion={modalVersion}
                      songToAdd={songToAdd}
                   />
                </li>
             ))}
          </ul>
-         {contextMenu.visible && <ContextMenu menuData={contextMenu} onClose={onCloseContextMenu} />}
+         {(contextMenu.visible && !modalVersion) && <ContextMenu menuData={contextMenu} onClose={onCloseContextMenu} />}
       </div>
    );
 }

@@ -24,6 +24,7 @@
 @import './pages/stationDetails.css';
 @import './pages/stationIndex.css';
 @import './cmps/playButton.css';
+@import './cmps/searchResults.css';
 
 html,
 body {
@@ -140,7 +141,7 @@ button:active {
    width: 8px;
 }
 
-*::-webkit-scrollbar-track {
+/* *::-webkit-scrollbar-track {
    background: transparent;
 }
 
@@ -151,7 +152,7 @@ button:active {
 
 *::-webkit-scrollbar-thumb:hover {
    background-color: rgba(255, 255, 255, 0.35);
-}
+} */
 
 .embla {
    overflow: hidden;
@@ -164,3 +165,16 @@ button:active {
    min-width: 0;
    max-width: 177px;
 }
+
+/* *::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+* {
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent !important; 
+} */
+
+/* *::-webkit-scrollbar-track { background: transparent !important; }
+*::-webkit-scrollbar { width: 8px; }
+.page-station-details { scrollbar-color: rgba(255,255,255,0.35) transparent; } */
+

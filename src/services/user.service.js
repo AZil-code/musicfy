@@ -30,7 +30,7 @@ async function getRecentlyPlayed(userId) {
     if (!id) return []
     try {
         const user = await getById(id)
-        return Array.isArray(user.recentlyPlayed) ? user.recentlyPlayed : []
+        return Array.isArray(user.recentlyPlayed) ? user.recentlyPlayed.slice(0, 8) : []
     } catch (error) {
         console.log('Error in user service (getRecentlyPlayed): ', error)
         throw error
@@ -55,7 +55,7 @@ async function setRecentlyPlayed(stationToAdd) {
         if (user.recentlyPlayed) {
             user.recentlyPlayed = user.recentlyPlayed.filter( (station) => station._id !== stationToAdd._id)
             user.recentlyPlayed.unshift(stationToAdd)
-            user.recentlyPlayed = user.recentlyPlayed.slice(0, 8)
+            // user.recentlyPlayed = user.recentlyPlayed.slice(0, 8)
             _setLoggedinUser({ ...user, recentlyPlayed: user.recentlyPlayed})
         } else {
             user.recentlyPlayed = [stationToAdd]

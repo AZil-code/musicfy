@@ -37,4 +37,15 @@
 /* .add-to-stations-modal-list{
     overflow-y: scroll;
 } */
+.add-to-stations-body:hover{
+    background-color: var(--body-mid-gray) !important;
+}
+
+.add-to-stations-modal .station-filter-container{
+    background-color: var(--body-light-gray) !important;
+}
+.add-to-stations-modal .search-section{
+    width: 100%;
+}
+
 

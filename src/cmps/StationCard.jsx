@@ -29,7 +29,7 @@ export function StationCard({ station, onClickCard }) {
    return (
       <div className="station-card" onClick={() => onSelectStation(station._id)}>
          {/* <div className="thumbnail-container"> */}
-         <button className="thumbnail-btn thumbnail-container" >
+         <div className="thumbnail-btn thumbnail-container" >
             <PlayButton
                className="circle-btn"
                variant="card"
@@ -38,7 +38,7 @@ export function StationCard({ station, onClickCard }) {
                onClick={(ev) => onClickCard(station, ev)}
             />
             <img className="thumbnail" src={coverImage} alt={`${station.name} cover`} loading="lazy" />
-         </button>
+         </div>
          {/* </div> */}
          <ShortenedTxt text={station.name} numOfCharToDisplay={20} className="station-name"></ShortenedTxt>
          {/* <div className={`details ${isColapsed ? 'display-none' : '' }`}>

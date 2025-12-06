@@ -1,4 +1,5 @@
 import { stationService } from '../../services/station.service';
+import { addRecentlyPlayed } from './user.actions.js';
 import { ADD_STATION, REMOVE_STATION, SELECT_STATION, SET_STATIONS, UPDATE_STATION } from '../reducers/station.reducer';
 import { store } from '../store';
 
@@ -19,7 +20,7 @@ export async function createStation() {
          ...stationService.getDefaultStation(),
          createdBy: '', // Use user reducer or take user ID as an argument? add logic
          createdAt: Date.now(),
-         name: `My Playlist ${state.stationModule.stations.length + 1}`,
+         name: `My Playlist ${state.userModule.user.savedStations.length + 1}`,
          // add to user liked playlists - or do it in cmp
       });
       store.dispatch({ station, type: ADD_STATION });
@@ -100,9 +101,12 @@ export async function deleteStation(stationId) {
 
 export function selectStation(stationId) {
    try {
+      // addRecentlyPlayed()
       store.dispatch({ stationId, type: SELECT_STATION });
    } catch (error) {
       console.error('station actions -> cannot select station! ', error);
       throw error;
    }
 }
+
+

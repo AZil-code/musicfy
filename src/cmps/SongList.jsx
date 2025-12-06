@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { ContextMenu } from './ContextMenu.jsx';
 import { SongPreview } from './SongPreview.jsx';
 
-export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong, currentSongId, isPlaying }) {
+export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong, currentSongId, isPlaying, showStickyControls }) {
+
+   
+
    const [contextMenu, setContextMenu] = useState({
       visible: false,
       x: 0,
@@ -50,7 +53,7 @@ export function SongList({ songIds = [], songs = [], onSelectSong, onRemoveSong,
    return (
       <div className="song-list-container">
          <ul className="song-list">
-            <li className='song-preview song-preview-desc-container'>
+            <li className={'song-preview song-preview-desc-container' + ((showStickyControls) ? ' container-sticky' : '')}>
                <div className='song-preview-desc song-preview-index-desc song-preview-index'>#</div>
                 <div className='song-preview-desc song-preview-artwork-desc song-preview-artwork'>Title</div>
                 <div className='song-preview-desc song-preview-meta-desc song-preview-meta'></div>

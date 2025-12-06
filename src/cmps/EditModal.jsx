@@ -25,7 +25,7 @@ export function EditStationModal({ onSetIsEditOpen, station, onSaveStation }) {
             <div className="modal-header">
                <h2>Edit Details</h2>
                <button className="close-btn" onClick={onClose}>
-                  <X />
+                  <X lassName="close-btn-icon"/>
                </button>
             </div>
             <div className="content-container">

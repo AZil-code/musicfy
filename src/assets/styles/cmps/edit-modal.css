@@ -1,7 +1,22 @@
+.modal-content{
+
+   background-color: var(--body-mid-gray);
+   display: flex;
+   align-items: space-between;
+
+   h2{
+      margin: 0px;
+   }
+}
+
+.modal-header{
+   padding: 0px 24px;
+}
+
 .edit-modal .content-container .input {
    border-color: transparent;
    background-color: var(--body-light-gray);
-   border-radius: 2%;
+   border-radius: 4px;
 }
 
 .edit-modal .content-container .input:focus {
@@ -10,8 +25,11 @@
    outline: none;
 }
 
+
+
 .edit-modal .submit-btn {
    font-weight: bold;
+   font-size: 16px !important;
 }
 
 .edit-modal .submit-btn:hover {
@@ -20,7 +38,27 @@
    cursor: pointer;
 }
 
+.close-btn{
+   width: 32px !important;
+   height: 32px;
+   margin: 0;
+   padding: 0;
+   border-radius: 50%;
+}
+
+.close-btn:hover{
+   cursor: pointer;
+}
+
 .edit-modal svg {
    width: 16px;
    height: 16px;
+   fill: var(--text-gray);
+
+}
+
+.field-desc{
+   position: relative;
+   height: 90% !important;
+   resize: none;
 }

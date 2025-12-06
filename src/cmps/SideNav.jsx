@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { StationFilter } from './StationFilter';
 import { createStation, deleteStation, fetchStations, saveStation } from '../store/actions/station.actions';
+import { getUserStations, removeUserStation, addUserStation } from '../store/actions/user.actions.js';
 import { StationList } from './StationList';
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service';
 import { EditStationModal } from './EditModal';
@@ -12,12 +13,16 @@ export function SideNav() {
    const navigate = useNavigate();
    const [category, setCategory] = useState('');
    const [filterTxt, setFilterTxt] = useState('');
+   const [sortBy, setSortBy] = useState('Recents')
    const [stationToEdit, setStationToEdit] = useState(null);
    const [isColapsed, setIsColapsed] = useState(false);
-   const stations = useSelector((storeState) => storeState.stationModule.stations);
+   const [stations, setStations] = useState([])
+   const user = useSelector((storeState) => storeState.userModule.user)
+   // const stations = useSelector((storeState) => storeState.userModule.user.savedStations);
    const { currentStation, isPlaying } = useSelector((store) => store.playerModule);
 
-   function onPlay(station, ev = {}) {
+
+   async function onPlay(station, ev = {}) {
       if (!currentStation || station._id !== currentStation._id) {
          setCurrentStation(station);
          setCurrentSong(station.songs[0], {
@@ -27,37 +32,49 @@ export function SideNav() {
          play();
       } else if (isPlaying) pause();
       else play();
+      
       ev.stopPropagation();
    }
 
    useEffect(() => {
       loadStations();
-   }, []);
+   }, [user]);
+
+   useEffect(() => {
+      loadStations(sortBy);
+   }, [sortBy]);
 
    // Adjust the main layout columns from the sidebar
    useEffect(() => {
       const layoutEl = document.querySelector('.spotify-layout');
       const original = layoutEl.style.gridTemplateColumns;
-      layoutEl.style.gridTemplateColumns = isColapsed ? '82px 1fr' : '360px 1fr';
+      layoutEl.style.gridTemplateColumns = isColapsed ? '74px 1fr' : '338px 1fr';
       return () => {
          // restore on unmount
          layoutEl.style.gridTemplateColumns = original;
       };
    }, [isColapsed]);
 
-   async function loadStations() {
-      await fetchStations();
+   async function loadStations(sortBy='Recents') {
+      const userStations = await getUserStations(sortBy)
+      setStations(userStations)
    }
+
 
    async function onCreateClick() {
       const station = await createStation();
-      showSuccessMsg('Added to your Library');
+      await addUserStation(station._id)
+      await loadStations()
+      // showSuccessMsg('Added to your Library');
+      console.log('station id: ', station._id)
       navigate(`/station/${station._id}`);
    }
 
    async function onRemoveStation(stationId) {
-      await deleteStation(stationId);
-      showSuccessMsg('Succesfully Removed!');
+      await removeUserStation(stationId);
+      await loadStations()
+      navigate(`/home`);
+      // showSuccessMsg('Succesfully Removed!');
    }
 
    async function onEditStation(station) {
@@ -82,7 +99,7 @@ export function SideNav() {
             <div className="side-nav-info-container">
                <button className="collapse-btn" onClick={onClickColapse}>
                   <svg
-                     className={`collapse-btn-open ${isColapsed ? '' : 'display-none'}`}
+                     className={`collapse-btn-open collapse-btn-svg ${isColapsed ? '' : 'display-none'}`}
                      role="img"
                      aria-hidden="true"
                      viewBox="0 0 24 24"
@@ -91,7 +108,7 @@ export function SideNav() {
                      <path d="M20 22a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2zM4 20V4h4v16zm16 0H10V4h10z"></path>
                   </svg>
                   <svg
-                     className={`collapse-btn-close ${isColapsed ? 'display-none' : ''}`}
+                     className={`collapse-btn-close collapse-btn-svg ${isColapsed ? 'display-none' : ''}`}
                      role="img"
                      aria-hidden="true"
                      viewBox="0 0 16 16"
@@ -129,6 +146,8 @@ export function SideNav() {
                setFilterTxt={setFilterTxt}
                filterTxt={filterTxt}
                isColapsed={isColapsed}
+               setSortBy={setSortBy}
+               sortBy={sortBy}
             />
             <StationList
                stations={stations}

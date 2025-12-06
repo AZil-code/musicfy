@@ -9,7 +9,6 @@ export function SearchBar({ onSearch, placeholderTxt, searchBarRef }) {
    const searchContainerRef = useRef(null);
    const searchStrDebounce = useRef(debounce(handleChange, 750)).current;
 
-   console.log(searchBarRef);
 
    useEffect(() => {
       onSearch(searchStr);

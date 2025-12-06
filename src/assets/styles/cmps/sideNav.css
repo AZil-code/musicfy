@@ -3,7 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0px;
     color: var(--text-gray);
     font-size: small;
     overflow: hidden;
@@ -12,11 +12,49 @@
 
     svg {
         fill: var(--text-gray);
+        
+    }
+
+    svg:hover{
+        fill: var(--text-white);
     }
 
     header .circle-btn {
         height: 35px;
         width: 35px;
+    }
+
+    .collapse-btn-close{
+        /* display: none; */
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: transform 0.12s ease-in-out;
+    }
+
+    .collapse-btn-svg{
+        fill: var(--text-gray);
+    }
+
+    .collapse-btn h2{
+        margin: 0 !important;
+    }
+}
+
+.side-nav:hover{
+    .collapse-btn-svg{
+        /* display: flex; */
+        opacity: 1;
+    }
+
+    .collapse-btn h2{
+        margin-left: 10px !important;
+    }
+    .collapse-btn-close{
+        transform: translateX(2px);
+    }
+
+    .collapse-btn h2{
+        left: 0;
     }
 }
 
@@ -29,7 +67,7 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 4px;
     overflow: hidden;
 
     /* padding: 0 16px 0 0;
@@ -43,7 +81,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: auto;
+    height: 40px;
+    padding-top: 16px;
 }
 
 .collapse-btn {
@@ -52,12 +91,18 @@
     justify-content: center;
     background-color: rgba(255, 255, 255, 0);
     height: 70px;
+    padding: 0;
+    padding-left: 10px;
+    /* padding-top: 20px; */
+    height: auto;
 }
 
 .collapse-btn h2 {
     font-size: 16px;
-    margin-left: 12px;
-
+    margin: 0px;
+    position: relative;
+    left: -16px;
+    margin-left: -12px !important;
 }
 
 .collapse-btn svg { 
@@ -73,8 +118,9 @@
 }
 
 .collapse-btn-open {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
+    margin-left: 12px;
 }
 
 .add-station-btn {
@@ -110,3 +156,7 @@
     padding: 6px 16px;      /* keep nice pill shape */
     border-radius: 999px;
 }
+
+
+
+

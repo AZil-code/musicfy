@@ -16,7 +16,7 @@
 
 .song-preview {
     display: grid;
-    grid-template-columns: 36px 48px minmax(0, 2fr) minmax(0, 1.6fr) 44px 56px;
+    grid-template-columns: 36px 48px minmax(0, 2fr) minmax(0, 1fr) 44px 56px;
     align-items: center;
     column-gap: 12px;
     padding: 8px 12px;
@@ -34,6 +34,7 @@
     font-size: 0.875rem;
     width: 32px;
     top: 80px;
+    
 }
 
 .song-preview-duration-desc svg {
@@ -51,10 +52,32 @@
     border-color: var(--body-light-gray);
     border-radius: 0px;
     margin-bottom: 12px;
+    padding-bottom: 6px;
+    position: sticky;
+    top: 60px;
+    z-index: 2;
+    font-weight: 600;
+
+}
+
+
+
+.container-sticky{
+    background-color: var(--body-mid-gray);
+    opacity: 1;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.65);
+    margin: 0 -24px 0 -24px;
+    padding: 10px 44px 6px 44px;
+    
 }
 
 .song-preview-desc-container:hover {
     background-color: inherit !important;
+}
+
+.container-sticky:hover{
+    background-color: var(--body-mid-gray) !important;
+    opacity: 1 !important;
 }
 
 .song-preview-number {
@@ -213,3 +236,4 @@
     height: 24px;
     width: 24px;
 }
+

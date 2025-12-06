@@ -3,41 +3,59 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { SongList } from '../cmps/SongList.jsx';
-import { setCurrentSong, play, pause, shuffle } from '../store/actions/player.actions.js';
+import { setCurrentSong, play, pause, shuffle, setCurrentStation } from '../store/actions/player.actions.js';
 import { selectStation } from '../store/actions/station.actions.js';
 import { fetchStations, removeSong, updateStationArtwork } from '../store/actions/station.actions.js';
+import { getUserStations, removeUserStation, addUserStation } from '../store/actions/user.actions.js';
 import { FindMore } from '../cmps/FindMore.jsx';
 import { PlayButton } from '../cmps/PlayButton.jsx';
 import { ShuffleButton } from '../svgs/Icons.jsx';
+import { AddButton } from '../svgs/Icons.jsx';
+import { storageService } from '../services/async-storage.service.js';
 
 export function StationDetails({ stationId }) {
    const params = useParams();
    const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId);
    const stations = useSelector((storeState) => storeState.stationModule.stations);
    const { currentSong, isPlaying, isShuffle } = useSelector((storeState) => storeState.playerModule);
-   
+   const { user } = useSelector( (storeState) => storeState.userModule)
    // const [headerGradient, setHeaderGradient] = useState(null)
    const [isFindMore, setIsFindMore] = useState(false);
    const [showStickyControls, setShowStickyControls] = useState(false);
+   const [isAdded, setIsAdded] = useState()
+   
 
    const containerRef = useRef();
    const stickyControlsRef = useRef();
    const stickySentinelRef = useRef(null);
+   const indexLiRef = useRef()
 
    const activeStationId = selectedStationId || stationId || params.stationID;
 
+   const station =
+      activeStationId && Array.isArray(stations)
+         ? stations.find((currStation) => currStation && currStation._id === activeStationId) || null
+         : null;
 
    useEffect(() => {
       if (!stations.length) fetchStations();
+     
    }, [stations.length]);
 
+   useEffect( () => {
+      (user && station) && (setIsAdded(user.savedStations.findIndex( (stationtoAdd) => stationtoAdd.stationId === station._id ) !== -1))
+   }, [user, station])
 
    useEffect(() => {
       const sentinel = stickySentinelRef.current;
       if (!sentinel || typeof IntersectionObserver === 'undefined') return;
 
       const observer = new IntersectionObserver(
-         ([entry]) => setShowStickyControls(!entry.isIntersecting),
+         ([entry]) => {
+            setShowStickyControls(!entry.isIntersecting)
+            // indexLiRef.current.style.backgroundColor = 'var(--body-mid-gray)'
+            // indexLiRef.current.style.opacity = '1'
+         },
          { root: null, threshold: 0 }
       );
 
@@ -45,10 +63,7 @@ export function StationDetails({ stationId }) {
       return () => observer.disconnect();
    }, []);
 
-   const station =
-      activeStationId && Array.isArray(stations)
-         ? stations.find((currStation) => currStation && currStation._id === activeStationId) || null
-         : null;
+   
 
    const songs = station && Array.isArray(station.songs) ? station.songs : [];
    const firstSong = songs.length ? songs[0] : null;
@@ -124,7 +139,10 @@ export function StationDetails({ stationId }) {
          b = Math.round(b / count);
 
          const gradient = `linear-gradient(180deg, rgba(${r}, ${g}, ${b}, 0.85) 20%, rgba(${r}, ${g}, ${b}, 0.18) 35%, rgba(18, 18, 18, 1) 100%)`;
-         containerRef.current.style.background = gradient;
+         containerRef && (containerRef.current.style.background = gradient)
+         // const layoutRef = document.querySelector('.spotify-layout-main')
+         // layoutRef && (layoutRef.style.background = '')
+         
          stickyControlsRef && (stickyControlsRef.current.style.background = `rgba(${r},${g},${b}, 1)`)
          // setHeaderGradient(gradient)
       };
@@ -162,7 +180,8 @@ export function StationDetails({ stationId }) {
             queue,
             queueIndex: queueIndex >= 0 ? queueIndex : 0,
          });
-         selectStation(station._id)
+         // selectStation(station._id)
+         setCurrentStation(station)
          play();
       }
    };
@@ -197,10 +216,19 @@ export function StationDetails({ stationId }) {
 
    function handleShuffle(){
 
-      isShuffle ? (shuffle(false)) : (shuffle(true))
+      station.songs.findIndex((song) => song._id === currentSong._id) !== -1 && (isShuffle ? 
+         (shuffle(false)) : 
+         (shuffle(true))
+      )
    }
 
-   if (!station) {
+   function handleAddStation(){
+      isAdded ? 
+         removeUserStation(station._id) :
+         addUserStation(station._id)
+   }
+
+   if (!station || !user) {
       return (
          <div className="page-station-details">
             <p>{stations.length ? 'Station not found.' : 'Loading station…'}</p>
@@ -209,7 +237,9 @@ export function StationDetails({ stationId }) {
    }
 
    return (
-      <div className="page-station-details">
+      <div className="page-station-details" 
+            // ref={containerRef}
+         >
          <div
             ref={containerRef}
             className="station-details-content"
@@ -241,7 +271,10 @@ export function StationDetails({ stationId }) {
                   variant={'station'}
                />
                <button className='station-shuffle-button' onClick={handleShuffle}>
-                  <ShuffleButton className='station-shuffle-icon' ariaPressed={!!isShuffle && (station.songs.findIndex((song) => song._id === currentSong._id) !== -1)}/>
+                  <ShuffleButton className='station-shuffle-icon' ariaPressed={(!!isShuffle && currentSong) && (station.songs.findIndex((song) => song._id === currentSong._id) !== -1)}/>
+               </button>
+               <button className='station-add-button' onClick={handleAddStation}>
+                  <AddButton className='station-add-icon' isAdded={isAdded}/>
                </button>
             </div>
             <div ref={stickySentinelRef} className="station-controls-sentinel" aria-hidden="true"></div>
@@ -261,15 +294,17 @@ export function StationDetails({ stationId }) {
                onRemoveSong={handleRemoveSong}
                currentSongId={(currentSong && currentSong._id) || ''}
                isPlaying={isPlaying}
+               showStickyControls={showStickyControls}
             />
+            {isFindMore ? (
+               <FindMore onClose={onFindMore} />
+                  ) : (
+               <button onClick={onFindMore} className="find-more-btn">
+                  Find More
+               </button>
+            )}
          </div>
-         {isFindMore ? (
-            <FindMore onClose={onFindMore} />
-         ) : (
-            <button onClick={onFindMore} className="find-more-btn">
-               Find More
-            </button>
-         )}
+         
       </div>
    );
 }

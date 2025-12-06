@@ -37,7 +37,11 @@ export function SongPreview({
    function createActions() {
       switch (type) {
          case 'FindMore':
-            return <button className="circle-btn">Add</button>;
+            return (
+               
+                  <button className="circle-btn">Add</button>
+               
+            )
          default:
             return (
                <>

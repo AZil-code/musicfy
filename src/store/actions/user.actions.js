@@ -17,38 +17,171 @@ export async function fetchRecentlyPlayed() {
         throw error
     }
 }
-export async function addRecentlyPlayed(station) {
+export async function addRecentlyPlayed(stationToAdd) {
 
     const state = store.getState()
     const loggedInUser = state.userModule.user
-    if (!loggedInUser || !station || !station._id) return []
+    if (!loggedInUser || !stationToAdd ) return []
 
     try {
-        const likedSongs = await stationService.query({ name: 'Liked Songs' })
-        const likedStation = Array.isArray(likedSongs) ? likedSongs[0] : null
+
+        const savedStations = loggedInUser.savedStations
+        
         const user = await userService.getById(loggedInUser._id)
-        const current = Array.isArray(user.recentlyPlayed) ? user.recentlyPlayed : []
-        const filtered = current.filter(
-            (item) =>
-                item &&
-                item._id !== station._id &&
-                (!likedStation || item._id !== likedStation._id)
-        )
-        const isLikedStation = likedStation && likedStation._id === station._id
-        const nextRecentlyPlayed = likedStation
-            ? [likedStation, ...(isLikedStation ? [] : [station]), ...filtered].slice(0, 8)
-            : [station, ...filtered].slice(0, 8)
+        
+        const idxToModify = savedStations.findIndex( (station) => station.stationId === stationToAdd._id ) 
+        
+        if (idxToModify !== -1) savedStations[idxToModify].lastPlayedAt = Date.now()
+            
+        const updatedUser = { ...user, savedStations }
 
-        await userService.saveUser({ ...user, recentlyPlayed: nextRecentlyPlayed })
+        await userService.saveUser(updatedUser)
 
-        const updatedUser = { ...loggedInUser, recentlyPlayed: nextRecentlyPlayed }
+        store.dispatch({ type: SET_USER, user: { ...loggedInUser, savedStations } })
 
-        store.dispatch({ type: SET_USER, user: updatedUser })
-        userService.setLoggedinUser(updatedUser)
-
-        return nextRecentlyPlayed
+        return 'Promise.resolve()'
     } catch (error) {
         console.error('error in user actions; ', error)
         throw error
     }
+}
+
+export async function getUserStations(sortBy='Recents'){
+    try {
+        const state = store.getState()
+        const loggedInUser = state.userModule.user
+        if (!loggedInUser) return []
+
+        const user = await userService.getById(loggedInUser._id)
+        const userStations = user.savedStations
+
+        sortBy === 'Recents' && (userStations.sort( (a,b) => b.lastPlayedAt - a.lastPlayedAt ))
+        sortBy === 'Alphabetical' && (userStations.sort((a, b) =>(a.stationName || '').toLowerCase().localeCompare((b.stationName || '').toLowerCase())))
+        // userStations.sort((a, b) => (a?.name === 'Liked Songs') - (b?.name === 'Liked Songs'))
+
+        // userStations.sort( (a,b) => (b.isPinned === true) - (a.isPinned === true) )
+
+        userStations.sort((a, b) =>
+            (b?.isPinned === true) - (a?.isPinned === true) ||
+            (b?.stationName === 'Liked Songs') - (a?.stationName === 'Liked Songs')
+        )
+
+        let stations = []
+
+        for (const { stationId, lastPlayedAt, isPinned } of userStations) {
+            const station = await stationService.get(stationId)
+            station.isPinned = isPinned
+            stations.push(station)
+        }
+
+        return stations
+        
+    } catch (error) {
+        console.error('error in user actions; ', error)
+        throw error
+    }
+}
+export async function addUserStation(stationId, options = {}){
+
+    try {
+        const state = store.getState()
+        const loggedInUser = state.userModule.user
+        if (!loggedInUser || !stationId ) return []
+
+        const user = await userService.getById(loggedInUser._id)
+        const savedStations = Array.isArray(user.savedStations) ? [...user.savedStations] : []
+        const entryIdx = savedStations.findIndex((item) => item && item.stationId === stationId)
+        const station = await stationService.get(stationId)
+        const stationName = station.name
+        const incomingPinned = Boolean(options.isPinned)
+        const entry = {
+            stationId,
+            lastPlayedAt: options.lastPlayedAt || Date.now(),
+            isPinned: incomingPinned,
+            stationName: stationName
+        }
+
+        if (entryIdx >= 0) {
+            const existing = savedStations[entryIdx] || {}
+            savedStations[entryIdx] = {
+                ...existing,
+                ...entry,
+                isPinned: existing.isPinned || incomingPinned,
+            }
+        } else {
+            savedStations.unshift(entry)
+        }
+
+        const updatedUser = { ...user, savedStations }
+        await userService.saveUser(updatedUser)
+
+        store.dispatch({ type: SET_USER, user: { ...loggedInUser, savedStations } })
+        return savedStations
+
+        
+    } catch (error) {
+        console.error('error in user actions; ', error)
+        throw error
+    }
+}
+
+export async function removeUserStation(stationId){
+
+    try {
+        const state = store.getState()
+        const loggedInUser = state.userModule.user
+        if (!loggedInUser || !stationId ) return []
+
+        const user = await userService.getById(loggedInUser._id)
+        const savedStations = Array.isArray(user.savedStations) ? [...user.savedStations] : []
+        const entryIdx = savedStations.findIndex((item) => item && item.stationId === stationId)
+        
+        if (entryIdx !== -1){
+            savedStations.splice(entryIdx, 1)
+        } else{
+            throw new Error('failed to remove station')
+        }
+       
+
+        const updatedUser = { ...user, savedStations }
+        await userService.saveUser(updatedUser)
+
+        store.dispatch({ type: SET_USER, user: { ...loggedInUser, savedStations } })
+        return updatedUser
+
+        
+    } catch (error) {
+        console.error('error in user actions; ', error)
+        throw error
+    }
+}
+
+export async function pinStation(stationId){
+   try {
+        console.log('stationId: ', stationId)
+
+        const state = store.getState()
+        const loggedInUser = state.userModule.user
+        if (!loggedInUser || !stationId ) return []
+
+        const user = await userService.getById(loggedInUser._id)
+
+        const savedStations = Array.isArray(user.savedStations) ? [...user.savedStations] : []
+        const entryIdx = savedStations.findIndex((item) => item && item.stationId === stationId)
+
+        if (entryIdx !== -1){
+            savedStations[entryIdx].isPinned ? (savedStations[entryIdx].isPinned = false) : (savedStations[entryIdx].isPinned = true)
+        } else{
+            throw new Error('failed to pin station')
+        }
+        console.log('savedStations[entryIdx].isPinned: ', savedStations[entryIdx].isPinned)
+
+        const updatedUser = { ...user, savedStations }
+        await userService.saveUser(updatedUser)
+
+        store.dispatch({ type: SET_USER, user: { ...loggedInUser, savedStations } })
+   } catch (error) {
+        console.error('station actions -> cannot select station! ', error);
+        throw error;
+   }
 }

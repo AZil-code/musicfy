@@ -85,7 +85,7 @@ export const setCurrentSong = (song, options = {}) => {
 };
 
 export const setCurrentStation = (station) => {
-   
+   console.log('test')
    try {
       addRecentlyPlayed(station)
       dispatch({

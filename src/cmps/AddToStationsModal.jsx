@@ -1,18 +1,19 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
 import { addSong, removeSong, createStation, saveStation, fetchStations } from '../store/actions/station.actions.js'
+import { getUserStations } from '../store/actions/user.actions.js'
 
 import { StationFilter } from './StationFilter.jsx'
 import { StationList } from './StationList.jsx'
 
 export function AddToStationsModal({ song, onClose, anchorRef }) {
 
-    const stations =  useSelector((storeState) => storeState.stationModule.stations)
     const [filterTxt, setFilterTxt] = useState('')
     const menuRef = useRef(null)
     const [coords, setCoords] = useState({ top: 0, left: 0 })
+    const [stations, setStations] = useState([])
 
     useEffect(() => {
         loadStations()
@@ -90,7 +91,8 @@ export function AddToStationsModal({ song, onClose, anchorRef }) {
     }, [onClose, anchorRef])
 
     async function loadStations() {
-        await fetchStations()
+        const stations = await getUserStations()
+        setStations(stations)
     }
 
     // const toggleStation = async (station) => {
@@ -126,6 +128,7 @@ export function AddToStationsModal({ song, onClose, anchorRef }) {
                     <StationFilter 
                         setFilterTxt={setFilterTxt} 
                         filterTxt={filterTxt} 
+                        modalVersion={true}
                     />
                     <StationList 
                         stations={stations} 

@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SongSuggestion } from '../cmps/SongSuggestion'
 import { PlayButton } from '../cmps/PlayButton.jsx'
 import { pause, play, setCurrentSong, setCurrentStation } from '../store/actions/player.actions'
+import { getUserStations } from '../store/actions/user.actions.js'
 import { fetchStations } from '../store/actions/station.actions.js'
 import { selectStation } from '../store/actions/station.actions.js'
 import { store } from '../store/store.js';
@@ -14,7 +15,23 @@ const categories = ['Pop', 'Rock', 'Metal', 'R&B', 'classics'];
 export function StationIndex() {
    const { currentStation, isPlaying } = useSelector((store) => store.playerModule);
    const { user } = useSelector( (store) => store.userModule)
+   const [recentlyPlayed, setRecentlyPlayed] = useState([])
    const navigate = useNavigate()
+
+   useEffect( () => {
+      if (user.savedStations){
+         loadUserStations()
+         // selectStation(null)
+      }
+      
+   }, [user])
+
+   console.log('currentStation: ',currentStation, 'isPlaying: ', isPlaying)
+
+   async function loadUserStations(){
+      const stations = await getUserStations()
+      setRecentlyPlayed(stations.splice(0, 8))
+   } 
    
 
    function onPlay(station, ev = {}) {
@@ -40,7 +57,7 @@ export function StationIndex() {
    return (
       <div className="page-home">
          <section className='recently-played-section'>
-            {user.recentlyPlayed && user.recentlyPlayed.map( (station) => {
+            {recentlyPlayed && recentlyPlayed.map( (station) => {
                return (
                   <div className='recently-played-station-container' onClick={() => onSelectStation(station)}>
                      <div className='recently-played-station-img-container'>
@@ -49,11 +66,11 @@ export function StationIndex() {
                      <span className='recently-played-station-name'>{station.name}</span>
                      <PlayButton 
                         className="circle-btn recently-played-play-button"
-                        isPlaying={currentStation === station && isPlaying}
+                        isPlaying={currentStation?._id === station?._id && isPlaying}
                         alwaysShow={false}
                         onClick={(ev) => onPlay(station, ev)}
                      />
-                     {(isPlaying && currentStation === station) &&
+                     {(isPlaying && currentStation?._id === station?._id) &&
                         <img className='is-station-playing-img' src="https://open.spotifycdn.com/cdn/images/equaliser-green.f8937a92.svg" alt="isPlaying" />
                      }
                   </div>

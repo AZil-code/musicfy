@@ -1,18 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { debounce } from '../services/util.service';
+import { ContextMenu } from './ContextMenu.jsx';
 
 // TODO: need to take svgs out of the cmp and put them in a shared folder
 
 const validCategories = ['Playlists', 'Artists', 'Albums']; // for development
 
-export function StationFilter({ category, setCategory, setFilterTxt, filterTxt, isColapsed }) {
+export function StationFilter({ category, setCategory, setFilterTxt, filterTxt, sortBy, setSortBy, isColapsed, modalVersion }) {
    const searchBarRef = useRef(null);
    const carouselRef = useRef(null);
    const searchSectionRef = useRef(null);
    const filterTxtDebounce = useRef(debounce(setFilterTxt, 750)).current;
+   const [contextMenu, setContextMenu] = useState({
+      visible: false,
+      x: 0,
+      y: 0,
+      items: new Map(),
+   });
 
    useEffect(() => {
       filterTxtDebounce(searchBarRef.current.value);
+      
    }, [filterTxt]);
 
    let categoryBtnsToDisplay;
@@ -83,6 +91,36 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt, 
       right.style.display = target.scrollWidth - target.clientWidth <= target.scrollLeft + 10 ? 'none' : '';
    }
 
+   function openSortMenu(ev) {
+      ev.preventDefault();
+      
+         setContextMenu((prev) => {
+            // Toggle close if already open
+            if (prev.visible) {
+               return { visible: false, x: 0, y: 0, items: new Map() };
+            }
+            return {
+               visible: true,
+               x: ev.pageX,
+               y: ev.pageY,
+               items: new Map([
+                  ['Recents', () => setSortBy && setSortBy('Recents')],
+                  ['Alphabetical', () => setSortBy && setSortBy('Alphabetical')],
+               ]),
+            };
+         });
+      
+   }
+
+   function closeSortMenu() {
+      setContextMenu({
+         visible: false,
+         x: 0,
+         y: 0,
+         items: new Map(),
+      });
+   }
+
    return (
       <div className="station-filter-container">
          <div className="category-carousel" ref={carouselRef} onScroll={onCarouselScroll}>
@@ -130,11 +168,18 @@ export function StationFilter({ category, setCategory, setFilterTxt, filterTxt, 
             <input
                ref={searchBarRef}
                type="text"
-               className="searchbar"
+               className="searchbar" 
                placeholder="Search in Your Library"
                onChange={({ target }) => filterTxtDebounce(target.value)}
             />
          </div>
+         <div className={`search-sort-container ${(isColapsed || modalVersion) ? 'display-none' : '' }`} onClick={openSortMenu}>
+            <span>{sortBy === 'Alphabetical' ? 'Alphabetical' : 'Recents'}</span>
+            <svg viewBox="0 0 16 16" >
+               <path d="M15 14.5H5V13h10zm0-5.75H5v-1.5h10zM15 3H5V1.5h10zM3 3H1V1.5h2zm0 11.5H1V13h2zm0-5.75H1v-1.5h2z"></path>
+            </svg>
+         </div>
+         {contextMenu.visible && <ContextMenu menuData={contextMenu} onClose={closeSortMenu} />}
       </div>
    );
 }
