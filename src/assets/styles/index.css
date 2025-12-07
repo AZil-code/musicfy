@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap');
 @import './vars.css';
 @import './heleprs.css';
 
@@ -25,6 +26,8 @@
 @import './pages/stationIndex.css';
 @import './cmps/playButton.css';
 @import './cmps/searchResults.css';
+@import './cmps/loginPage.css';
+
 
 html,
 body {
@@ -80,6 +83,7 @@ body {
 h1 {
    font-size: 3.2em;
    line-height: 1.1;
+   font-family: 'Montserrat', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
 button {

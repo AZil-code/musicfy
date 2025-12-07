@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SearchBar } from './SearchBar';
+import { ContextMenu } from './ContextMenu.jsx';
+import { logoutUser } from '../store/actions/user.actions.js';
+import userImg from '../assets/imgs/user.jpeg';
 
 export function AppHeader() {
    const navigate = useNavigate();
@@ -9,6 +12,12 @@ export function AppHeader() {
    const searchContainerRef = useRef(null);
    const [searchStr, setSearchStr] = useState(null);
    const [isActive, setIsActive] = useState(false);
+   const [menuData, setMenuData] = useState({
+      visible: false,
+      x: 0,
+      y: 0,
+      items: new Map(),
+   });
 
    useEffect(() => {
       if (searchStr) {
@@ -46,6 +55,25 @@ export function AppHeader() {
       setSearchStr(str);
    }
 
+   function handleImgClick(ev){
+      const rect = ev.currentTarget.getBoundingClientRect();
+      setMenuData({
+         visible: true,
+         x: rect.left - 160,
+         y: rect.bottom + 4,
+         items: new Map([
+            ['Logout', async () => { 
+               await logoutUser(); 
+               navigate('/'); 
+            }],
+         ])
+      })
+   }
+
+   function onCloseMenu(){
+      setMenuData((prev) => ({ ...prev, visible: false }))
+   }
+
    return (
       <div className="app-header">
          <button className="app-header-logo-container" onClick={onHome}>
@@ -71,7 +99,12 @@ export function AppHeader() {
             </button>
             <SearchBar placeholderTxt={'What do you want to play?'} onSearch={onSearch} searchBarRef={searchBarRef} />
          </div>
-         <div></div>
+         <div className='header-img-container' onClick={handleImgClick}>
+            <div className="header-img-ring">
+               <img src={userImg} alt="User avatar" className="header-img-avatar"/>
+            </div>
+         </div>
+         {menuData.visible && <ContextMenu menuData={menuData} onClose={onCloseMenu} />}
       </div>
    );
 }
