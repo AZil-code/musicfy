@@ -3,6 +3,16 @@ import { store } from '../store'
 import { userService } from "../../services/user.service.js"
 import { stationService } from "../../services/station.service.js"
 
+export async function logoutUser(){
+    try{
+        await userService.logout()
+        store.dispatch({ type: CLEAR_USER })
+    } catch(error){
+        console.error('error in user actions (logoutUser); ', error)
+        throw error
+    }
+}
+
 export async function loginUser(credentials){
     try{
         const sessionUser = await userService.login(credentials)
