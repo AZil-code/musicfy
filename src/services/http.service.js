@@ -11,9 +11,11 @@ export const httpService = {
         return ajax(endpoint, 'GET', data)
     },
     post(endpoint, data) {
+        console.log('post')
         return ajax(endpoint, 'POST', data)
     },
     put(endpoint, data) {
+        console.log('put')
         return ajax(endpoint, 'PUT', data)
     },
     delete(endpoint, data) {

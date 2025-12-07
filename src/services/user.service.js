@@ -1,125 +1,126 @@
-import { storageService } from "./async-storage.service.js"
-import { stationService } from "./station.service.js"
+import { httpService } from './http.service.js';
+import { stationService } from './station.service.js';
+
+const STORAGE_KEY_LOGGEDIN = 'user';
+const BASE_URL = 'user';
+const AUTH_URL = 'auth';
 
 export const userService = {
-    getLoggedinUser,
-    login,
-    logout,
-    signup,
-    getById,
-    query,
-    getEmptyCredentials,
-    setRecentlyPlayed,
-    getRecentlyPlayed,
-    setLoggedinUser,
-    saveUser,
-}
-const STORAGE_KEY_LOGGEDIN = 'user'
-const STORAGE_KEY = 'userDB'
+   getLoggedinUser,
+   login,
+   logout,
+   signup,
+   getById,
+   query,
+   getEmptyCredentials,
+   setRecentlyPlayed,
+   getRecentlyPlayed,
+   setLoggedinUser,
+   saveUser,
+};
 
-function query() {
-    return storageService.query(STORAGE_KEY)
+async function query(filterBy = {}) {
+   return httpService.get(BASE_URL, filterBy);
 }
 
-function getById(userId) {
-    return storageService.get(STORAGE_KEY, userId)
+async function getById(userId) {
+   return httpService.get(`${BASE_URL}/${userId}`);
 }
 
 async function getRecentlyPlayed(userId) {
-    const id = userId || (getLoggedinUser() && getLoggedinUser()._id)
-    if (!id) return []
-    try {
-        const user = await getById(id)
-        return Array.isArray(user.recentlyPlayed) ? user.recentlyPlayed.slice(0, 8) : []
-    } catch (error) {
-        console.log('Error in user service (getRecentlyPlayed): ', error)
-        throw error
-    }
+   const id = userId || (getLoggedinUser() && getLoggedinUser()._id);
+   if (!id) return [];
+   try {
+      const user = await getById(id);
+      return Array.isArray(user.recentlyPlayed) ? user.recentlyPlayed.slice(0, 8) : [];
+   } catch (error) {
+      console.log('Error in user service (getRecentlyPlayed): ', error);
+      throw error;
+   }
 }
 
-async function login({ username, password }) {
-    return storageService.query(STORAGE_KEY)
-        .then(users => {
-            const user = users.find(user => user.username === username)
-            if (user) return _setLoggedinUser(user)
-            else return Promise.reject('Invalid login')
-        })
+async function login(credentials) {
+   const user = await httpService.post(`${AUTH_URL}/login`, credentials);
+   return _setLoggedinUser(_formatMiniUser(user));
+}
+
+async function signup(credentials) {
+   // Backend should return the newly created user (with any seeded savedStations)
+   const user = await httpService.post(`${AUTH_URL}/signup`, credentials);
+
+   // Fallback: ensure liked playlist exists if backend didn't attach it
+   if (!Array.isArray(user.savedStations) || !user.savedStations.length) {
+      try {
+         const likedEntry = await stationService.createLikedSongs();
+         user.savedStations = [likedEntry];
+      } catch (err) {
+         console.error('signup -> failed to create liked songs entry', err);
+      }
+   }
+
+   return _setLoggedinUser(_formatMiniUser(user));
+}
+
+async function logout() {
+   await httpService.post(`${AUTH_URL}/logout`);
+   sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN);
 }
 
 async function setRecentlyPlayed(stationToAdd) {
+   try {
+      const loggedInUser = getLoggedinUser();
+      if (!loggedInUser) throw new Error('No logged in User');
+      const user = await getById(loggedInUser._id);
+      const recentlyPlayed = Array.isArray(user.recentlyPlayed) ? [...user.recentlyPlayed] : [];
 
-    try{
-        const loggedInUser = getLoggedinUser()
-        if (!loggedInUser) throw new Error('No logged in User')
-        const user = await getById(loggedInUser._id)
-        if (user.recentlyPlayed) {
-            user.recentlyPlayed = user.recentlyPlayed.filter( (station) => station._id !== stationToAdd._id)
-            user.recentlyPlayed.unshift(stationToAdd)
-            // user.recentlyPlayed = user.recentlyPlayed.slice(0, 8)
-            _setLoggedinUser({ ...user, recentlyPlayed: user.recentlyPlayed})
-        } else {
-            user.recentlyPlayed = [stationToAdd]
-        }
-        return storageService.put(STORAGE_KEY, user)
+      const filtered = recentlyPlayed.filter((station) => station._id !== stationToAdd._id);
+      filtered.unshift(stationToAdd);
 
-    } catch(e){
-        console.log('Error in user service: ', e)
-        throw e
-    }
+      const updatedUser = { ...user, recentlyPlayed: filtered };
+      const saved = await saveUser(updatedUser);
+
+      _setLoggedinUser({ ...loggedInUser, recentlyPlayed: filtered });
+      return saved;
+   } catch (e) {
+      console.log('Error in user service: ', e);
+      throw e;
+   }
 }
 
-function saveUser(user) {
-    return storageService.put(STORAGE_KEY, user)
-}
-
-async function signup({ username, password, fullname }) {
-
-    const likedStationEntry = await stationService.createLikedSongs()
-
-    const user = { 
-        username, 
-        password, 
-        fullname,
-        savedStations: [likedStationEntry],
-        recentlyPlayed: []
-    }
-    user.createdAt = user.updatedAt = Date.now()
-
-    return storageService.post(STORAGE_KEY, user)
-        .then(_setLoggedinUser)
-}
-
-
-
-function logout() {
-    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
-    return Promise.resolve()
+async function saveUser(user) {
+   if (!user || !user._id) throw new Error('User is required to save');
+   return httpService.put(`${BASE_URL}/${user._id}`, user);
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN))
+   return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN));
+}
+
+function _formatMiniUser(user) {
+   if (!user) return null;
+   return {
+      _id: user._id,
+      fullname: user.fullname,
+      username: user.username,
+      recentlyPlayed: Array.isArray(user.recentlyPlayed) ? user.recentlyPlayed : [],
+      savedStations: Array.isArray(user.savedStations) ? user.savedStations : [],
+   };
 }
 
 function _setLoggedinUser(user) {
-    const userToSave = { 
-        _id: user._id, 
-        fullname: user.fullname, 
-        username: user.username,
-        recentlyPlayed: user?.recentlyPlayed,
-        savedStations: Array.isArray(user.savedStations) ? user.savedStations : []
-    }
-    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
-    return userToSave
+   const userToSave = _formatMiniUser(user);
+   sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave));
+   return userToSave;
 }
 
 function setLoggedinUser(user) {
-    return _setLoggedinUser(user)
+   return _setLoggedinUser(user);
 }
 
 function getEmptyCredentials() {
-    return {
-        fullName: '',
-        userName: '',
-        password: '',        
-    }
+   return {
+      fullName: '',
+      userName: '',
+      password: '',
+   };
 }
