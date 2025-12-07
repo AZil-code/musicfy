@@ -1,5 +1,5 @@
 import { storageService } from "./async-storage.service.js"
-
+import { stationService } from "./station.service.js"
 
 export const userService = {
     getLoggedinUser,
@@ -73,12 +73,23 @@ function saveUser(user) {
 }
 
 async function signup({ username, password, fullname }) {
-    const user = { username, password, fullname }
+
+    const likedStationEntry = await stationService.createLikedSongs()
+
+    const user = { 
+        username, 
+        password, 
+        fullname,
+        savedStations: [likedStationEntry],
+        recentlyPlayed: []
+    }
     user.createdAt = user.updatedAt = Date.now()
 
     return storageService.post(STORAGE_KEY, user)
         .then(_setLoggedinUser)
 }
+
+
 
 function logout() {
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
@@ -90,7 +101,13 @@ function getLoggedinUser() {
 }
 
 function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname, recentlyPlayed: user?.recentlyPlayed }
+    const userToSave = { 
+        _id: user._id, 
+        fullname: user.fullname, 
+        username: user.username,
+        recentlyPlayed: user?.recentlyPlayed,
+        savedStations: Array.isArray(user.savedStations) ? user.savedStations : []
+    }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
 }

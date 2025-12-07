@@ -21,6 +21,7 @@ export function StationIndex() {
    useEffect( () => {
       if (user.savedStations){
          loadUserStations()
+         fetchStations()
          // selectStation(null)
       }
       

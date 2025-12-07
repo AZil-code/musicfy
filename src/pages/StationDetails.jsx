@@ -43,7 +43,9 @@ export function StationDetails({ stationId }) {
    }, [stations.length]);
 
    useEffect( () => {
-      (user && station) && (setIsAdded(user.savedStations.findIndex( (stationtoAdd) => stationtoAdd.stationId === station._id ) !== -1))
+      if (!user || !station) return
+      const savedStations = Array.isArray(user.savedStations) ? user.savedStations : []
+      setIsAdded(savedStations.findIndex( (stationtoAdd) => stationtoAdd.stationId === station._id ) !== -1)
    }, [user, station])
 
    useEffect(() => {
@@ -139,11 +141,11 @@ export function StationDetails({ stationId }) {
          b = Math.round(b / count);
 
          const gradient = `linear-gradient(180deg, rgba(${r}, ${g}, ${b}, 0.85) 20%, rgba(${r}, ${g}, ${b}, 0.18) 35%, rgba(18, 18, 18, 1) 100%)`;
-         containerRef && (containerRef.current.style.background = gradient)
+         if (containerRef?.current) containerRef.current.style.background = gradient
          // const layoutRef = document.querySelector('.spotify-layout-main')
          // layoutRef && (layoutRef.style.background = '')
          
-         stickyControlsRef && (stickyControlsRef.current.style.background = `rgba(${r},${g},${b}, 1)`)
+         if (stickyControlsRef?.current) stickyControlsRef.current.style.background = `rgba(${r},${g},${b}, 1)`
          // setHeaderGradient(gradient)
       };
 

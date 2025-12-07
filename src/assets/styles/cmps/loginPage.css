@@ -1,0 +1,88 @@
+.login-page{
+    background-color: #121212;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-white);
+}
+
+.login-page-content{
+    width: 342px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+}
+
+.login-page-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+
+    p{
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0px 0px 6px 0px;
+        
+    }
+
+    input{
+        margin-bottom: 18px;
+        height: 24px;
+        background-color: transparent;
+        border: 1px solid var(--text-gray);
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    input:focus,
+    input:focus-visible{
+        border-color: var(--text-white);
+        outline: none;
+        box-shadow: 0 0 0 1px var(--text-white);
+    }
+
+    button{
+        /* margin-top: 18px; */
+        font-family: 'Montserrat', 'Manrope';
+        border: 0px solid;
+        border-radius: 24px;
+        height: 48px;
+        background-color: var(--body-green);
+        color: black;
+        font-weight: 700;
+        font-size: 14.8px;
+    }
+
+    button:hover{
+        background-color: var(--body-light-green);
+    }
+}
+
+.login-page-title{
+    text-align: center;
+    font-weight: 900;
+    font-size: 40px;
+    /* letter-spacing: 0.1px; */
+}
+
+.change-functionality-text{
+    color: var(--text-gray);
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 4px;
+}
+
+.change-functionality-button{
+    font-family: 'Montserrat', 'Manrope';
+    background-color: transparent;
+    font-size: 14.8px;
+    font-weight: 800;
+}

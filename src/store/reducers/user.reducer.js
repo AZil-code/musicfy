@@ -14,9 +14,6 @@ export function userReducer(state = initialState, cmd = {}) {
         case CLEAR_USER: {
             return { ...state, user: null }
         }
-        // case SET_RECENTLY_PLAYED: {
-        //     return { ...state, user: { ...state.user, recentlyPlayed: cmd.recentlyPlayed }}
-        // }
         default: {
             return state
         }

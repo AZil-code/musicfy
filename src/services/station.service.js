@@ -261,6 +261,7 @@ export const stationService = {
     save,
     getDefaultStation,
     getDefaultFilter,
+    createLikedSongs,
 }
 
 async function query(filterBy = {}) {
@@ -324,6 +325,27 @@ function getDefaultStation() {
         isLikedSongsPlaylist: false,
         isPrivate: false,
     }
+}
+
+async function createLikedSongs() {
+    const likedStation = {
+        name: "Liked Songs",
+        description: "Liked Songs playlist",
+        coverImage: "https://misc.scdn.co/liked-songs/liked-songs-300.jpg",
+        tags: ["liked"],
+        createdBy: {
+            "_id": "musicfy",
+            "username": "Musicfy",
+            "imgUrl": "https://misc.scdn.co/liked-songs/playlist-announcement-image.jpg"
+        },
+        likedByUsers: [],
+        isLikedSongsPlaylist: true,
+        isPrivate: false,
+        songs: []
+    }
+
+    const saved = await save(likedStation)
+    return { stationId: saved._id, lastPlayedAt: Date.now(), isPinned: true, stationName: 'Liked Songs' }
 }
 
 function _createStations() {

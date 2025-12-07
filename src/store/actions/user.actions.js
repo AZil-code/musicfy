@@ -3,6 +3,42 @@ import { store } from '../store'
 import { userService } from "../../services/user.service.js"
 import { stationService } from "../../services/station.service.js"
 
+export async function loginUser(credentials){
+    try{
+        const sessionUser = await userService.login(credentials)
+        const hydratedUser = sessionUser?._id ? await userService.getById(sessionUser._id).catch(() => null) : null
+        const user = {
+            ...(hydratedUser || sessionUser || {}),
+            savedStations: Array.isArray((hydratedUser || sessionUser || {}).savedStations) ? (hydratedUser || sessionUser || {}).savedStations : [],
+            recentlyPlayed: Array.isArray((hydratedUser || sessionUser || {}).recentlyPlayed) ? (hydratedUser || sessionUser || {}).recentlyPlayed : []
+        }
+
+        store.dispatch({ type: SET_USER, user })
+        return user
+    } catch(error){
+        console.error('error in user actions (loginUser); ', error)
+        throw error
+    }
+}
+
+export async function signupUser(credentials){
+    try{
+        const sessionUser = await userService.signup(credentials)
+        const hydratedUser = sessionUser?._id ? await userService.getById(sessionUser._id).catch(() => null) : null
+        const user = {
+            ...(hydratedUser || sessionUser || {}),
+            savedStations: Array.isArray((hydratedUser || sessionUser || {}).savedStations) ? (hydratedUser || sessionUser || {}).savedStations : [],
+            recentlyPlayed: Array.isArray((hydratedUser || sessionUser || {}).recentlyPlayed) ? (hydratedUser || sessionUser || {}).recentlyPlayed : []
+        }
+
+        store.dispatch({ type: SET_USER, user })
+        return user
+    } catch(error){
+        console.error('error in user actions (signupUser); ', error)
+        throw error
+    }
+}
+
 export async function fetchRecentlyPlayed() {
     const state = store.getState()
     try {
@@ -53,7 +89,7 @@ export async function getUserStations(sortBy='Recents'){
         if (!loggedInUser) return []
 
         const user = await userService.getById(loggedInUser._id)
-        const userStations = user.savedStations
+        const userStations = Array.isArray(user.savedStations) ? [...user.savedStations] : []
 
         sortBy === 'Recents' && (userStations.sort( (a,b) => b.lastPlayedAt - a.lastPlayedAt ))
         sortBy === 'Alphabetical' && (userStations.sort((a, b) =>(a.stationName || '').toLowerCase().localeCompare((b.stationName || '').toLowerCase())))
@@ -158,7 +194,6 @@ export async function removeUserStation(stationId){
 
 export async function pinStation(stationId){
    try {
-        console.log('stationId: ', stationId)
 
         const state = store.getState()
         const loggedInUser = state.userModule.user
