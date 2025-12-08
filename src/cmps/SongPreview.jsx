@@ -77,11 +77,19 @@ export function SongPreview({
       >
          {type === 'StationDetails' && (
             <div className="song-preview-index">
-               <span className="song-preview-number">{idx !== null ? idx + 1 : idx}</span>
+               <span className="song-preview-number">
+                  {
+                     (isPlaying && isCurrent) ?
+                        <img className='song-preview-playing-img' src="https://open.spotifycdn.com/cdn/images/equaliser-green.f8937a92.svg" alt="isPlaying" />
+                     :
+                        idx !== null ? idx + 1 : idx
+                  }
+               </span>
+               
                <button
                   className="song-preview-play-btn"
                   type="button"
-                  aria-label={isCurrent && isPlaying ? 'Pause song' : 'Play song'}
+                  aria-label={(isCurrent && isPlaying) ? 'Pause song' : 'Play song'}
                   onClick={(event) => {
                      event.stopPropagation();
                      handleSelect();

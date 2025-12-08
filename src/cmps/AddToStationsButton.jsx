@@ -3,13 +3,22 @@ import { useSelector } from 'react-redux'
 
 import { AddToStationsModal } from './AddToStationsModal.jsx'
 import { addSong, removeSong, createStation, saveStation, fetchStations } from '../store/actions/station.actions.js'
+import { getUserStations } from '../store/actions/user.actions.js'
+
 
 export function AddToStationsButton({ song, station=null, inModal=false, className='' }) {
-    const stations = useSelector((state) => state.stationModule.stations)
+
+    const allStations = useSelector((state) => state.stationModule.stations)
+    
+    const [stations, setStations] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [isAdded, setIsAdded] = useState(false)
     const [stationToAdd, setStationToAdd] = useState(station)
     const containerRef = useRef(null)
+
+    useEffect( () => {
+        loadUserStations()
+    }, [allStations])
 
     
     useEffect( () => {
@@ -22,7 +31,7 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
         if (stationToAdd && song && Array.isArray(stationToAdd.songs)) {
             setIsAdded(stationToAdd.songs.some((item) => item._id === song._id))
         }
-    }, [song, stations])  
+    }, [song, stations, allStations])  
 
     useEffect( () => {
         if (song && stationToAdd && Array.isArray(stationToAdd.songs)) {
@@ -36,6 +45,7 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
         if (isAdded) {
             if (inModal && stationToAdd) {
                 removeSong(stationToAdd, song)
+                setIsAdded(false)
             }
             else setIsOpen(true)
         } else {
@@ -44,6 +54,11 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
                 setIsAdded(true)
             }
         }       
+    }
+
+    const loadUserStations = async () => {
+        const loadedStations = await getUserStations()
+        setStations(loadedStations)
     }
  
     return (

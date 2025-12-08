@@ -53,6 +53,7 @@ async function signup(credentials) {
       try {
          const likedEntry = await stationService.createLikedSongs();
          user.savedStations = [likedEntry];
+         await saveUser(user)
       } catch (err) {
          console.error('signup -> failed to create liked songs entry', err);
       }

@@ -18,7 +18,7 @@ export function StationDetails({ stationId }) {
    const params = useParams();
    const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId);
    const stations = useSelector((storeState) => storeState.stationModule.stations);
-   const { currentSong, isPlaying, isShuffle } = useSelector((storeState) => storeState.playerModule);
+   const { currentSong, isPlaying, isShuffle, currentStation } = useSelector((storeState) => storeState.playerModule);
    const { user } = useSelector( (storeState) => storeState.userModule)
    // const [headerGradient, setHeaderGradient] = useState(null)
    const [isFindMore, setIsFindMore] = useState(false);
@@ -30,6 +30,8 @@ export function StationDetails({ stationId }) {
    const stickyControlsRef = useRef();
    const stickySentinelRef = useRef(null);
    const indexLiRef = useRef()
+   const infoContainerRef = useRef(null)
+   const titleRef = useRef(null)
 
    const activeStationId = selectedStationId || stationId || params.stationID;
 
@@ -188,6 +190,35 @@ export function StationDetails({ stationId }) {
       }
    };
 
+   useEffect(() => {
+      const titleEl = titleRef.current
+      const containerEl = infoContainerRef.current || titleEl?.parentElement
+      if (!titleEl || !containerEl || typeof ResizeObserver === 'undefined') return
+
+      const MAX = 90
+      const MIN = 32
+
+      const fitTitle = () => {
+         if (!titleEl || !containerEl) return
+         titleEl.style.fontSize = `${MAX}px`
+         titleEl.style.whiteSpace = 'nowrap'
+
+         const available = containerEl.clientWidth
+         let size = MAX
+
+         while (size > MIN && titleEl.scrollWidth > available) {
+            size -= 1
+            titleEl.style.fontSize = `${size}px`
+         }
+      }
+
+      const ro = new ResizeObserver(fitTitle)
+      ro.observe(containerEl)
+      fitTitle()
+
+      return () => ro.disconnect()
+   }, [station && station.name])
+
    const handleRemoveSong = async (song) => {
       if (!station || !song) return;
       try {
@@ -254,11 +285,11 @@ export function StationDetails({ stationId }) {
                <div className="station-details-cover">
                   <img className="station-details-img" src={coverImage} alt={`${station.name || 'Station'} cover`} />
                </div>
-               <div className="station-details-info-container">
+               <div className="station-details-info-container" ref={infoContainerRef}>
                   <p className="station-details-station-type">Playlist</p>
-                  <h1 className="station-details-title">{station.name || 'Untitled station'}</h1>
+                  <h1 ref={titleRef} className="station-details-title">{station.name || 'Untitled station'}</h1>
                   <p className="station-details-user-info-container">
-                     <span className="station-detials-user text-span-center text-white">Vadim</span>
+                     <span className="station-detials-user text-span-center text-white">{station.createdBy.username || station.createdBy.fullname}</span>
                      <span>•</span>
                      <span className="station-detials-song-length text-span-center text-gray">
                         {songs.length + ' songs'}
@@ -275,6 +306,7 @@ export function StationDetails({ stationId }) {
                   alwaysShow={true}
                   variant={'station'}
                />
+               
                <button className='station-shuffle-button' onClick={handleShuffle}>
                   <ShuffleButton className='station-shuffle-icon' ariaPressed={(!!isShuffle && currentSong) && (station.songs.findIndex((song) => song._id === currentSong._id) !== -1)}/>
                </button>
