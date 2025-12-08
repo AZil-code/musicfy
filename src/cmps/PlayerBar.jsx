@@ -49,17 +49,19 @@ export function PlayerBar() {
    const [currentTime, setCurrentTime] = useState(0);
    const [isSeeking, setIsSeeking] = useState(false);
 
-   // Load a default song if none is selected
-   useEffect(() => {
-      if (currentSong) return;
-      if (!Array.isArray(stations) || !stations.length) return;
+    // Load a default song if none is selected
+    useEffect(() => {
+        if (currentSong) return
+        if (!Array.isArray(stations) || !stations.length) return
 
-      const stationWithSongs = stations.find((station) => Array.isArray(station?.songs) && station.songs.length);
-      const firstSong = stationWithSongs ? stationWithSongs.songs[0] : null;
+        const stationWithSongs = stations.find(
+            (station) => Array.isArray(station?.songs) && station.songs.length
+        )
+        const firstSong = stationWithSongs ? stationWithSongs.songs[0] : null
 
-      console.log('firstSong: ', firstSong);
+        console.log('firstSong: ', firstSong)
 
-      if (!firstSong) return;
+        if (!firstSong) return
 
       setCurrentSong(firstSong, {
          queue: stationWithSongs.songs,
@@ -202,20 +204,21 @@ export function PlayerBar() {
             onError={(error) => console.error('Player error:', error)}
          />
 
-         <section className="player-bar-info-section">
-            {songImg && (
-               <div>
-                  <img src={songImg} alt="Current track cover" className="player-bar-song-img" />
-               </div>
-            )}
-            <div className="player-bar-info-container">
-               <Link to={`/station/${''}`} className="player-bar-song-name">
-                  {songTitle}
-               </Link>
-               <p>{artistNames}</p>
-            </div>
-            <AddToStationsButton className="player-bar-add-to-station" song={currentSong} />
-         </section>
+            <section className="player-bar-info-section">
+                {songImg &&
+                    <div className="player-bar-song-img-container">
+                        <img src={songImg} alt="Current track cover" className="player-bar-song-img" /> 
+                    </div>
+                }
+                <div className="player-bar-info-container">
+                    <Link to={`/station/${''}`} className="player-bar-song-name">
+                        {songTitle}
+                    </Link>
+                    <p>{artistNames}</p>
+                </div>
+                <AddToStationsButton className='player-bar-add-to-station' song={ currentSong }/>
+
+            </section>
 
          <section className="player-bar-controls-section">
             <div className="player-bar-controls-buttons-container">

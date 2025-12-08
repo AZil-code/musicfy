@@ -1,5 +1,9 @@
 import { formatTime } from '../services/util.service.js';
-import { AddToStationsButton } from './AddToStationsButton.jsx';
+import { useEffect } from 'react'
+
+import { AddToStationsButton } from './AddToStationsButton.jsx'
+
+
 
 export function SongPreview({
    idx = null,
@@ -9,6 +13,7 @@ export function SongPreview({
    isCurrent = false,
    isPlaying = false,
    onContextMenu,
+   onAdd=null,
    type = 'StationDetails',
 }) {
    const artistNames = Array.isArray(song.artists) ? song.artists.join(', ') : 'Unknown artist';
@@ -30,10 +35,20 @@ export function SongPreview({
       onRemove(song);
    };
 
+   const handleAddSong = () => {
+      onAdd(song)
+   }
+
+   
+
    function createActions() {
       switch (type) {
          case 'FindMore':
-            return <button className="circle-btn">Add</button>;
+            return (
+               
+                  <button className="circle-btn" onClick={handleAddSong}>Add</button>
+               
+            )
          default:
             return (
                <>
@@ -58,11 +73,19 @@ export function SongPreview({
       >
          {type === 'StationDetails' && (
             <div className="song-preview-index">
-               <span className="song-preview-number">{idx !== null ? idx + 1 : idx}</span>
+               <span className="song-preview-number">
+                  {
+                     (isPlaying && isCurrent) ?
+                        <img className='song-preview-playing-img' src="https://open.spotifycdn.com/cdn/images/equaliser-green.f8937a92.svg" alt="isPlaying" />
+                     :
+                        idx !== null ? idx + 1 : idx
+                  }
+               </span>
+               
                <button
                   className="song-preview-play-btn"
                   type="button"
-                  aria-label={isCurrent && isPlaying ? 'Pause song' : 'Play song'}
+                  aria-label={(isCurrent && isPlaying) ? 'Pause song' : 'Play song'}
                   onClick={(event) => {
                      event.stopPropagation();
                      handleSelect();

@@ -90,6 +90,10 @@
 
 }
 
+.station-preview-collapsed{
+    padding-left: 0 !important;
+}
+
 
 
 .station-selected {

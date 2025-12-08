@@ -3,6 +3,8 @@
     height: 100%;
     overflow-y: scroll;
     position: relative;
+    overflow-x: hidden;
+    max-width: 100%;
 
     /* padding-right: 16px;
     margin-right: -16px; */
@@ -57,15 +59,27 @@
 }
 
 .station-details-title {
+    /* font-size: clamp(2.5rem, 5vw, 3.5rem); */
+    font-size: 90px;
     margin: 0;
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    font-weight: 1200;
+    font-weight: 800;
+    white-space: nowrap;
+    line-height: 1.05;
+    max-width: 100%;
 }
+
+/* @media (max-width: 1200px) {
+    .station-details-title {
+        font-size: 72px;
+    }
+} */
 
 .station-details-info-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    flex: 1;
+    min-width: 0;
 }
 
 .station-details-user-info-container {
@@ -219,4 +233,3 @@
     display: flex;
     /* opacity: 1; */
 }
-
