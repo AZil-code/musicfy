@@ -11,7 +11,7 @@ export function SongPreview({
    onContextMenu,
    type = 'StationDetails',
 }) {
-   const artistNames = Array.isArray(song.artists) ? song.artists.join(', ') : 'Unknown artist';
+   const artistNames = Array.isArray(song.artists) ? song.artists.map(artist => artist.name).join(', ') : 'Unknown artist';
 
    const formattedDuration = formatTime(song.duration);
 
