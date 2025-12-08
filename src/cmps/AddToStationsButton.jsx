@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { AddToStationsModal } from './AddToStationsModal.jsx'
 import { addSong, removeSong, createStation, saveStation, fetchStations } from '../store/actions/station.actions.js'
+import { fetchYtbId } from '../store/actions/search.actions.js'
 
 export function AddToStationsButton({ song, station=null, inModal=false, className='' }) {
     const stations = useSelector((state) => state.stationModule.stations)
@@ -30,7 +31,7 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
         }
     }, [stationToAdd])
 
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
 
         e.stopPropagation()
         if (isAdded) {
@@ -39,7 +40,8 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
             }
             else setIsOpen(true)
         } else {
-            if (song && stationToAdd){
+            if (song && stationToAdd) {
+                if(!song.ytbId) await fetchYtbId(song)
                 addSong(stationToAdd, song)
                 setIsAdded(true)
             }
