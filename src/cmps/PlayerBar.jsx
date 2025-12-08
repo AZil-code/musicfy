@@ -42,7 +42,7 @@ export function PlayerBar() {
     const repeatButtonRef = useRef()
     
     const { currentSong, isPlaying, queue, isShuffle, isRepeat } = useSelector((storeState) => storeState.playerModule)
-    const { stations, selectedStationId } = useSelector((storeState) => storeState.stationModule.stations)
+    const { stations, selectedStationId } = useSelector((storeState) => storeState.stationModule)
 
     const [volume, setVolume] = useState(0.7)
     const [duration, setDuration] = useState(0)
@@ -52,6 +52,7 @@ export function PlayerBar() {
     // Load a default song if none is selected
     useEffect(() => {
         if (currentSong) return
+        console.log('stations: ', stations)
         if (!Array.isArray(stations) || !stations.length) return
 
         const stationWithSongs = stations.find(
@@ -206,7 +207,7 @@ export function PlayerBar() {
 
             <section className="player-bar-info-section">
                 {songImg &&
-                    <div>
+                    <div className="player-bar-song-img-container">
                         <img src={songImg} alt="Current track cover" className="player-bar-song-img" /> 
                     </div>
                 }

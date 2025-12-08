@@ -1,4 +1,8 @@
-import { AddToStationsButton } from './AddToStationsButton.jsx';
+import { useEffect } from 'react'
+
+import { AddToStationsButton } from './AddToStationsButton.jsx'
+
+
 
 export function SongPreview({
    idx = null,
@@ -8,6 +12,7 @@ export function SongPreview({
    isCurrent = false,
    isPlaying = false,
    onContextMenu,
+   onAdd=null,
    type = 'StationDetails',
 }) {
    const artistNames = Array.isArray(song.artists)
@@ -34,12 +39,18 @@ export function SongPreview({
       onRemove(song);
    };
 
+   const handleAddSong = () => {
+      onAdd(song)
+   }
+
+   
+
    function createActions() {
       switch (type) {
          case 'FindMore':
             return (
                
-                  <button className="circle-btn">Add</button>
+                  <button className="circle-btn" onClick={handleAddSong}>Add</button>
                
             )
          default:

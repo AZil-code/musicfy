@@ -5,8 +5,9 @@ import { useSelector } from 'react-redux';
 import { SongList } from '../cmps/SongList.jsx';
 import { setCurrentSong, play, pause, shuffle, setCurrentStation } from '../store/actions/player.actions.js';
 import { selectStation } from '../store/actions/station.actions.js';
-import { fetchStations, removeSong, updateStationArtwork } from '../store/actions/station.actions.js';
+import { addSong, fetchStations, removeSong, updateStationArtwork } from '../store/actions/station.actions.js';
 import { getUserStations, removeUserStation, addUserStation } from '../store/actions/user.actions.js';
+
 import { FindMore } from '../cmps/FindMore.jsx';
 import { PlayButton } from '../cmps/PlayButton.jsx';
 import { ShuffleButton } from '../svgs/Icons.jsx';
@@ -50,20 +51,19 @@ export function StationDetails({ stationId }) {
 
    useEffect(() => {
       const sentinel = stickySentinelRef.current;
+
       if (!sentinel || typeof IntersectionObserver === 'undefined') return;
 
       const observer = new IntersectionObserver(
          ([entry]) => {
             setShowStickyControls(!entry.isIntersecting)
-            // indexLiRef.current.style.backgroundColor = 'var(--body-mid-gray)'
-            // indexLiRef.current.style.opacity = '1'
          },
          { root: null, threshold: 0 }
       );
 
       observer.observe(sentinel);
       return () => observer.disconnect();
-   }, []);
+   }, [stickySentinelRef.current]);
 
    
 
@@ -229,6 +229,9 @@ export function StationDetails({ stationId }) {
          removeUserStation(station._id) :
          addUserStation(station._id)
    }
+   function handleAddSong(song){
+      addSong(station, song)
+   }
 
    if (!station || !user) {
       return (
@@ -299,7 +302,7 @@ export function StationDetails({ stationId }) {
                showStickyControls={showStickyControls}
             />
             {isFindMore ? (
-               <FindMore onClose={onFindMore} />
+               <FindMore onClose={onFindMore} onAddSong={handleAddSong}/>
                   ) : (
                <button onClick={onFindMore} className="find-more-btn">
                   Find More

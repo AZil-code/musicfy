@@ -4,12 +4,14 @@ import { youtubeService } from '../services/youtube.service.js';
 import { SongPreview } from './SongPreview.jsx';
 import { X } from '../svgs/Icons.jsx';
 
-export function FindMore({ onClose }) {
+
+export function FindMore({ onClose, onAddSong }) {
    const [songs, setSongs] = useState([]);
 
    async function onSearchSongs(searchStr) {
       setSongs(await youtubeService.searchSongs(searchStr));
    }
+
 
    return (
       <section className="find-more-container">
@@ -27,6 +29,7 @@ export function FindMore({ onClose }) {
                      song={youtubeService.formatSong(song)}
                      onSelect={() => null}
                      onRemove={() => null}
+                     onAdd={onAddSong}
                      onContextMenu={() => null}
                      type={'FindMore'}
                   />

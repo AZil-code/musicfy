@@ -45,12 +45,21 @@
     margin-left: 24px;
 }
 
+.player-bar-song-img-container{
+    width: 56px;
+    height: 56px;
+    overflow: hidden;
+    border: 0px solid;
+    border-radius: 4px;
+}
+
 .player-bar-song-img {
-    width: 62px;
-    height: 62px;
-    border-radius: 8px;
+    width: 56px;
+    height: 56px;
+    
     object-fit: cover;
     background-color: var(--surface-overlay);
+    transform: scale(1.4);
 }
 
 .player-bar-info-container {
@@ -131,6 +140,7 @@
 }
 
 .player-bar-controls-progress {
+    cursor: pointer;
     position: relative;
     flex: 1;
     -webkit-appearance: none;
@@ -189,6 +199,7 @@
 }
 
 .player-bar-volume input {
+    cursor: pointer;
     width: 100%;
     -webkit-appearance: none;
     appearance: none;
@@ -311,6 +322,15 @@ input[type="range"]{
 .player-bar-controls-icon[aria-pressed='true'],
 .player-bar-controls-icon[data-active='true'] {
     color: var(--body-green);
+}
+
+.player-bar-controls-icon[aria-pressed='true']::after{
+    content: '•';
+    color: var(--body-green);
+    margin-top: 24px;
+    /* padding: 0; */
+    position: absolute;
+    font-size: 16px;
 }
 
 .player-bar-controls-prev:disabled,
