@@ -173,7 +173,7 @@ export function PlayerBar() {
    const songTitle = currentSong && currentSong.title ? currentSong.title : 'song';
    const artistNames =
       currentSong && currentSong.artists && Array.isArray(currentSong.artists)
-         ? currentSong.artists.join(', ')
+         ? currentSong.artists.map(artist => artist.name).join(', ')
          : 'Unknown artist';
    const songImg = currentSong && currentSong.imgUrl ? currentSong.imgUrl : undefined;
    const songUrl =

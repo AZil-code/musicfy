@@ -9,6 +9,7 @@ import {
 import { addRecentlyPlayed } from './user.actions.js'; 
 import { store } from '../store.js';
 import { getRandomIntInclusive, getIndexArray } from '../../services/util.service.js';
+import { fetchYtbId } from './search.actions.js';
 
 const { dispatch } = store;
 const getState = () => store.getState();
@@ -69,8 +70,9 @@ export const repeat = (repeat) => {
    }
 };
 
-export const setCurrentSong = (song, options = {}) => {
+export const setCurrentSong = async (song, options = {}) => {
    try {
+      if(!song.ytbId) await fetchYtbId(song)
       dispatch({
          type: SET_CURRENT_SONG,
          currentSong: song,
