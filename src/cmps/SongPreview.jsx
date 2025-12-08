@@ -1,3 +1,4 @@
+import { formatTime } from '../services/util.service.js';
 import { AddToStationsButton } from './AddToStationsButton.jsx';
 
 export function SongPreview({
@@ -10,14 +11,9 @@ export function SongPreview({
    onContextMenu,
    type = 'StationDetails',
 }) {
-   const artistNames = Array.isArray(song.artists)
-      ? song.artists.map((artist) => artist.name).join(', ')
-      : 'Unknown artist';
+   const artistNames = Array.isArray(song.artists) ? song.artists.join(', ') : 'Unknown artist';
 
-   const durationSec = Number(song.duration || 0);
-   const minutes = Math.floor(durationSec / 60);
-   const seconds = Math.floor(durationSec % 60);
-   const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+   const formattedDuration = formatTime(song.duration);
 
    const albumName = typeof song.album === 'string' && song.album.trim().length ? song.album.trim() : 'Unknown album';
 
@@ -37,11 +33,7 @@ export function SongPreview({
    function createActions() {
       switch (type) {
          case 'FindMore':
-            return (
-               
-                  <button className="circle-btn">Add</button>
-               
-            )
+            return <button className="circle-btn">Add</button>;
          default:
             return (
                <>
@@ -88,7 +80,12 @@ export function SongPreview({
          )}
 
          <div className="song-preview-artwork-container">
-            <img className="song-preview-img" src={artworkUrl} alt={`${song.title || 'Song'} cover art`} loading="lazy" />
+            <img
+               className="song-preview-img"
+               src={artworkUrl}
+               alt={`${song.title || 'Song'} cover art`}
+               loading="lazy"
+            />
          </div>
 
          <div className="song-preview-meta">
