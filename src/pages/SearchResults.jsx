@@ -24,7 +24,6 @@ export function SearchResults() {
       if (!song) return;
       const selectedId = song._id;
       const currentId = currentSong ? currentSong._id : null;
-      if (!song.ytbId) await fetchYtbId(song);
 
       if (selectedId && currentId && String(selectedId) === String(currentId)) {
          if (isPlaying) pause();
