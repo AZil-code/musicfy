@@ -46,7 +46,7 @@ export function SongPreview({
          case 'FindMore':
             return (
                
-                  <button className="circle-btn" onClick={handleAddSong}>Add</button>
+               <button className="circle-btn" onClick={handleAddSong}>Add</button>
                
             )
          default:

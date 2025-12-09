@@ -1,17 +1,38 @@
 import { useState } from 'react';
 import { SearchBar } from './SearchBar.jsx';
-import { youtubeService } from '../services/youtube.service.js';
 import { SongPreview } from './SongPreview.jsx';
 import { X } from '../svgs/Icons.jsx';
+import { searchSong, fetchYtbId } from '../store/actions/search.actions.js';
 
 
 export function FindMore({ onClose, onAddSong }) {
    const [songs, setSongs] = useState([]);
 
    async function onSearchSongs(searchStr) {
-      setSongs(await youtubeService.searchSongs(searchStr));
+
+      if (!searchStr || searchStr === '') {
+         // setSongs([]);
+         return;
+      }
+      try {
+         const results = await searchSong(searchStr);
+         setSongs(Array.isArray(results) ? results : []);
+      } catch (err) {
+         console.error('FindMore -> search failed', err);
+         setSongs([]);
+      }
    }
 
+   async function handleAdd(song) {
+      try {
+         if (!song.ytbId) {
+            await fetchYtbId(song);
+         }
+         onAddSong(song);
+      } catch (err) {
+         console.error('FindMore -> add failed', err);
+      }
+   }
 
    return (
       <section className="find-more-container">
@@ -26,10 +47,10 @@ export function FindMore({ onClose, onAddSong }) {
             <ul>
                {songs.map((song) => (
                   <SongPreview
-                     song={youtubeService.formatSong(song)}
+                     song={song}
                      onSelect={() => null}
                      onRemove={() => null}
-                     onAdd={onAddSong}
+                     onAdd={handleAdd}
                      onContextMenu={() => null}
                      type={'FindMore'}
                   />

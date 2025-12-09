@@ -2,6 +2,7 @@ import { stationService } from '../../services/station.service';
 import { addRecentlyPlayed } from './user.actions.js';
 import { ADD_STATION, REMOVE_STATION, SELECT_STATION, SET_STATIONS, UPDATE_STATION } from '../reducers/station.reducer';
 import { store } from '../store';
+import { utilService } from '../../services/util.service.js';
 
 export async function fetchStations(filterBy) {
    try {
@@ -32,7 +33,8 @@ export async function createStation() {
 }
 
 export async function addSong(oldStation, song) {
-   oldStation.songs.push(song);
+   const songToAdd = song && song._id ? song : { ...song, _id: utilService.makeId() };
+   oldStation.songs.push(songToAdd);
    try {
       const station = await stationService.save(oldStation);
       store.dispatch({ station, type: UPDATE_STATION });

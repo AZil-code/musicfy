@@ -4,6 +4,7 @@ import { store } from '../store.js';
 
 export async function searchSong(searchStr) {
    try {
+      if (!searchStr || !String(searchStr).trim().length) return [];
       const songs = await searchService.search(searchStr);
       store.dispatch({ songs, type: SET_SEARCH_RESULTS });
       if (!Array.isArray(songs)) return [];
@@ -16,7 +17,13 @@ export async function searchSong(searchStr) {
 
 export async function fetchYtbId(song) {
    try {
-      const { ytbId } = await searchService.fetchYtbId(`${song.artists[0]} - ${song.title}`);
+      const firstArtist =
+         Array.isArray(song.artists) && song.artists.length
+            ? typeof song.artists[0] === 'string'
+               ? song.artists[0]
+               : song.artists[0]?.name || ''
+            : '';
+      const { ytbId } = await searchService.fetchYtbId(`${firstArtist} - ${song.title}`);
       if (!ytbId) throw new Error('Failed fetching Youtube ID');
       song.ytbId = ytbId;
       store.dispatch({ song, type: SET_YTB_ID });

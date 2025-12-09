@@ -111,7 +111,10 @@ export function handleMutliSelectChange({ options }) {
 }
 
 export function formatTime(ms) {
-   const durationSec = Math.floor(ms / 1000);
+   const numeric = Number(ms);
+   if (!Number.isFinite(numeric) || numeric < 0) return '0:00';
+   // Accept both milliseconds (legacy) and seconds (new Spotify data)
+   const durationSec = numeric > 1000 ? Math.floor(numeric / 1000) : Math.floor(numeric);
    const minutes = Math.floor(durationSec / 60);
    const seconds = Math.floor(durationSec % 60);
    return `${minutes}:${seconds.toString().padStart(2, '0')}`;

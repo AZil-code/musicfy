@@ -18,6 +18,12 @@
     padding: 32px;
 }
 
+.login-page-logo{
+    width: 140px;
+    height: auto;
+    margin-bottom: 24px;
+}
+
 .login-page-form{
     display: flex;
     flex-direction: column;
