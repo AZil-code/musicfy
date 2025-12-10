@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import { SongList } from '../cmps/SongList';
 import { fetchYtbId, searchSong } from '../store/actions/search.actions.js';
-import { setCurrentSong, play, pause } from '../store/actions/player.actions.js';
+import { setCurrentSong, setCurrentStation, play, pause } from '../store/actions/player.actions.js';
+import { selectStation } from '../store/actions/station.actions.js';
 
 export function SearchResults() {
    const [searchResults, setSearchResults] = useState([]);
@@ -31,6 +32,9 @@ export function SearchResults() {
       } else {
          const queue = searchResults;
          const queueIndex = queue.findIndex((currSong) => currSong && String(currSong._id) === String(selectedId));
+         // Playing from search results is not tied to a station, so clear station selection + currentStation highlight
+         selectStation(null);
+         setCurrentStation(null);
          setCurrentSong(song, {
             queue,
             queueIndex: queueIndex >= 0 ? queueIndex : 0,

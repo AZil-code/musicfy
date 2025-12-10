@@ -42,7 +42,9 @@ export function PlayerBar() {
    const repeatButtonRef = useRef();
 
    const { currentSong, isPlaying, queue, isShuffle, isRepeat } = useSelector((storeState) => storeState.playerModule);
-   const { stations, selectedStationId } = useSelector((storeState) => storeState.stationModule.stations);
+   const { stations, selectedStationId } = useSelector((storeState) => storeState.stationModule);
+
+   const { savedStations } = useSelector((storeState) => storeState.userModule.user)
 
    const [volume, setVolume] = useState(0.7);
    const [duration, setDuration] = useState(0);
@@ -52,11 +54,13 @@ export function PlayerBar() {
     // Load a default song if none is selected
     useEffect(() => {
         if (currentSong) return
-        if (!Array.isArray(stations) || !stations.length) return
+        // if (!Array.isArray(stations) || !stations.length) return
 
         const stationWithSongs = stations.find(
-            (station) => Array.isArray(station?.songs) && station.songs.length
+            (station) => Array.isArray(station?.songs)
         )
+        console.log('stationWithSongs: ', stationWithSongs)
+
         const firstSong = stationWithSongs ? stationWithSongs.songs[0] : null
 
         console.log('firstSong: ', firstSong)

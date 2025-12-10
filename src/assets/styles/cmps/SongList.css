@@ -173,6 +173,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     min-width: 0;
+    max-width: 100%;
     font-weight: 500;
     justify-self: start;
 }

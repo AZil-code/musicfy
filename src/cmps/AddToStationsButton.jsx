@@ -19,8 +19,10 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
 
     const getSongKey = (songToKey) => {
         if (!songToKey) return null
-        const directId = songToKey._id || songToKey.spotifyId || songToKey.ytbId
-        if (directId) return String(directId)
+        // Prefer stable external IDs first for consistency across UI and saved copies
+        if (songToKey.spotifyId) return `spotify:${songToKey.spotifyId}`
+        if (songToKey.ytbId) return `yt:${songToKey.ytbId}`
+        if (songToKey._id) return String(songToKey._id)
         const firstArtist = Array.isArray(songToKey.artists) ? songToKey.artists[0] : ''
         const artistName = typeof firstArtist === 'string' ? firstArtist : firstArtist?.name || ''
         const title = songToKey.title || ''
