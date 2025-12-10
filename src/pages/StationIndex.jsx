@@ -10,7 +10,7 @@ import { fetchStations } from '../store/actions/station.actions.js'
 import { selectStation } from '../store/actions/station.actions.js'
 import { store } from '../store/store.js';
 
-const categories = ['Pop', 'Rock', 'Metal', 'R&B', 'classics'];
+const categories = ['Rock', 'classics', 'Pop',  'Metal', 'R&B' ];
 
 export function StationIndex() {
    const { currentStation, isPlaying } = useSelector((store) => store.playerModule);

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { AddToStationsModal } from './AddToStationsModal.jsx'
 import { addSong, removeSong, createStation, saveStation, fetchStations } from '../store/actions/station.actions.js'
+import { fetchYtbId } from '../store/actions/search.actions.js'
 import { getUserStations } from '../store/actions/user.actions.js'
 
 
@@ -16,6 +17,25 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
     const [stationToAdd, setStationToAdd] = useState(station)
     const containerRef = useRef(null)
 
+    const getSongKey = (songToKey) => {
+        if (!songToKey) return null
+        // Prefer stable external IDs first for consistency across UI and saved copies
+        if (songToKey.spotifyId) return `spotify:${songToKey.spotifyId}`
+        if (songToKey.ytbId) return `yt:${songToKey.ytbId}`
+        if (songToKey._id) return String(songToKey._id)
+        const firstArtist = Array.isArray(songToKey.artists) ? songToKey.artists[0] : ''
+        const artistName = typeof firstArtist === 'string' ? firstArtist : firstArtist?.name || ''
+        const title = songToKey.title || ''
+        if (!artistName && !title) return null
+        return `${artistName}`.trim().toLowerCase() + ' - ' + `${title}`.trim().toLowerCase()
+    }
+
+    const isSongInStation = (candidate, stationToCheck) => {
+        const candidateKey = getSongKey(candidate)
+        if (!candidateKey || !stationToCheck || !Array.isArray(stationToCheck.songs)) return false
+        return stationToCheck.songs.some((item) => getSongKey(item) === candidateKey)
+    }
+
     useEffect( () => {
         loadUserStations()
     }, [allStations])
@@ -27,19 +47,13 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
         else if (stations) {
             setStationToAdd(stations[stations.findIndex( (s) => s._id === station._id)])
         }
-            
-        if (stationToAdd && song && Array.isArray(stationToAdd.songs)) {
-            setIsAdded(stationToAdd.songs.some((item) => item._id === song._id))
-        }
     }, [song, stations, allStations])  
 
     useEffect( () => {
-        if (song && stationToAdd && Array.isArray(stationToAdd.songs)) {
-            setIsAdded(stationToAdd.songs.some((item) => item._id === song._id))
-        }
-    }, [stationToAdd])
+        setIsAdded(isSongInStation(song, stationToAdd))
+    }, [stationToAdd, song])
 
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
 
         e.stopPropagation()
         if (isAdded) {
@@ -49,7 +63,8 @@ export function AddToStationsButton({ song, station=null, inModal=false, classNa
             }
             else setIsOpen(true)
         } else {
-            if (song && stationToAdd){
+            if (song && stationToAdd) {
+                if(!song.ytbId) await fetchYtbId(song)
                 addSong(stationToAdd, song)
                 setIsAdded(true)
             }

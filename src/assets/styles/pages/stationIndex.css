@@ -6,6 +6,7 @@
     box-sizing: border-box;
     padding: 40px 28px;
     z-index: 0;
+    background-color: var(--body-dark-gray);
     /* background: linear-gradient(180deg, #2f265a 0%, rgba(18, 18, 18, 0.85) 45%, rgba(18, 18, 18, 1) 70%); */
     /* background: linear-gradient(180deg, #2f265a 0%, rgba(18,18,18,0.85) 65%, rgba(18,18,18,1) 90%); */
 }

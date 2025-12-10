@@ -36,7 +36,7 @@ export function LoginPage(){
     return (
         <section className="login-page">
             <div className="login-page-content">
-                <div className="login-page-logo"></div>
+                <img className="login-page-logo" src="/src/assets/imgs/logo.png" alt="Musicfy logo" />
                 {isLogin ? 
                     <>
                         <h1 className="login-page-title">Welcome Back</h1>
