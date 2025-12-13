@@ -47,3 +47,19 @@
 .search-active svg {
    fill: var(--text-white);
 }
+
+.search-container .browse-container {
+   border-inline-start: 1px solid dimgrey;
+   /* height: 85%; */
+   button {
+      padding: 0;
+   }
+
+   /* svg {
+      fill: var(--text-white);
+   } */
+
+   svg.transparent {
+      fill: transparent;
+   }
+}

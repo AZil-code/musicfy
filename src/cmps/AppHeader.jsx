@@ -56,23 +56,30 @@ export function AppHeader() {
       setSearchStr(str);
    }
 
-   function handleImgClick(ev){
+   function handleImgClick(ev) {
       const rect = ev.currentTarget.getBoundingClientRect();
       setMenuData({
          visible: true,
          x: rect.left - 160,
          y: rect.bottom + 4,
          items: new Map([
-            ['Logout', async () => { 
-               await logoutUser(); 
-               navigate('/'); 
-            }],
-         ])
-      })
+            [
+               'Logout',
+               async () => {
+                  await logoutUser();
+                  navigate('/');
+               },
+            ],
+         ]),
+      });
    }
 
-   function onCloseMenu(){
-      setMenuData((prev) => ({ ...prev, visible: false }))
+   function onBrowseClick() {
+      navigate('/search');
+   }
+
+   function onCloseMenu() {
+      setMenuData((prev) => ({ ...prev, visible: false }));
    }
 
    return (
@@ -92,11 +99,16 @@ export function AppHeader() {
                   <path d="M13.5 1.515a3 3 0 0 0-3 0L3 5.845a2 2 0 0 0-1 1.732V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6h4v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.577a2 2 0 0 0-1-1.732z"></path>
                </svg>
             </button>
-            <SearchBar placeholderTxt={'What do you want to play?'} onSearch={onSearch} searchBarRef={searchBarRef} />
+            <SearchBar
+               placeholderTxt={'What do you want to play?'}
+               onSearch={onSearch}
+               searchBarRef={searchBarRef}
+               onBrowseClick={onBrowseClick}
+            />
          </div>
-         <div className='header-img-container' onClick={handleImgClick}>
+         <div className="header-img-container" onClick={handleImgClick}>
             <div className="header-img-ring">
-               <img src={userImg} alt="User avatar" className="header-img-avatar"/>
+               <img src={userImg} alt="User avatar" className="header-img-avatar" />
             </div>
          </div>
          {menuData.visible && <ContextMenu menuData={menuData} onClose={onCloseMenu} />}

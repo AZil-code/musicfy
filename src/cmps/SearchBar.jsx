@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { debounce } from '../services/util.service';
-import { MagnifyingGlass } from '../svgs/Icons.jsx';
+import { BrowseIcon, MagnifyingGlass } from '../svgs/Icons.jsx';
+import { useLocation } from 'react-router-dom';
 
-export function SearchBar({ onSearch, placeholderTxt, searchBarRef }) {
+export function SearchBar({ onSearch, placeholderTxt, searchBarRef, onBrowseClick }) {
+   const location = useLocation();
    const [isActive, setIsActive] = useState(false);
    const [searchStr, setSearchStr] = useState('');
    // const searchBarRef = useRef(null);
    const searchContainerRef = useRef(null);
    const searchStrDebounce = useRef(debounce(handleChange, 750)).current;
-
 
    useEffect(() => {
       onSearch(searchStr);
@@ -48,6 +49,14 @@ export function SearchBar({ onSearch, placeholderTxt, searchBarRef }) {
             placeholder={placeholderTxt}
             ref={searchBarRef}
          />
+         {onBrowseClick && (
+            <div className="browse-container">
+               <button onClick={onBrowseClick} title="Browse">
+                  {/* Need to add align filll acording to path */}
+                  <BrowseIcon />
+               </button>
+            </div>
+         )}
       </div>
    );
 }
