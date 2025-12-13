@@ -1,6 +1,6 @@
 import { httpService } from './http.service';
 
-export const searchService = { search, fetchYtbId };
+export const searchService = { search, fetchYtbId, getCategories };
 
 async function search(searchStr) {
    const endpoint = `search/spotify`;
@@ -17,8 +17,18 @@ async function fetchYtbId(songName) {
    const endpoint = `search/youtube`;
    try {
       const ytbId = await httpService.get(endpoint, { q: songName });
-      console.log(ytbId);
       return ytbId;
+   } catch (err) {
+      console.error(err);
+      throw err;
+   }
+}
+
+async function getCategories() {
+   const endpoint = `search`;
+   try {
+      const categories = await httpService.get(endpoint);
+      return categories;
    } catch (err) {
       console.error(err);
       throw err;

@@ -1,0 +1,9 @@
+.category-list {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+   grid-template-rows: repeat(auto-fill, minmax(130px, 175px));
+}
+
+.category-list div {
+   padding: 12px;
+}

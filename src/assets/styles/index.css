@@ -21,13 +21,14 @@
 @import './cmps/find-more.css';
 @import './cmps/edit-modal.css';
 @import './svgs/x.css';
+@import './cmps/category-card.css';
 
 @import './pages/stationDetails.css';
 @import './pages/stationIndex.css';
+@import './pages/browse-page.css';
 @import './cmps/playButton.css';
 @import './cmps/searchResults.css';
 @import './cmps/loginPage.css';
-
 
 html,
 body {
@@ -181,4 +182,3 @@ button:active {
 /* *::-webkit-scrollbar-track { background: transparent !important; }
 *::-webkit-scrollbar { width: 8px; }
 .page-station-details { scrollbar-color: rgba(255,255,255,0.35) transparent; } */
-

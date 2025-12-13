@@ -1,0 +1,23 @@
+.category-card {
+   position: relative;
+   color: var(--text-white);
+   min-height: 112.5px;
+   border-radius: 10px;
+   overflow: hidden;
+   cursor: pointer;
+}
+
+.category-card img {
+   position: relative;
+   top: 20%;
+   left: 45%;
+   width: 60%;
+   aspect-ratio: 1 / 1;
+   transform: rotate(25deg) translate(18%, -2%);
+}
+
+.category-card span {
+   position: absolute;
+   font-weight: 600;
+   font-size: large;
+}

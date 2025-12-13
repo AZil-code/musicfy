@@ -33,3 +33,12 @@ export async function fetchYtbId(song) {
       throw error;
    }
 }
+
+export async function fetchCategories() {
+   try {
+      return await searchService.getCategories();
+   } catch (error) {
+      console.error('search actions -> cannot fetch yotube ID! ', error);
+      throw error;
+   }
+}
