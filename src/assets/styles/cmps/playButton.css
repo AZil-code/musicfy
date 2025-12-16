@@ -37,8 +37,10 @@
 }
 
 .station-card:hover .play-button--card,
-.station-card .thumbnail-container:hover .play-button--card {
-   display: flex !important;
+.station-card .thumbnail-container:hover .play-button--card,
+.media-card:hover .play-button--card,
+.media-card-thumb:hover .play-button--card {
+    display: flex !important;
 }
 
 .play-button--preview {
