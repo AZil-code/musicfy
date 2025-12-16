@@ -23,6 +23,7 @@
     border-radius: 6px;
     transition: background-color 0.2s ease;
     position: relative;
+    
 }
 
 .song-preview-index {
@@ -138,7 +139,7 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transform: scale(1.4);
+    transform: scale(1);
     display: block;
 }
 

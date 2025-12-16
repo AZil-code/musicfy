@@ -9,14 +9,350 @@
     padding: 0px !important;
     padding-top: 24px !important;
     background-color: var(--body-dark-gray);
-   
+    color: var(--text-primary);
 }
 
 
 .search-results-page .song-preview-desc-container{
-    /* display: none !important; */
     position: relative !important;
     top: inherit;
-    
+}
 
+.search-hero{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 0 22px 12px;
+}
+
+.top-result-card{
+    background: transparent !important;
+    border-radius: 16px;
+    /* padding: 12px; */
+    /* box-shadow: 0 10px 30px rgba(0,0,0,0.35); */
+    height: 250px;
+    width: 100%;
+}
+
+.top-result-card h3{
+    margin: 0 0 12px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.top-result-body{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 0px solid;
+    border-radius: 6px;
+    gap: 20px;
+    background-color: #181818;
+    padding: 18px;
+    width: 90%;
+    min-width: 300px;
+    transition: 0.3s ease-in-out;
+    height: 196px;
+}
+
+.top-result-body:hover{
+    /* cursor: pointer; */
+    background-color: var(--body-mid-gray);
+}
+
+.top-result-image{
+    width: 92px;
+    /* align-self: center; */
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #191919;
+}
+
+.top-result-image img{
+    width: 92px;
+    height: 92px;
+    object-fit: cover;
+
+}
+
+.top-result-meta{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.top-songs{
+    min-width: 50%;
+}
+
+.top-songs .song-preview-index{
+    position: absolute;
+    z-index: 2;
+    align-self: center;
+    margin-top: 20px;
+    margin-left: 12px;
+}
+
+.top-songs .song-preview:hover{
+    background-color: var(--body-mid-gray);
+    img{
+        filter: brightness(0.6);
+        /* transition: filter 0.2s ease; */
+    }
+}
+
+.top-songs .song-preview{
+    padding-left: 4px;
+    grid-template-columns: 48px minmax(0, 2fr) 44px 56px;
+}
+
+.top-songs .song-preview .song-preview-number{
+    display: none;
+}
+
+.top-songs .song-list{
+    gap: 0px;
+}
+
+.top-songs .song-preview img{
+    height: 40px;
+    width: 40px;
+    transform: scale(1);
+    border-radius: 4px;
+
+}
+
+.top-songs .song-preview .song-preview-artwork-container{
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+}
+
+.top-songs .song-preview .song-preview-album{
+    display: none;
+}
+
+
+
+.top-result-meta h2{
+    margin: 0;
+    font-family: Montserrat;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.top-result-meta p{
+    font-family: Manrope;
+    margin: 0 0 12px;
+    color: var(--text-gray);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: start;
+}
+
+.top-result-play{
+    display: none;
+    position: relative;
+    align-self: flex-end;
+    justify-self: flex-end;
+    align-items: center;
+    width: auto;
+    height: auto;
+    gap: 12px;
+    opacity: 0;
+    transition: 0.3 ease-in;
+}
+
+.top-result-body .top-result-play:hover{
+    .top-result-play{
+        opacity: 1;
+    }
+}
+
+
+.top-songs h3{
+    margin: 0 0 8px;
+    padding: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.top-songs .song-list-container{
+    background: transparent;
+    border-radius: 12px;
+    padding: 6px 0 8px;
+}
+
+.top-songs .song-preview-desc-container{
+    display: none;
+}
+
+.top-songs .play-button{
+    align-self: flex-end;
+    justify-self: flex-end;
+    display: none !important;
+}
+
+.media-card-thumb .play-button{
+    position: relative;
+    right: 0px;
+    bottom: 0px;
+    /* width: 50px;
+    height: 50px; */
+}
+
+.search-results-page .search-section{
+    padding: 8px 12px 12px 12px !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 0px;
+}
+
+.search-results-page .search-section h3{
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    margin-left: 12px !important;
+    
+    align-self: flex-start;
+}
+
+.search-results-page .media-row{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+}
+
+.search-results-page .search-section .embla{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.search-results-page .search-section .embla__viewport{
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    /* left: -30px; */
+    /* margin-right: 20px; */
+}
+
+.search-results-page .search-section .embla__container{
+    display: flex;
+    gap: 0px;
+    will-change: transform;
+    touch-action: pan-y;
+    position: relative;
+    /* left: -16px; */
+    width: 100%;
+}
+
+.search-results-page .search-section .embla__slide{
+    flex: 0 0 clamp(200px, 5vw, 220px);
+
+    height: auto;
+    min-width: 0;
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+.embla__next{
+    margin-right: 20px;
+}
+
+.media-card{
+    background: transparent;
+    border-radius: 6px;
+    padding: 12px;
+    transition: background 0.15s ease;
+    cursor: pointer;
+    min-width: 0;
+    width: 100%;
+    height: 250px;
+}
+
+.media-card:hover{
+    background: rgba(255,255,255,0.04);
+}
+
+.media-card-thumb{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.media-card-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-card-actions{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.media-card:hover .media-card-actions{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.media-card-title{
+    font-weight: 500;
+
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
+}
+
+.media-card-subtitle{
+    color: var(--text-gray);
+    font-size: 13.8px;
+    font-weight: 500;
+}
+
+.search-section .embla__btn{
+    align-self: center;
+}
+
+@media (max-width: 1100px) {
+    .search-hero{
+        flex-direction: column;    
+        gap:42px;
+        padding-left: 12px;
+    }
+    .top-songs{
+        h3{
+            padding: 0;
+            margin: 0 8px 8px;
+        }
+    }
+
+    .top-result-body{
+        grid-template-columns: 1fr;
+        text-align: center;
+        width: 70%;    
+    }
+    .top-result-play{
+        justify-content: center;
+    }
+}
+
+@media (max-width: 915px){
+    .top-result-body{
+        width: 100%;    
+    }
 }

@@ -5,10 +5,24 @@ import { store } from '../store.js';
 export async function searchSong(searchStr) {
    try {
       if (!searchStr || !String(searchStr).trim().length) return [];
-      const songs = await searchService.search(searchStr);
-      store.dispatch({ songs, type: SET_SEARCH_RESULTS });
+      const songs = await searchService.searchSongs(searchStr);
+      store.dispatch({
+         type: SET_SEARCH_RESULTS,
+         results: { tracks: songs, albums: [], artists: [], playlists: [] },
+      });
       if (!Array.isArray(songs)) return [];
       return songs;
+   } catch (error) {
+      console.error('search actions -> cannot search songs! ', error);
+      throw error;
+   }
+}
+export async function searchFull(searchStr) {
+   try {
+      if (!searchStr || !String(searchStr).trim().length) return [];
+      const results = await searchService.search(searchStr);
+      store.dispatch({ results, type: SET_SEARCH_RESULTS });
+      return results;
    } catch (error) {
       console.error('search actions -> cannot search songs! ', error);
       throw error;
