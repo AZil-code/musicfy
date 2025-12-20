@@ -13,6 +13,7 @@ import { SearchResults } from './pages/SearchResults.jsx';
 
 import { store } from './store/store.js';
 import { BrowsePage } from './pages/BrowsePage.jsx';
+import { GenrePage } from './pages/GenrePage.jsx';
 
 function App() {
    const loggedInUser = useSelector((storeState) => storeState.userModule.user);
@@ -36,6 +37,7 @@ function App() {
                      <Route path="/station/:stationID" element={<StationDetails />} />
                      <Route path="/search" element={<BrowsePage />} />
                      <Route path="/search/:searchStr" element={<SearchResults />} />
+                     <Route path="genre/:genreName" element={<GenrePage />} />
                   </Routes>
                </main>
 

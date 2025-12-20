@@ -25,6 +25,7 @@
 
 @import './pages/stationDetails.css';
 @import './pages/stationIndex.css';
+@import './pages/genre-page.css';
 @import './pages/browse-page.css';
 @import './cmps/playButton.css';
 @import './cmps/searchResults.css';
