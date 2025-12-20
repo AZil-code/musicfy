@@ -15,6 +15,20 @@ export async function searchSong(searchStr) {
    }
 }
 
+export async function searchGenre(searchStr) {
+   try {
+      if (!searchStr || !String(searchStr).trim().length) return [];
+      const res = await searchService.searchStations(searchStr);
+      return {
+         playlists: res.playlists,
+         albums: res.albums,
+      };
+   } catch (error) {
+      console.error('search actions -> cannot search stations! ', error);
+      throw error;
+   }
+}
+
 export async function fetchYtbId(song) {
    try {
       const firstArtist =

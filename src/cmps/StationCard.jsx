@@ -24,12 +24,12 @@ export function StationCard({ station, onClickCard }) {
    function onSelectStation(stationId) {
       selectStation(stationId);
       navigate(`/station/${stationId}`);
-   } 
+   }
 
    return (
-      <div className="station-card" onClick={() => onSelectStation(station._id)}>
+      <div className="station-card" onClick={() => onSelectStation(station._id || station.spotifyId)}>
          {/* <div className="thumbnail-container"> */}
-         <div className="thumbnail-btn thumbnail-container" >
+         <div className="thumbnail-btn thumbnail-container">
             <PlayButton
                className="circle-btn"
                variant="card"
