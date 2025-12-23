@@ -72,3 +72,116 @@
     min-height: 0;
 }
 
+.spotify-layout-mobile-nav{
+    display: none;
+}
+
+@media (max-width: 765px) {
+    .spotify-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto auto;
+        grid-template-areas:
+            "main"
+            "main"
+            "player"
+            "mobile-nav";
+        height: 100vh;
+        padding: 0;
+        gap: 0;
+        width: 100vw;
+        grid-template-columns: 1fr !important;
+    }
+
+    .spotify-layout-header,
+    .spotify-layout-sidebar {
+        display: none;
+    }
+
+    .spotify-layout-main {
+        padding: 0 0 calc(128px + env(safe-area-inset-bottom));
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    .spotify-layout-player {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 56px;
+        height: auto;
+        padding: 0;
+        border-radius: 0;
+        background-color: var(--body-black);
+        border-top: 1px solid rgba(255,255,255,0.05);
+        z-index: 26;
+    }
+
+    .spotify-layout-mobile-nav{
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 12;
+    }
+
+    .mobile-nav{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background-color: var(--body-black);
+        border-top: 1px solid rgba(255,255,255,0.06);
+        padding: 6px 8px env(safe-area-inset-bottom);
+        height: 66px;
+        gap: 4px;
+    }
+
+    .mobile-nav-item{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        border: none;
+        background: none;
+        color: var(--text-gray);
+        font-size: 12px;
+        padding: 8px 4px;
+    }
+
+    .mobile-nav-item svg{
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+    }
+
+    .mobile-nav-item.active{
+        color: var(--text-white);
+    }
+
+    .mobile-nav-item:active{
+        color: var(--body-green);
+    }
+
+    .spotify-layout.mobile-library-open{
+        overflow: hidden;
+    }
+
+    .spotify-layout.mobile-library-open .spotify-layout-sidebar{
+        display: flex;
+        position: fixed;
+        inset: 0 0 calc(128px + env(safe-area-inset-bottom)) 0;
+        z-index: 24;
+        border-radius: 0;
+        background-color: var(--body-dark-gray);
+    }
+
+    .mobile-library-backdrop{
+        position: fixed;
+        inset: 0 0 calc(128px + env(safe-area-inset-bottom)) 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 20;
+    }
+
+    .spotify-layout-mobile-nav{
+        z-index: 30;
+    }
+}

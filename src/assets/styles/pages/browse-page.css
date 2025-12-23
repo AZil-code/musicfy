@@ -8,3 +8,21 @@
 .category-list div {
    padding: 12px;
 }
+
+.mobile-search-inline{
+   display: none;
+}
+
+@media (max-width: 765px) {
+   .category-list{
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      max-height: unset;
+      gap: 12px;
+      padding: 0 8px 12px;
+   }
+
+   .mobile-search-inline{
+      display: block;
+      padding: 12px 12px 0;
+   }
+}

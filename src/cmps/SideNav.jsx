@@ -47,6 +47,9 @@ export function SideNav() {
    // Adjust the main layout columns from the sidebar
    useEffect(() => {
       const layoutEl = document.querySelector('.spotify-layout');
+      if (!layoutEl) return;
+      const isMobile = window.matchMedia && window.matchMedia('(max-width: 765px)').matches;
+      if (isMobile) return;
       const original = layoutEl.style.gridTemplateColumns;
       layoutEl.style.gridTemplateColumns = isColapsed ? '74px 1fr' : '338px 1fr';
       return () => {

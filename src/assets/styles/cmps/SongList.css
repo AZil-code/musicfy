@@ -245,3 +245,15 @@
     height: 24px;
     width: 24px;
 }
+
+@media (max-width: 765px) {
+    .song-preview-add-button{
+        opacity: 1 !important;
+        pointer-events: auto;
+    }
+
+    .song-preview-play-btn{
+        opacity: 1;
+        transform: scale(1);
+    }
+}

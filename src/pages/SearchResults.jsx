@@ -11,6 +11,7 @@ import { stationService } from '../services/station.service.js';
 import { utilService } from '../services/util.service.js';
 import { PlayButton } from '../cmps/PlayButton.jsx';
 import useEmblaCarousel from 'embla-carousel-react';
+import { SearchBar } from '../cmps/SearchBar.jsx';
 
 export function SearchResults() {
    const [searchResults, setSearchResults] = useState({
@@ -278,6 +279,9 @@ export function SearchResults() {
 
    return (
       <div className="page-station-details search-results-page">
+         <div className="mobile-search-inline">
+            <SearchBar placeholderTxt="What do you want to play?" onSearch={(str) => navigate(str ? `/search/${str}` : '/search')} />
+         </div>
          <div className="search-hero">
             <div className="top-result-card">
                <h3>Top result</h3>

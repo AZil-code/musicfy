@@ -98,3 +98,19 @@
     bottom: 16px;
     right: 16px;
 }
+
+@media (max-width: 768px) {
+
+    /* .recently-played-section{
+        
+    } */
+
+    .recently-played-station-container .recently-played-play-button{
+        display: none;
+    }
+
+    .recently-played-station-container{
+        min-width: 0 !important;
+        width: 158px !important;
+    }
+}

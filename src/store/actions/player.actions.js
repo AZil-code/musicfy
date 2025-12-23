@@ -44,7 +44,6 @@ export const playPause = (isPlaying) => {
 
 export const shuffle = (shuffle) => {
    try {
-      console.log('shuffle: ', shuffle)
       const state = getState();
       const queue = state.playerModule.queue;
       const orderObject = getIndexArray(queue);
@@ -87,7 +86,6 @@ export const setCurrentSong = async (song, options = {}) => {
 };
 
 export const setCurrentStation = (station) => {
-   console.log('test')
    try {
       addRecentlyPlayed(station)
       dispatch({
@@ -115,7 +113,6 @@ export const playNext = () => {
          nextIndex = (queueIndex + 1) % queue.length;
       }
 
-      console.log('nextIndex: ', nextIndex);
       const nextSong = queue[nextIndex];
       if (!nextSong) return;
       setCurrentSong(nextSong, { queue, queueIndex: nextIndex });

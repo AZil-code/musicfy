@@ -7,12 +7,22 @@ export function SearchBar({ onSearch, placeholderTxt, searchBarRef, onBrowseClic
    const location = useLocation();
    const [isActive, setIsActive] = useState(false);
    const [searchStr, setSearchStr] = useState('');
+   const isFirstSearch = useRef(true);
+   const onSearchRef = useRef(onSearch);
    // const searchBarRef = useRef(null);
    const searchContainerRef = useRef(null);
    const searchStrDebounce = useRef(debounce(handleChange, 750)).current;
 
    useEffect(() => {
-      onSearch(searchStr);
+      onSearchRef.current = onSearch;
+   }, [onSearch]);
+
+   useEffect(() => {
+      if (isFirstSearch.current) {
+         isFirstSearch.current = false;
+         return;
+      }
+      if (typeof onSearchRef.current === 'function') onSearchRef.current(searchStr);
    }, [searchStr]);
 
    useEffect(() => {

@@ -6,6 +6,7 @@ export const utilService = {
    animateCSS,
    getRandomIntInclusive,
    getIndexArray,
+   getAverageColorFromImage,
 };
 
 function makeId(length = 5) {
@@ -118,4 +119,56 @@ export function formatTime(ms) {
    const minutes = Math.floor(durationSec / 60);
    const seconds = Math.floor(durationSec % 60);
    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+// Extract a soft average color from an image URL for theming (returns { r, g, b } or null)
+export function getAverageColorFromImage(src, opts = {}) {
+   const { sampleTarget = 5000 } = opts;
+   return new Promise((resolve) => {
+      if (!src || typeof src !== 'string') return resolve(null);
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = src;
+
+      img.onload = () => {
+         try {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            const width = (canvas.width = img.naturalWidth || img.width || 0);
+            const height = (canvas.height = img.naturalHeight || img.height || 0);
+            if (!width || !height || !ctx) return resolve(null);
+
+            ctx.drawImage(img, 0, 0, width, height);
+            const imageData = ctx.getImageData(0, 0, width, height).data;
+
+            const totalPixels = imageData.length / 4;
+            const sampleFactor = Math.max(1, Math.floor(totalPixels / sampleTarget));
+            let r = 0;
+            let g = 0;
+            let b = 0;
+            let count = 0;
+
+            for (let i = 0; i < imageData.length; i += 4 * sampleFactor) {
+               const alpha = imageData[i + 3];
+               if (alpha < 64) continue;
+               r += imageData[i];
+               g += imageData[i + 1];
+               b += imageData[i + 2];
+               count++;
+            }
+
+            if (!count) return resolve(null);
+            resolve({
+               r: Math.round(r / count),
+               g: Math.round(g / count),
+               b: Math.round(b / count),
+            });
+         } catch (err) {
+            console.warn('getAverageColorFromImage failed', err);
+            resolve(null);
+         }
+      };
+
+      img.onerror = () => resolve(null);
+   });
 }
