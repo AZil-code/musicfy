@@ -12,6 +12,52 @@
     color: var(--text-primary);
 }
 
+.skeleton-block{
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+}
+
+.skeleton-card{
+    background: transparent;
+}
+
+.skeleton-line{
+    height: 12px;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+}
+
+.skeleton-line-lg{
+    width: 70%;
+}
+
+.skeleton-line-sm{
+    width: 45%;
+}
+
+.skeleton-list{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 6px 0 8px;
+}
+
+.skeleton-row{
+    display: grid;
+    grid-template-columns: 48px 1fr 60px;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 4px;
+}
+
+.skeleton-square{
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+}
+
 
 .search-results-page .song-preview-desc-container{
     position: relative !important;
@@ -54,9 +100,10 @@
     gap: 20px;
     background-color: #181818;
     padding: 18px;
+    box-sizing: border-box;
     width: 90%;
     min-width: 300px;
-    transition: 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
     height: 196px;
 }
 
@@ -337,19 +384,27 @@
     .search-hero{
         flex-direction: column;    
         gap:42px;
-        padding-left: 12px;
+        padding: 0 12px 12px;
     }
     .top-songs{
         h3{
+           
             padding: 0;
             margin: 0 8px 8px;
         }
     }
 
+    .top-result-card h3{
+
+        display: none;
+    }
+
     .top-result-body{
         grid-template-columns: 1fr;
         text-align: center;
-        width: 70%;    
+        width: 100%;
+        min-width: 0;
+        margin-right: 0;
     }
     .top-result-play{
         justify-content: center;
@@ -357,6 +412,7 @@
 
     .mobile-search-inline{
         display: block;
+        padding-top: 52px;
     }
 
     .search-hero{

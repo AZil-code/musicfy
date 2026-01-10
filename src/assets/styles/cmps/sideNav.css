@@ -157,6 +157,20 @@
     border-radius: 999px;
 }
 
+@media (max-width: 765px) {
+    .side-nav .collapse-btn {
+        pointer-events: none;
+    }
+
+    .side-nav .collapse-btn svg {
+        display: none;
+    }
+
+    .side-nav .collapse-btn h2 {
+        margin-left: 0 !important;
+        left: 0;
+    }
+}
 
 
 

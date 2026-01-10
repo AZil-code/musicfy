@@ -26,6 +26,10 @@
 
 .find-more-container button {
       background-color: transparent;
+      /* display: flex;
+      justify-content: flex-end;*/
+      position: relative; 
+      right: -19px;
 }
 
 .find-more-container .search-container {
@@ -52,6 +56,7 @@
       font-weight: 700;
       background-color: transparent;
       justify-self: end;
+
 }
 
 

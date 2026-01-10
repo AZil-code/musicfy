@@ -8,7 +8,7 @@
       font-size: 24px;
       font-weight: 800;
       margin-bottom: 2px;
-      margin-left: 16px;
+      margin-left: 0;
    }
 }
 
@@ -35,6 +35,9 @@
    width: 100%;
    left: 0px;
    padding: 0;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }
 
 .station-card .thumbnail-container {
@@ -57,9 +60,13 @@
    height: 153px;
    object-fit: cover;
    object-position: center;
-   transform: scale(1.4);
+   /* transform: scale(1.4); */
    transition: transform 0.25s ease;
    display: block;
+}
+
+.station-card .embla__slide{
+   padding: 24px 26px !important;
 }
 
 .station-card .thumbnail-container:hover {
@@ -71,7 +78,7 @@
    width: 153px;
    display: flex;
    justify-content: center;
-   padding: 12px 0 !important;
+   padding: 12px 12px !important;
    border: 0px solid;
    border-radius: 8px;
 }
@@ -86,6 +93,29 @@
    align-items: center;
    gap: 0px;
    will-change: transform;
+}
+
+.song-suggestion .embla__viewport {
+   padding: 0;
+   box-sizing: border-box;
+}
+
+.song-suggestion .embla__container {
+   position: relative;
+   gap: 0px;
+   padding: 0;
+   margin: 0;
+   /* left: -12px; */
+}
+
+.song-suggestion .embla{
+   position: relative;
+   left: -12px;
+}  
+
+.search-section .embla{
+   position: relative;
+   left: -12px;
 }
 
 .embla {

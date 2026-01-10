@@ -13,6 +13,10 @@
    transition: background-color 320ms ease, box-shadow 160ms ease, transform 120ms ease, border 160ms;
 }
 
+.mobile-search-inline .search-container{
+   margin-bottom: 12px;
+}
+
 .search-container svg {
    fill: var(--text-gray);
    height: 24px;

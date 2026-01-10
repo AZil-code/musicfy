@@ -54,7 +54,7 @@
     object-fit: cover;
     object-position: center;
     display: block;
-    transform: scale(1.4);
+    /* transform: scale(1.4); */
 }
 
 .station-preview:hover .play-button {

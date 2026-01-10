@@ -42,7 +42,9 @@ export function PlayerBar() {
    const shuffleButtonRef = useRef();
    const repeatButtonRef = useRef();
 
-   const { currentSong, isPlaying, queue, isShuffle, isRepeat } = useSelector((storeState) => storeState.playerModule);
+   const { currentSong, isPlaying, queue, isShuffle, isRepeat, isPlayerLoading } = useSelector(
+      (storeState) => storeState.playerModule
+   );
    const { stations, selectedStationId } = useSelector((storeState) => storeState.stationModule);
 
    const { savedStations } = useSelector((storeState) => storeState.userModule.user)
@@ -193,11 +195,11 @@ export function PlayerBar() {
          : 'Unknown artist';
    const songImg = currentSong && currentSong.imgUrl ? currentSong.imgUrl : undefined;
    const songUrl =
-      (currentSong &&
-         (currentSong.src ||
-            currentSong.url ||
-            (currentSong.ytbId ? `https://www.youtube.com/watch?v=${currentSong.ytbId}` : undefined))) ||
-      'https://www.youtube.com/watch?v=if8dhRibiKM';
+      currentSong &&
+      (currentSong.src ||
+         currentSong.url ||
+         (currentSong.ytbId ? `https://www.youtube.com/watch?v=${currentSong.ytbId}` : null));
+   const canPlay = Boolean(songUrl) && !isPlayerLoading;
 
    const togglePlay = () => (isPlaying ? pause() : play());
 
@@ -231,24 +233,26 @@ export function PlayerBar() {
 
       return (
          <div className={`player-mobile-shell ${isExpanded ? 'is-expanded' : 'is-collapsed'}`}>
-            <ReactPlayer
-               key={songUrl}
-               ref={playerRef}
-               className={DEBUG_PLAYER ? 'player-bar-debug-player' : 'player-bar-hidden-player'}
-               src={songUrl}
-               playing={isPlaying}
-               volume={volume}
-               controls={DEBUG_PLAYER}
-               width={DEBUG_PLAYER ? 320 : 1}
-               height={DEBUG_PLAYER ? 180 : 1}
-               config={{ youtube: { playerVars: { controls: 1 } } }}
-               onTimeUpdate={handleTimeUpdate}
-               onDurationChange={handleDurationChange}
-               onPlay={() => play()}
-               onPause={() => pause()}
-               onEnded={() => playNext()}
-               onError={(error) => console.error('Player error:', error)}
-            />
+            {songUrl && (
+               <ReactPlayer
+                  key={songUrl}
+                  ref={playerRef}
+                  className={DEBUG_PLAYER ? 'player-bar-debug-player' : 'player-bar-hidden-player'}
+                  src={songUrl}
+                  playing={isPlaying && canPlay}
+                  volume={volume}
+                  controls={DEBUG_PLAYER}
+                  width={DEBUG_PLAYER ? 320 : 1}
+                  height={DEBUG_PLAYER ? 180 : 1}
+                  config={{ youtube: { playerVars: { controls: 1 } } }}
+                  onTimeUpdate={handleTimeUpdate}
+                  onDurationChange={handleDurationChange}
+                  onPlay={() => play()}
+                  onPause={() => pause()}
+                  onEnded={() => playNext()}
+                  onError={(error) => console.error('Player error:', error)}
+               />
+            )}
 
             {!isExpanded && (
                <div
@@ -417,24 +421,26 @@ export function PlayerBar() {
    // Desktop / tablet layout
    return (
       <div className="player-bar">
-         <ReactPlayer
-            key={songUrl}
-            ref={playerRef}
-            className={DEBUG_PLAYER ? 'player-bar-debug-player' : 'player-bar-hidden-player'}
-            src={songUrl}
-            playing={isPlaying}
-            volume={volume}
-            controls={DEBUG_PLAYER}
-            width={DEBUG_PLAYER ? 320 : 1}
-            height={DEBUG_PLAYER ? 180 : 1}
-            config={{ youtube: { playerVars: { controls: 1 } } }}
-            onTimeUpdate={handleTimeUpdate}
-            onDurationChange={handleDurationChange}
-            onPlay={() => play()}
-            onPause={() => pause()}
-            onEnded={() => playNext()}
-            onError={(error) => console.error('Player error:', error)}
-         />
+         {songUrl && (
+            <ReactPlayer
+               key={songUrl}
+               ref={playerRef}
+               className={DEBUG_PLAYER ? 'player-bar-debug-player' : 'player-bar-hidden-player'}
+               src={songUrl}
+               playing={isPlaying && canPlay}
+               volume={volume}
+               controls={DEBUG_PLAYER}
+               width={DEBUG_PLAYER ? 320 : 1}
+               height={DEBUG_PLAYER ? 180 : 1}
+               config={{ youtube: { playerVars: { controls: 1 } } }}
+               onTimeUpdate={handleTimeUpdate}
+               onDurationChange={handleDurationChange}
+               onPlay={() => play()}
+               onPause={() => pause()}
+               onEnded={() => playNext()}
+               onError={(error) => console.error('Player error:', error)}
+            />
+         )}
 
             <section className="player-bar-info-section">
                 {songImg &&

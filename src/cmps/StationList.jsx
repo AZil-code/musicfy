@@ -8,7 +8,18 @@ import { pinStation } from '../store/actions/user.actions.js';
 
 const likedSongsImgSrc = 'https://misc.scdn.co/liked-songs/liked-songs-64.png';
 
-export function StationList({ stations, onRemoveStation, filterTxt, onEditStation, isColapsed, modalVersion=false, songToAdd=null, toggleStation, onPlay }) {
+export function StationList({
+   stations,
+   onRemoveStation,
+   filterTxt,
+   onEditStation,
+   isColapsed,
+   modalVersion = false,
+   songToAdd = null,
+   toggleStation,
+   onPlay,
+   onStationSelect,
+}) {
    const navigate = useNavigate();
    const selectedStationId = useSelector((storeState) => storeState.stationModule.selectedStationId);
    const [contextMenu, setContextMenu] = useState({
@@ -24,7 +35,8 @@ export function StationList({ stations, onRemoveStation, filterTxt, onEditStatio
          // toggleStation(station)
       } else {
          selectStation(station._id);
-         navigate(`/station/${station._id}`);   
+         const navigationState = typeof onStationSelect === 'function' ? onStationSelect(station) : null;
+         navigate(`/station/${station._id}`, navigationState ? { state: navigationState } : undefined);
       }
    }
 

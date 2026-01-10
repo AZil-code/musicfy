@@ -27,6 +27,7 @@ export function StationDetails({ stationId }) {
    
 
    const containerRef = useRef();
+   const headerRef = useRef(null);
    const stickyControlsRef = useRef();
    const stickySentinelRef = useRef(null);
    const indexLiRef = useRef()
@@ -72,6 +73,11 @@ export function StationDetails({ stationId }) {
    const songs = station && Array.isArray(station.songs) ? station.songs : [];
    const firstSong = songs.length ? songs[0] : null;
    const coverFromStation = station && typeof station.coverImage === 'string' ? station.coverImage.trim() : '';
+   const stationTags = Array.isArray(station?.tags) ? station.tags.map((tag) => String(tag).toLowerCase()) : [];
+   const isAlbum = Boolean(station?.sourceCreator || stationTags.includes('album'));
+   const creatorName = station?.createdBy?.username || station?.createdBy?.fullname || 'Unknown';
+   const albumArtist = station?.sourceCreator || (firstSong?.artists?.[0]?.name || 'Unknown');
+   const displayCreator = isAlbum ? albumArtist : creatorName;
    const coverImage =
       station && station.name === 'Liked Songs'
          ? 'https://misc.scdn.co/liked-songs/liked-songs-300.jpg'
@@ -142,8 +148,9 @@ export function StationDetails({ stationId }) {
          g = Math.round(g / count);
          b = Math.round(b / count);
 
-         const gradient = `linear-gradient(180deg, rgba(${r}, ${g}, ${b}, 0.85) 20%, rgba(${r}, ${g}, ${b}, 0.18) 35%, rgba(18, 18, 18, 1) 100%)`;
-         if (containerRef?.current) containerRef.current.style.background = gradient
+         if (containerRef?.current) {
+            containerRef.current.style.setProperty('--station-rgb', `${r}, ${g}, ${b}`);
+         }
          // const layoutRef = document.querySelector('.spotify-layout-main')
          // layoutRef && (layoutRef.style.background = '')
          
@@ -281,15 +288,15 @@ export function StationDetails({ stationId }) {
             className="station-details-content"
             // style={headerGradient ? { background: headerGradient } : undefined}
          >
-            <header className="station-details-header">
+            <header className="station-details-header" ref={headerRef}>
                <div className="station-details-cover">
                   <img className="station-details-img" src={coverImage} alt={`${station.name || 'Station'} cover`} />
                </div>
                <div className="station-details-info-container" ref={infoContainerRef}>
-                  <p className="station-details-station-type">Playlist</p>
+                  <p className="station-details-station-type">{isAlbum ? 'Album' : 'Playlist'}</p>
                   <h1 ref={titleRef} className="station-details-title">{station.name || 'Untitled station'}</h1>
                   <p className="station-details-user-info-container">
-                     <span className="station-detials-user text-span-center text-white">{station.createdBy.username || station.createdBy.fullname}</span>
+                     <span className="station-detials-user text-span-center text-white">{displayCreator}</span>
                      <span>•</span>
                      <span className="station-detials-song-length text-span-center text-gray">
                         {songs.length + ' songs'}

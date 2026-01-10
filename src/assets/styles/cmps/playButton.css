@@ -24,8 +24,12 @@
    border-radius: 9999px;
    background-color: var(--body-green) !important;
    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-   display: none;
+   display: flex;
    z-index: 3;
+   opacity: 0;
+   transform: translateY(6px);
+   pointer-events: none;
+   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .play-button--card:hover {
@@ -36,11 +40,19 @@
    fill: var(--text-white);
 }
 
+.play-button--card.play-button--always {
+   opacity: 1;
+   transform: translateY(0);
+   pointer-events: auto;
+}
+
 .station-card:hover .play-button--card,
 .station-card .thumbnail-container:hover .play-button--card,
 .media-card:hover .play-button--card,
 .media-card-thumb:hover .play-button--card {
-    display: flex !important;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 .play-button--preview {

@@ -76,7 +76,7 @@ export function SongPreview({
                <span className="song-preview-number">
                   {
                      (isPlaying && isCurrent) ?
-                        <img className='song-preview-playing-img' src="https://open.spotifycdn.com/cdn/images/equaliser-green.f8937a92.svg" alt="isPlaying" />
+                        <img className='song-preview-playing-img' src="https://open.spotifycdn.com/cdn/images/equaliser-animated-green.f5eb96f2.gif" alt="isPlaying" />
                      :
                         idx !== null ? idx + 1 : idx
                   }

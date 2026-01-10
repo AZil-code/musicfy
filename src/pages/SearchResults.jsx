@@ -5,9 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { SongList } from '../cmps/SongList';
 import { searchFull } from '../store/actions/search.actions.js';
 import { setCurrentSong, setCurrentStation, play, pause } from '../store/actions/player.actions.js';
-import { selectStation } from '../store/actions/station.actions.js';
+import { saveStation, selectStation } from '../store/actions/station.actions.js';
 import { searchService } from '../services/search.service.js';
-import { stationService } from '../services/station.service.js';
 import { utilService } from '../services/util.service.js';
 import { PlayButton } from '../cmps/PlayButton.jsx';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -20,6 +19,7 @@ export function SearchResults() {
       albums: [],
       playlists: [],
    });
+   const [isLoading, setIsLoading] = useState(false);
    const { searchStr } = useParams();
    const navigate = useNavigate();
    const { currentSong, isPlaying, currentStation } = useSelector((state) => state.playerModule);
@@ -61,13 +61,27 @@ export function SearchResults() {
    }, [albumsEmblaApi, playlistsEmblaApi, syncEmblaButtons]);
 
    async function loadSearchResults() {
-      const results = await searchFull(searchStr);
-      setSearchResults({
-         tracks: Array.isArray(results?.tracks) ? results.tracks : [],
-         artists: Array.isArray(results?.artists) ? results.artists : [],
-         albums: Array.isArray(results?.albums) ? results.albums : [],
-         playlists: Array.isArray(results?.playlists) ? results.playlists : [],
-      });
+      if (!searchStr || !String(searchStr).trim().length) {
+         setSearchResults({ tracks: [], artists: [], albums: [], playlists: [] });
+         setIsLoading(false);
+         return;
+      }
+
+      setIsLoading(true);
+      setSearchResults({ tracks: [], artists: [], albums: [], playlists: [] });
+      try {
+         const results = await searchFull(searchStr);
+         setSearchResults({
+            tracks: Array.isArray(results?.tracks) ? results.tracks : [],
+            artists: Array.isArray(results?.artists) ? results.artists : [],
+            albums: Array.isArray(results?.albums) ? results.albums : [],
+            playlists: Array.isArray(results?.playlists) ? results.playlists : [],
+         });
+      } catch (err) {
+         console.error('Cannot load search results', err);
+      } finally {
+         setIsLoading(false);
+      }
    }
 
    const topTracks = useMemo(() => (Array.isArray(searchResults.tracks) ? searchResults.tracks.slice(0, 4) : []), [searchResults.tracks]);
@@ -165,12 +179,13 @@ export function SearchResults() {
             coverImage: playlist.images?.[0]?.url || '',
             tags: ['spotify', 'playlist'],
             createdBy: {},
+            sourceCreator: playlist?.owner?.display_name || 'Spotify',
             likedByUsers: [],
             isPrivate: false,
             songs: normalizedSongs,
          };
 
-         const savedStation = await stationService.save(stationPayload);
+         const savedStation = await saveStation(stationPayload);
          const stationId = String(savedStation._id || savedStation.insertedId || savedStation.id || '');
          if (!stationId) return;
          const stationForState = { ...savedStation, _id: stationId };
@@ -232,12 +247,13 @@ export function SearchResults() {
             coverImage: album.images?.[0]?.url || '',
             tags: ['spotify', 'album'],
             createdBy: {},
+            sourceCreator: album?.artists?.[0]?.name || 'Spotify',
             likedByUsers: [],
             isPrivate: false,
             songs: normalizedSongs,
          };
 
-         const savedStation = await stationService.save(stationPayload);
+         const savedStation = await saveStation(stationPayload);
          const stationId = String(savedStation._id || savedStation.insertedId || savedStation.id || '');
          if (!stationId) return;
          const stationForState = { ...savedStation, _id: stationId };
@@ -285,7 +301,13 @@ export function SearchResults() {
          <div className="search-hero">
             <div className="top-result-card">
                <h3>Top result</h3>
-               {topArtist ? (
+               {isLoading ? (
+                  <div className="top-result-body skeleton-card">
+                     <div className="top-result-image skeleton-block"></div>
+                     <div className="skeleton-line skeleton-line-lg"></div>
+                     <div className="skeleton-line skeleton-line-sm"></div>
+                  </div>
+               ) : topArtist ? (
                   <div className="top-result-body">
                      <div className="top-result-image">
                         <img src={(topArtist.images && topArtist.images[0]?.url) || ''} alt={topArtist.name} loading="lazy" />
@@ -304,12 +326,24 @@ export function SearchResults() {
             </div>
             <div className="top-songs">
                <h3>Songs</h3>
-               <SongList
-                  songs={topTracks}
-                  onSelectSong={handleSelectSong}
-                  currentSongId={(currentSong && currentSong._id) || ''}
-                  isPlaying={isPlaying}
-               />
+               {isLoading ? (
+                  <div className="song-list skeleton-list">
+                     {Array.from({ length: 4 }).map((_, idx) => (
+                        <div className="skeleton-row" key={`song-skeleton-${idx}`}>
+                           <div className="skeleton-square"></div>
+                           <div className="skeleton-line skeleton-line-lg"></div>
+                           <div className="skeleton-line skeleton-line-sm"></div>
+                        </div>
+                     ))}
+                  </div>
+               ) : (
+                  <SongList
+                     songs={topTracks}
+                     onSelectSong={handleSelectSong}
+                     currentSongId={(currentSong && currentSong._id) || ''}
+                     isPlaying={isPlaying}
+                  />
+               )}
             </div>
          </div>
 
@@ -322,11 +356,21 @@ export function SearchResults() {
             >
                <div className="embla__viewport" ref={albumsEmblaRef}>
                   <div className="embla__container">
-                     {topAlbums.map((album) => (
-                        <div className="embla__slide" key={album.id}>
-                           {renderMediaCard(album, 'album')}
-                        </div>
-                     ))}
+                     {isLoading
+                        ? Array.from({ length: 6 }).map((_, idx) => (
+                             <div className="embla__slide" key={`album-skeleton-${idx}`}>
+                                <div className="media-card skeleton-card">
+                                   <div className="media-card-thumb skeleton-block"></div>
+                                   <div className="skeleton-line skeleton-line-lg"></div>
+                                   <div className="skeleton-line skeleton-line-sm"></div>
+                                </div>
+                             </div>
+                          ))
+                        : topAlbums.map((album) => (
+                             <div className="embla__slide" key={album.id}>
+                                {renderMediaCard(album, 'album')}
+                             </div>
+                          ))}
                   </div>
                </div>
                {albumsHover && canAlbumsPrev && (
@@ -355,11 +399,21 @@ export function SearchResults() {
             >
                <div className="embla__viewport" ref={playlistsEmblaRef}>
                   <div className="embla__container">
-                     {topPlaylists.map((playlist) => (
-                        <div className="embla__slide" key={playlist.id}>
-                           {renderMediaCard(playlist, 'playlist')}
-                        </div>
-                     ))}
+                     {isLoading
+                        ? Array.from({ length: 6 }).map((_, idx) => (
+                             <div className="embla__slide" key={`playlist-skeleton-${idx}`}>
+                                <div className="media-card skeleton-card">
+                                   <div className="media-card-thumb skeleton-block"></div>
+                                   <div className="skeleton-line skeleton-line-lg"></div>
+                                   <div className="skeleton-line skeleton-line-sm"></div>
+                                </div>
+                             </div>
+                          ))
+                        : topPlaylists.map((playlist) => (
+                             <div className="embla__slide" key={playlist.id}>
+                                {renderMediaCard(playlist, 'playlist')}
+                             </div>
+                          ))}
                   </div>
                </div>
                {playlistsHover && canPlaylistsPrev && (

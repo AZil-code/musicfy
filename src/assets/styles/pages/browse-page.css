@@ -13,6 +13,8 @@
    display: none;
 }
 
+
+
 @media (max-width: 765px) {
    .category-list{
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -23,6 +25,10 @@
 
    .mobile-search-inline{
       display: block;
-      padding: 12px 12px 0;
+      padding: 52px 12px 0;
+   }
+   
+   .browse-all-container h2{
+      margin-left: 16px;
    }
 }

@@ -9,7 +9,7 @@ import { EditStationModal } from './EditModal';
 import { pause, play, setCurrentSong, setCurrentStation } from '../store/actions/player.actions';
 import { useNavigate } from 'react-router-dom';
 
-export function SideNav() {
+export function SideNav({ onCloseMobileLibrary }) {
    const navigate = useNavigate();
    const [category, setCategory] = useState('');
    const [filterTxt, setFilterTxt] = useState('');
@@ -20,6 +20,7 @@ export function SideNav() {
    const user = useSelector((storeState) => storeState.userModule.user)
    // const stations = useSelector((storeState) => storeState.userModule.user.savedStations);
    const { currentStation, isPlaying } = useSelector((store) => store.playerModule);
+   const isMobileView = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 765px)').matches;
 
 
    async function onPlay(station, ev = {}) {
@@ -82,7 +83,16 @@ export function SideNav() {
 
    async function onEditStation(station) {
       try {
-         await saveStation(station);
+         const updatedStation = await saveStation(station);
+         if (updatedStation?._id) {
+            setStations((prev) =>
+               prev.map((currStation) =>
+                  currStation._id === updatedStation._id
+                     ? { ...currStation, ...updatedStation, isPinned: currStation.isPinned }
+                     : currStation
+               )
+            );
+         }
       } catch (error) {
          showErrorMsg('Cannot edit playlist!');
       }
@@ -98,6 +108,20 @@ export function SideNav() {
 
    return (
       <div className="side-nav">
+         {onCloseMobileLibrary && (
+            <div className="mobile-library-back">
+               <button
+                  className="mobile-back-button"
+                  type="button"
+                  aria-label="Close library"
+                  onClick={() => onCloseMobileLibrary()}
+               >
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                     <path d="M11.03.47a.75.75 0 0 1 0 1.06L4.56 8l6.47 6.47a.75.75 0 1 1-1.06 1.06L2.44 8 9.97.47a.75.75 0 0 1 1.06 0"></path>
+                  </svg>
+               </button>
+            </div>
+         )}
          <header>
             <div className="side-nav-info-container">
                <button className="collapse-btn" onClick={onClickColapse}>
@@ -159,6 +183,11 @@ export function SideNav() {
                filterTxt={filterTxt}
                isColapsed={isColapsed}
                onPlay={onPlay}
+               onStationSelect={() => {
+                  if (typeof onCloseMobileLibrary === 'function') onCloseMobileLibrary();
+                  if (isMobileView) return { fromLibrary: true };
+                  return null;
+               }}
             />
          </div>
          {stationToEdit && (

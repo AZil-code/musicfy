@@ -14,7 +14,9 @@ export const PlayButton = forwardRef(function PlayButton(
    },
    ref
 ) {
-   const classes = ['play-button', variant ? `play-button--${variant}` : '', className].filter(Boolean).join(' ');
+   const classes = ['play-button', variant ? `play-button--${variant}` : '', alwaysShow ? 'play-button--always' : '', className]
+      .filter(Boolean)
+      .join(' ');
    const inlineStyle = alwaysShow ? { display: 'flex', ...style } : style;
 
    return (

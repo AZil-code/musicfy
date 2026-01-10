@@ -22,6 +22,7 @@ export function MobileNav({ isLibraryOpen = false, onToggleLibrary, onCloseLibra
    }
 
    const isSearchRoute = location.pathname.startsWith('/search');
+   const isHomeRoute = location.pathname === '/home' || location.pathname === '/';
 
    return (
       <nav className="mobile-nav">
@@ -29,15 +30,22 @@ export function MobileNav({ isLibraryOpen = false, onToggleLibrary, onCloseLibra
             const isActive =
                key === 'library'
                   ? isLibraryOpen
-                  : isSearchRoute
-                  ? key === 'search'
-                  : location.pathname.startsWith(path);
+                  : isLibraryOpen
+                  ? false
+                  : key === 'home'
+                  ? isHomeRoute
+                  : key === 'search'
+                  ? isSearchRoute
+                  : false;
             return (
                <button
                   key={key}
                   className={`mobile-nav-item ${isActive ? 'active' : ''}`}
                   onClick={() => {
                      if (key === 'library') {
+                        if (!isLibraryOpen && location.pathname !== '/home') {
+                           navigate('/home');
+                        }
                         if (typeof onToggleLibrary === 'function') onToggleLibrary();
                         return;
                      }
@@ -45,7 +53,7 @@ export function MobileNav({ isLibraryOpen = false, onToggleLibrary, onCloseLibra
                      navigate(path);
                   }}
                >
-                  <Icon />
+                  <Icon isActive={isActive} />
                   <span>{label}</span>
                </button>
             );
@@ -58,9 +66,9 @@ export function MobileNav({ isLibraryOpen = false, onToggleLibrary, onCloseLibra
    );
 }
 
-function HomeIcon() {
+function HomeIcon({ isActive }) {
    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true" className={isActive ? '' : 'transparent'}>
          <path d="M13.5 1.515a3 3 0 0 0-3 0L3 5.845a2 2 0 0 0-1 1.732V21a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6h4v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7.577a2 2 0 0 0-1-1.732z"></path>
       </svg>
    );
